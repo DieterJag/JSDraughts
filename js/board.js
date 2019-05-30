@@ -1,13 +1,16 @@
 // board variables
 
-var brd_side = COLOURS.WHITE;
-var brd_pieces = new Array(BRD_SQ_NUM);
+let brd_side = COLOURS.WHITE;
+let brd_pieces = new Array(BRD_SQ_NUM);
+let brd_posKey;	
+let brd_ply;
+let brd_history = [];
 
 function ParseFenPos(fen, color) {
-    var pos;
-    var piece;
-    var rank;
-    var file;
+    let pos;
+    let piece;
+    let rank;
+    let file;
 
     switch(color) {
         case COLOURS.WHITE: piece = PIECES.wM; break;
@@ -23,8 +26,8 @@ function ParseFenPos(fen, color) {
 
 function ParseFenColor(fen, color) {
     // console.log("fen="+fen+" color="+color);
-    var fenA = fen.split(",");
-    var index = 0;
+    let fenA = fen.split(",");
+    let index = 0;
 
     fenA.forEach(element => {
         ParseFenPos(element, color);
@@ -33,8 +36,8 @@ function ParseFenColor(fen, color) {
 
 function ParseFen(fen) {
 
-    var fenA = fen.split(":");
-    var index = 0;
+    let fenA = fen.split(":");
+    let index = 0;
 
     ResetBoard();
 
@@ -47,10 +50,33 @@ function ParseFen(fen) {
         }
         index++;
     });
+
+    brd_posKey = GeneratePosKey();
 }
 
 function ResetBoard() {
 	for(index = 0; index < BRD_SQ_NUM; ++index) {
 		brd_pieces[index] = PIECES.EMPTY;
 	}
+}
+
+function GeneratePosKey() {
+
+	let sq = 0;
+	let finalKey = 0;
+	let piece = PIECES.EMPTY;
+	
+	// pieces
+	for(sq = 0; sq < BRD_SQ_NUM; ++sq) {
+		piece = brd_pieces[sq];
+		if(piece != PIECES.EMPTY && piece != SQUARES.OFFBOARD) {			
+			finalKey ^= PieceKeys[(piece - 1) * 32 + sq];
+		}		
+	}
+	
+	if(brd_side == COLOURS.WHITE) {
+		finalKey ^= SideKey;
+	}
+		
+	return finalKey;
 }

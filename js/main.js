@@ -1,16 +1,17 @@
 $(function() {
     // console.log("Start");
     init();
+	$('#fenIn').val(START_FEN);
 });
 
 function initBoardSquares() {
 
 	
-	var light = 1;
-	var rankName;
-	var fileName;
-	var divString;
-	var lightString;
+	let light = 1;
+	let rankName;
+	let fileName;
+	let divString;
+	let lightString;
 	
 	for(rankIter = RANKS.RANK_8; rankIter >= RANKS.RANK_1; rankIter--) {	
 		light = light ^ 1;
@@ -29,11 +30,11 @@ function initBoardSquares() {
 
 function InitFilesRanksBrd() {
 	
-	var index = 0;
-	var file = FILES.FILE_A;
-	var rank = RANKS.RANK_1;
-	var sq = SQUARES.A1;
-	var sq64 = 0;
+	let index = 0;
+	let file = FILES.FILE_A;
+	let rank = RANKS.RANK_1;
+	let sq = SQUARES.A1;
+	let sq64 = 0;
 	
 	for(index = 0; index < BRD_SQ_NUM; ++index) {
 		FilesBrd[index] = SQUARES.OFFBOARD;
@@ -52,18 +53,23 @@ function InitFilesRanksBrd() {
 	}
 }
 
+function InitHashKeys() {
+    let index = 0;
+	
+	for(index = 0; index < 2 * 4; ++index) {				
+		PieceKeys[index] = RAND_32();
+	}
+	
+	SideKey = RAND_32();
+	
+}
+
 function init() {
-	var index = 0;
+	let index = 0;
 
 	InitFilesRanksBrd();
+	InitHashKeys();
 	ParseFen(START_FEN);
 	initBoardSquares();
-	brd_pieces.forEach(element => {
-		if (element != PIECES.EMPTY) AddGUIPiece(index, element);
-		index++;
-	})
-	// AddGUIPiece(5, 1);
-	// AddGUIPiece(6, 2);
-	// AddGUIPiece(39, 3);
-	// AddGUIPiece(40, 4);
+	SetInitialBoardPieces();
 }

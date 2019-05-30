@@ -1,10 +1,38 @@
+$("#SetFen").click(function () {
+	let fenStr = $("#fenIn").val();	
+	ParseFen(fenStr);
+	// PrintBoard();		
+	SetInitialBoardPieces();	
+	// GameController.PlayerSide = brd_side;	
+	// CheckAndSet();	
+	// EvalPosition();	
+	// //PerftTest(5);
+	// newGameAjax();	 
+});
+
 function AddGUIPiece(sq,pce) {	
-	var rank = RanksBrd[sq];
-	var file = FilesBrd[sq];
-	var rankName = "rank" + (rank + 1);	
-	var fileName = "file" + (file + 1);	
+	let rank = RanksBrd[sq];
+	let file = FilesBrd[sq];
+	let rankName = "rank" + (rank + 1);	
+	let fileName = "file" + (file + 1);	
 	pieceFileName = "image/" + SideChar[PieceCol[pce]] + PceChar[pce].toLowerCase() + ".png";
 	imageString = "<image src=\"" + pieceFileName + "\" class=\"Piece clickElement " + rankName + " " + fileName + "\"/>";
 	console.log("add on " + imageString);
 	$("#Board").append(imageString);
+}
+
+function SetInitialBoardPieces(){
+
+    let index = 0;
+	ClearAllPieces();
+	brd_pieces.forEach(element => {
+		if (element != PIECES.EMPTY) AddGUIPiece(index, element);
+		index++;
+	})
+
+}
+
+function ClearAllPieces() {
+	console.log("Removing pieces");
+	$(".Piece").remove();
 }
