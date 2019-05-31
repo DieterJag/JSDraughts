@@ -20,7 +20,7 @@ function ParseFenPos(fen, color) {
     else pos = Number(fen);
     rank = Math.floor((pos-1)/4);
     file = Math.floor(((pos - 1) % 4) * 2 + rank % 2);
-    console.log("color="+color+" fen="+fen+" pos="+pos+" piece="+piece+" rank="+rank+" file="+file);
+    // console.log("color="+color+" fen="+fen+" pos="+pos+" piece="+piece+" rank="+rank+" file="+file);
     brd_pieces[FR2SQ(file, rank)] = piece;
 }
 

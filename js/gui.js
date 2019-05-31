@@ -20,7 +20,7 @@ function AddGUIPiece(sq,pce) {
 	let fileName = "file" + (file + 1);	
 	pieceFileName = "image/" + SideChar[PieceCol[pce]] + PceChar[pce].toLowerCase() + ".png";
 	imageString = "<image src=\"" + pieceFileName + "\" class=\"Piece clickElement " + rankName + " " + fileName + "\"/>";
-	console.log("add on " + imageString);
+	// console.log("add on " + imageString);
 	$("#Board").append(imageString);
 }
 

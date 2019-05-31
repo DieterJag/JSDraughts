@@ -72,15 +72,15 @@ function GenerateCaptures() {
                             (!cap_path_now ||
                             cap_path_now.isCaptured(def_index) == BOOL.FALSE)) {
                                 // Add captured new variant
-                                if (cap_path_new == -1) {
+                                if (cap_path_new == -1 && cap_path_now) {
                                     console.log(aPathOfCaptures);
-                                    console.log(aPathOfCaptures[cap_path_now]);
-                                    let pathOfCapture = Object.assign(Object.create(aPathOfCaptures[cap_path_now]));
+                                    console.log(cap_path_now);
+                                    let pathOfCapture = Object.assign(cap_path_now);
                                     console.log(pathOfCapture);
                                     pathOfCapture.remove();
                                     aPathOfCaptures.push(pathOfCapture); // dublicate capture path without last capture
                                     cap_path_now = aPathOfCaptures[aPathOfCaptures.length - 1];
-                                    console.log("76:");
+                                    console.log("83:");
                                     console.log(aPathOfCaptures);
                                 }
                                 if (aPathOfCaptures[cap_path_now] == undefined) aPathOfCaptures[cap_path_now] = new PathOfCapture();
