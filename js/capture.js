@@ -1,7 +1,9 @@
-let captures = [];
-
-let Capture = {
-    from: 0,
-    to: 0,
-    captured: 0
+/* object constructor */
+class Capture {
+    constructor(from, to, captured) {
+        this.from = from;
+        this.to = to;
+        this.captured = captured;
+    }
 }
+

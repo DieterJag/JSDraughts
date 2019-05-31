@@ -72,4 +72,5 @@ function init() {
 	ParseFen(START_FEN);
 	initBoardSquares();
 	SetInitialBoardPieces();
+	initDirections();
 }

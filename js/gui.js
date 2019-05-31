@@ -2,7 +2,10 @@ $("#SetFen").click(function () {
 	let fenStr = $("#fenIn").val();	
 	ParseFen(fenStr);
 	// PrintBoard();		
-	SetInitialBoardPieces();	
+    SetInitialBoardPieces();	
+    GenerateCaptures();
+	console.log(aPathOfCaptures);
+
 	// GameController.PlayerSide = brd_side;	
 	// CheckAndSet();	
 	// EvalPosition();	
