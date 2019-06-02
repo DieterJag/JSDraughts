@@ -23,9 +23,11 @@ function GenerateCaptures() {
     let empty_index = 0;
     let cap_step = -1;
     let cap_path_now;
-    let cap_path_new;
     let is_new_capture;
     let cap_count;
+    let is_new_path;
+    let cap_count_from;
+    let atack_piece;
  
     if (brd_side == COLOURS.WHITE) {
         atack_men = PIECES.wM;
@@ -43,60 +45,114 @@ function GenerateCaptures() {
     //     element.length = 0;});
     aPathOfCaptures.length = 0; // delete all elements
     brd_pieces.forEach(element => {
-        if (element == atack_men) { // MEN CAPTURE
-            captured_count = 0;
+        if (element == atack_men || element == atack_king) { // MEN CAPTURE AND KING CAPTURE
+            atack_piece = element;
             cap_index = index;
+            brd_pieces[cap_index]=PIECES.EMPTY;
             is_new_capture = BOOL.TRUE;
+            cap_count_from = aPathOfCaptures.length;
+            cap_step = -1;                                    
+            cap_path_now = new PathOfCapture();
+            is_new_path = BOOL.TRUE;
             while(is_new_capture == BOOL.TRUE) {
                 is_new_capture = BOOL.FALSE;
                 cap_count = aPathOfCaptures.length;
-                console.log('cap_count='+cap_count+' cap_step='+cap_step);
-                for(let i = 0; i < cap_count || cap_step == -1; i++) {
+                for(let i = cap_count_from; i < cap_count || cap_step == -1; i++) {
                     if (cap_step == -1) cap_step++;
                     if (cap_step > 0){
-                        if (aPathOfCaptures[i].length != cap_step) continue;
+                        if (aPathOfCaptures[i].captures.length != cap_step) continue;
                         cap_path_now = aPathOfCaptures[i];
+                        cap_index = cap_path_now.captures[cap_path_now.captures.length-1].to;
+                        is_new_path = BOOL.FALSE;
                     }
-                    cap_path_new = cap_path_now;
-                    for( let j = 0; j < 4; j++) // Capture directions
-                    {
-                        def_index = cap_index + mv_dir[j];
-                        empty_index = def_index + mv_dir[j];
-                        console.log('def_index='+def_index+' empty_index='+empty_index);
-                        console.log(cap_path_now);
-                        if (def_index >= 0 && def_index < BRD_SQ_NUM &&
-                            empty_index >= 0 && empty_index < BRD_SQ_NUM &&
-                            (brd_pieces[def_index] == defence_men || 
-                            brd_pieces[def_index] == defence_king) && 
-                            brd_pieces[empty_index] == PIECES.EMPTY &&
-                            (!cap_path_now ||
-                            cap_path_now.isCaptured(def_index) == BOOL.FALSE)) {
-                                // Add captured new variant
-                                if (cap_path_new == -1 && cap_path_now) {
-                                    console.log(aPathOfCaptures);
-                                    console.log(cap_path_now);
-                                    let pathOfCapture = Object.assign(cap_path_now);
-                                    console.log(pathOfCapture);
-                                    pathOfCapture.remove();
-                                    aPathOfCaptures.push(pathOfCapture); // dublicate capture path without last capture
-                                    cap_path_now = aPathOfCaptures[aPathOfCaptures.length - 1];
-                                    console.log("83:");
-                                    console.log(aPathOfCaptures);
+                    if (atack_piece == atack_men) {
+                        for( let j = 0; j < 4; j++) // Capture directions
+                        {
+                            def_index = cap_index + mv_dir[j];
+                            empty_index = def_index + mv_dir[j];
+                            if (def_index >= 0 && def_index < BRD_SQ_NUM &&
+                                empty_index >= 0 && empty_index < BRD_SQ_NUM &&
+                                (brd_pieces[def_index] == defence_men || 
+                                brd_pieces[def_index] == defence_king) && 
+                                brd_pieces[empty_index] == PIECES.EMPTY &&
+                                cap_path_now.isCaptured(def_index) == BOOL.FALSE) {
+                                    // Add captured new variant
+                                    if (is_new_path == BOOL.TRUE) {
+                                        let pathOfCapture = new PathOfCapture();
+                                        pathOfCapture.captures = [...cap_path_now.captures];
+                                        pathOfCapture.remove();
+                                        aPathOfCaptures.push(pathOfCapture); // dublicate capture path without last capture
+                                        cap_path_now = aPathOfCaptures[aPathOfCaptures.length - 1];
+                                    }
+                                    if (atack_piece == PIECES.wM && empty_index > 41) atack_piece = PIECES.wK;
+                                    else if (atack_piece == PIECES.bM && empty_index < 9) atack_piece = PIECES.bK;
+                                    cap_path_now.add(new Capture(cap_index, empty_index, def_index, atack_piece, mv_dir[j]));
+                                    is_new_capture = BOOL.TRUE;
+                                    is_new_path = BOOL.TRUE;
                                 }
-                                if (aPathOfCaptures[cap_path_now] == undefined) aPathOfCaptures[cap_path_now] = new PathOfCapture();
-                                // aCaptures.push(new Capture(cap_index, empty_index, def_index));
-                                let pathOfCapture = aPathOfCaptures[cap_path_now];
-                                console.log(pathOfCapture);
-                                pathOfCapture.add(new Capture(cap_index, empty_index, def_index));
-                                console.log("capture from: "+cap_index+" to: "+empty_index+" captured: "+def_index+" aPathOfCaptures=");
-                                console.log(aPathOfCaptures);
-                                is_new_capture = BOOL.TRUE;
-                                cap_path_new = -1;
+                        }
+                    }
+                    else if (atack_piece == atack_king) {
+                        for( let j = 0; j < 4; j++) {
+                            if (cap_step == 0 || 
+                                mv_dir[j] != -cap_path_now.captures[cap_step].dir) {
+                                    def_index = cap_index + mv_dir[j];
+                                    while(def_index == PIECES.EMPTY) def_index += mv_dir[j];
+                                    empty_index = def_index + mv_dir[j];
+                                    if (def_index >= 0 && def_index < BRD_SQ_NUM &&
+                                        empty_index >= 0 && empty_index < BRD_SQ_NUM &&
+                                        (brd_pieces[def_index] == defence_men || 
+                                        brd_pieces[def_index] == defence_king) && 
+                                        brd_pieces[empty_index] == PIECES.EMPTY &&
+                                        cap_path_now.isCaptured(def_index) == BOOL.FALSE) {
+                                            // check king have more captures
+                                            while(brd_pieces[empty_index] == PIECES.EMPTY) {
+                                                let check_def_index = empty_index;
+                                                for( let k = 0; k < 4; k++) {
+                                                    if (Math.abs(mv_dir[j]) != Math.abs(mv_dir[k])) {
+                                                        while(check_def_index == PIECES.EMPTY) check_def_index += mv_dir[k];
+                                                        let check_empty_index = check_def_index + mv_dir[k];
+                                                        if (check_def_index >= 0 && check_def_index < BRD_SQ_NUM &&
+                                                            check_empty_index >= 0 && check_empty_index < BRD_SQ_NUM &&
+                                                            (brd_pieces[check_def_index] == defence_men ||
+                                                            brd_pieces[check_def_index] == defence_king) &&
+                                                            brd_pieces[check_empty_index] == PIECES.EMPTY &&
+                                                            cap_path_now.isCaptured(check_def_index) == BOOL.FALSE) {
+                                                                k = 4;
+                                                                if (is_new_path == BOOL.TRUE) {
+                                                                    let pathOfCapture = new PathOfCapture();
+                                                                    pathOfCapture.captures = [...cap_path_now.captures];
+                                                                    pathOfCapture.remove();
+                                                                    aPathOfCaptures.push(pathOfCapture); // dublicate capture path without last capture
+                                                                    cap_path_now = aPathOfCaptures[aPathOfCaptures.length - 1];
+                                                                }
+                                                                cap_path_now.add(new Capture(cap_index, empty_index, def_index, atack_piece, mv_dir[j]));
+                                                                is_new_capture = BOOL.TRUE;
+                                                                is_new_path = BOOL.TRUE;
+                                                        }
+                                                    }
+                                                }
+                                                empty_index += mv_dir[j];
+                                            }
+                                            // Add captured new variant
+                                            if (is_new_path == BOOL.TRUE) {
+                                                let pathOfCapture = new PathOfCapture();
+                                                pathOfCapture.captures = [...cap_path_now.captures];
+                                                pathOfCapture.remove();
+                                                aPathOfCaptures.push(pathOfCapture); // dublicate capture path without last capture
+                                                cap_path_now = aPathOfCaptures[aPathOfCaptures.length - 1];
+                                            }
+                                            cap_path_now.add(new Capture(cap_index, empty_index, def_index, atack_piece, mv_dir[j]));
+                                            is_new_capture = BOOL.TRUE;
+                                            is_new_path = BOOL.TRUE;
+                                        }
                             }
+                        }
                     }
                 }
                 cap_step++;
             }
+            brd_pieces[index] = atack_men;
         }
         index++;
     });

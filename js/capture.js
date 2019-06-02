@@ -1,9 +1,11 @@
 /* object constructor */
 class Capture {
-    constructor(from, to, captured) {
+    constructor(from, to, captured, piece, king_dir) {
         this.from = from;
         this.to = to;
         this.captured = captured;
+        this.piece = piece;
+        this.dir = dir;
     }
 }
 

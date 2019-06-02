@@ -17,12 +17,10 @@ class PathOfCapture {
     }
 
     isCaptured(def_index) {
-        // console.log('cap_path_now='+cap_path_now+' aPathOfCaptures[cap_path_now]='+aPathOfCaptures[cap_path_now])
-        console.log("isCaptured:");
-        console.log(this);
+        let ret = BOOL.FALSE;
         this.captures.forEach(element => {
-            if (element.captured = def_index) return BOOL.TRUE;
+            if (element.captured == def_index) ret = BOOL.TRUE;
         });
-        return BOOL.FALSE;
+        return ret;
     }
 }
