@@ -106,6 +106,7 @@ function GenerateCaptures() {
                                         brd_pieces[empty_index] == PIECES.EMPTY &&
                                         cap_path_now.isCaptured(def_index) == BOOL.FALSE) {
                                             // check king have more captures
+                                            let check_add = BOOL.FALSE;
                                             while(brd_pieces[empty_index] == PIECES.EMPTY) {
                                                 let check_def_index = empty_index;
                                                 for( let k = 0; k < 4; k++) {
@@ -127,6 +128,7 @@ function GenerateCaptures() {
                                                                     cap_path_now = aPathOfCaptures[aPathOfCaptures.length - 1];
                                                                 }
                                                                 cap_path_now.add(new Capture(cap_index, empty_index, def_index, atack_piece, mv_dir[j]));
+                                                                check_add = BOOL.TRUE;
                                                                 is_new_capture = BOOL.TRUE;
                                                                 is_new_path = BOOL.TRUE;
                                                         }
@@ -134,17 +136,45 @@ function GenerateCaptures() {
                                                 }
                                                 empty_index += mv_dir[j];
                                             }
-                                            // Add captured new variant
-                                            if (is_new_path == BOOL.TRUE) {
-                                                let pathOfCapture = new PathOfCapture();
-                                                pathOfCapture.captures = [...cap_path_now.captures];
-                                                pathOfCapture.remove();
-                                                aPathOfCaptures.push(pathOfCapture); // dublicate capture path without last capture
-                                                cap_path_now = aPathOfCaptures[aPathOfCaptures.length - 1];
+                                            if (check_add == BOOL.FALSE) {
+                                                let check_def_index = empty_index;
+                                                let check_empty_index = empty_index + mv_dir[j];
+                                                if (check_def_index >= 0 && check_def_index < BRD_SQ_NUM &&
+                                                    check_empty_index >= 0 && check_empty_index < BRD_SQ_NUM &&
+                                                    (brd_pieces[check_def_index] == defence_men ||
+                                                    brd_pieces[check_def_index] == defence_king) &&
+                                                    brd_pieces[check_empty_index] == PIECES.EMPTY &&
+                                                    cap_path_now.isCaptured(check_def_index) == BOOL.FALSE) {
+                                                        k = 4;
+                                                        if (is_new_path == BOOL.TRUE) {
+                                                            let pathOfCapture = new PathOfCapture();
+                                                            pathOfCapture.captures = [...cap_path_now.captures];
+                                                            pathOfCapture.remove();
+                                                            aPathOfCaptures.push(pathOfCapture); // dublicate capture path without last capture
+                                                            cap_path_now = aPathOfCaptures[aPathOfCaptures.length - 1];
+                                                        }
+                                                        cap_path_now.add(new Capture(cap_index, empty_index, def_index, atack_piece, mv_dir[j]));
+                                                        check_add = BOOL.TRUE;
+                                                        is_new_capture = BOOL.TRUE;
+                                                        is_new_path = BOOL.TRUE;
+                                                }
                                             }
-                                            cap_path_now.add(new Capture(cap_index, empty_index, def_index, atack_piece, mv_dir[j]));
-                                            is_new_capture = BOOL.TRUE;
-                                            is_new_path = BOOL.TRUE;
+                                            // Add captured new variant
+                                            if (check_add == BOOL.FALSE) {
+                                                empty_index = def_index + mv_dir[j];
+                                                while(empty_index == PIECES.EMPTY) {
+                                                    if (is_new_path == BOOL.TRUE) {
+                                                        let pathOfCapture = new PathOfCapture();
+                                                        pathOfCapture.captures = [...cap_path_now.captures];
+                                                        pathOfCapture.remove();
+                                                        aPathOfCaptures.push(pathOfCapture); // dublicate capture path without last capture
+                                                        cap_path_now = aPathOfCaptures[aPathOfCaptures.length - 1];
+                                                    }
+                                                    cap_path_now.add(new Capture(cap_index, empty_index, def_index, atack_piece, mv_dir[j]));
+                                                    is_new_capture = BOOL.TRUE;
+                                                    is_new_path = BOOL.TRUE;
+                                                }    
+                                            }
                                         }
                             }
                         }
