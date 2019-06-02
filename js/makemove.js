@@ -97,7 +97,7 @@ function GenerateCaptures() {
                             if (cap_step == 0 || 
                                 mv_dir[j] != -cap_path_now.captures[cap_step].dir) {
                                     def_index = cap_index + mv_dir[j];
-                                    while(def_index == PIECES.EMPTY) def_index += mv_dir[j];
+                                    while(brd_pieces[def_index] == PIECES.EMPTY) def_index += mv_dir[j];
                                     empty_index = def_index + mv_dir[j];
                                     if (def_index >= 0 && def_index < BRD_SQ_NUM &&
                                         empty_index >= 0 && empty_index < BRD_SQ_NUM &&
@@ -111,7 +111,7 @@ function GenerateCaptures() {
                                                 let check_def_index = empty_index;
                                                 for( let k = 0; k < 4; k++) {
                                                     if (Math.abs(mv_dir[j]) != Math.abs(mv_dir[k])) {
-                                                        while(check_def_index == PIECES.EMPTY) check_def_index += mv_dir[k];
+                                                        while(brd_pieces[check_def_index] == PIECES.EMPTY) check_def_index += mv_dir[k];
                                                         let check_empty_index = check_def_index + mv_dir[k];
                                                         if (check_def_index >= 0 && check_def_index < BRD_SQ_NUM &&
                                                             check_empty_index >= 0 && check_empty_index < BRD_SQ_NUM &&
@@ -162,7 +162,7 @@ function GenerateCaptures() {
                                             // Add captured new variant
                                             if (check_add == BOOL.FALSE) {
                                                 empty_index = def_index + mv_dir[j];
-                                                while(empty_index == PIECES.EMPTY) {
+                                                while(brd_pieces[empty_index] == PIECES.EMPTY) {
                                                     if (is_new_path == BOOL.TRUE) {
                                                         let pathOfCapture = new PathOfCapture();
                                                         pathOfCapture.captures = [...cap_path_now.captures];
