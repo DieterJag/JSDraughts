@@ -44,7 +44,7 @@ function ParseFen(fen) {
     fenA.forEach(element => {
         // console.log("index="+index+" fen="+element);
         switch(index) {
-            case 0: (element == "W") ? brd_side = COLOURS.WHITE : COLOURS.BLACK; break;
+            case 0: brd_side = (element == "W") ? COLOURS.WHITE : COLOURS.BLACK; break;
             case 1: if (element[0] == 'W') ParseFenColor(element.substr(1), COLOURS.WHITE); break;
             case 2: if (element[0] == 'B') ParseFenColor(element.substr(1), COLOURS.BLACK); break;
         }
