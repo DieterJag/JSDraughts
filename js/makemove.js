@@ -95,7 +95,7 @@ function GenerateCaptures() {
                     else if (atack_piece == atack_king) {
                         for( let j = 0; j < 4; j++) {
                             if (cap_step == 0 || 
-                                mv_dir[j] != -cap_path_now.captures[cap_step].dir) {
+                                mv_dir[j] != -cap_path_now.captures[cap_step - 1].dir) {
                                     def_index = cap_index + mv_dir[j];
                                     while(brd_pieces[def_index] == PIECES.EMPTY) def_index += mv_dir[j];
                                     empty_index = def_index + mv_dir[j];
@@ -111,6 +111,7 @@ function GenerateCaptures() {
                                                 let check_def_index = empty_index;
                                                 for( let k = 0; k < 4; k++) {
                                                     if (Math.abs(mv_dir[j]) != Math.abs(mv_dir[k])) {
+                                                        check_def_index = empty_index;
                                                         while(brd_pieces[check_def_index] == PIECES.EMPTY) check_def_index += mv_dir[k];
                                                         let check_empty_index = check_def_index + mv_dir[k];
                                                         if (check_def_index >= 0 && check_def_index < BRD_SQ_NUM &&
@@ -173,6 +174,7 @@ function GenerateCaptures() {
                                                     cap_path_now.add(new Capture(cap_index, empty_index, def_index, atack_piece, mv_dir[j]));
                                                     is_new_capture = BOOL.TRUE;
                                                     is_new_path = BOOL.TRUE;
+                                                    empty_index += mv_dir[j];
                                                 }    
                                             }
                                         }

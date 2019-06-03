@@ -1,5 +1,5 @@
 $(function() {
-    // console.log("Start");
+    console.log("Start");
     init();
 	$('#fenIn').val(START_FEN);
 });
@@ -66,6 +66,7 @@ function InitHashKeys() {
 
 function init() {
 	let index = 0;
+	console.log("Init");
 
 	InitFilesRanksBrd();
 	InitHashKeys();

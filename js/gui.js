@@ -29,7 +29,7 @@ function SetInitialBoardPieces(){
     let index = 0;
 	ClearAllPieces();
 	brd_pieces.forEach(element => {
-		if (element != PIECES.EMPTY) AddGUIPiece(index, element);
+		if (element != PIECES.EMPTY && element != SQUARES.OFFBOARD) AddGUIPiece(index, element);
 		index++;
 	})
 

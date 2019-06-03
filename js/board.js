@@ -56,7 +56,8 @@ function ParseFen(fen) {
 
 function ResetBoard() {
 	for(index = 0; index < BRD_SQ_NUM; ++index) {
-		brd_pieces[index] = PIECES.EMPTY;
+        if (FilesBrd[index] == SQUARES.OFFBOARD) brd_pieces[index] = SQUARES.OFFBOARD;
+        else brd_pieces[index] = PIECES.EMPTY;
 	}
 }
 
