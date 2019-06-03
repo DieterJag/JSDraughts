@@ -4,7 +4,11 @@ $("#SetFen").click(function () {
 	// PrintBoard();		
     SetInitialBoardPieces();	
     GenerateCaptures();
-	console.log(aPathOfCaptures);
+    console.log(aPathOfCaptures);
+    if (aPathOfCaptures.length == 0) {
+        GenerateMoves();
+        console.log(aMoves);
+    }
 
 	// GameController.PlayerSide = brd_side;	
 	// CheckAndSet();	

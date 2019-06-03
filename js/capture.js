@@ -1,4 +1,3 @@
-/* object constructor */
 class Capture {
     constructor(from, to, captured, piece, dir) {
         this.from = from;

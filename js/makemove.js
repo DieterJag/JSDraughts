@@ -9,7 +9,46 @@ function initDirections() {
 }
 
 function GenerateMoves() {
+    let move_men;
+    let move_king;
+    let start_dir;
+    let end_dir;
 
+    if (brd_side == COLOURS.WHITE) {
+        move_men = PIECES.wM;
+        move_king = PIECES.wK;
+        start_dir = 0;
+        end_dir = 2;
+    } else {
+        move_men = PIECES.bM;
+        move_king = PIECES.bK;
+        start_dir = 2;
+        end_dir = 4;
+    }
+
+    aMoves.length = 0;
+
+    brd_pieces.forEach((element, index) => {
+        if (element == move_men) {
+            for(let i = start_dir; i < end_dir; i++) {
+                let to_move = index + mv_dir[i];
+                if (brd_pieces[to_move] == PIECES.EMPTY) {
+                    let mv_piece = move_men;
+                    if ((brd_side == COLOURS.WHITE && to_move > 36) ||
+                        (brd_side == COLOURS.BLACK && to_move < 9)) mv_piece = move_king;
+                    aMoves.push(new Move(index, to_move, mv_piece));
+                }
+            }
+        } else if (element == move_king) {
+            for(let i = 0; i < 4; i++) {
+                let to_move = index + mv_dir[i];
+                while(brd_pieces[to_move] = PIECES.EMPTY) {
+                    aMoves.push(new Move(index, to_move, move_king));
+                    to_move += mv_dir[i];
+                }
+            }
+        }
+    });
 }
 
 function GenerateCaptures() {
@@ -84,7 +123,7 @@ function GenerateCaptures() {
                                         aPathOfCaptures.push(pathOfCapture); // dublicate capture path without last capture
                                         cap_path_now = aPathOfCaptures[aPathOfCaptures.length - 1];
                                     }
-                                    if (atack_piece == PIECES.wM && empty_index > 41) atack_piece = PIECES.wK;
+                                    if (atack_piece == PIECES.wM && empty_index > 36) atack_piece = PIECES.wK;
                                     else if (atack_piece == PIECES.bM && empty_index < 9) atack_piece = PIECES.bK;
                                     cap_path_now.add(new Capture(cap_index, empty_index, def_index, atack_piece, mv_dir[j]));
                                     is_new_capture = BOOL.TRUE;
