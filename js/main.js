@@ -1,5 +1,4 @@
 $(function() {
-    console.log("Start");
     init();
 	$('#fenIn').val(START_FEN);
 });
@@ -64,12 +63,22 @@ function InitHashKeys() {
 	
 }
 
-function init() {
-	let index = 0;
-	console.log("Init");
+function InitBoardVars() {
 
+	var index = 0;
+	for(index = 0; index < MAXGAMEMOVES; index++) {
+		brd_history.push({
+			move : NOMOVE,
+			posKey : 0
+		}); 
+	}
+
+}
+
+function init() {
 	InitFilesRanksBrd();
 	InitHashKeys();
+	InitBoardVars();
 	ParseFen(START_FEN);
 	initBoardSquares();
 	SetInitialBoardPieces();

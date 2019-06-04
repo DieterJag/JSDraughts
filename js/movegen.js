@@ -2,7 +2,7 @@
 move bits
 000c cccc cpss ss00 0000 0011 1111 -> 6 bits of square from ( & 0x1F)
 000c cccc cpss ss00 1111 1100 0000 -> 6 bits of square to ((>> 6) & 0x1F)
-000c cccc cpss ss01 0000 0000 0000 -> 1 bits piece (0x1000) (0 - men 1 - king)
+000c cccc cpss ss01 0000 0000 0000 -> 1 bits piece (0x1000) (1 - men -> king, 0 - otherwise)
 000c cccc cpss ss10 0000 0000 0000 -> 1 bits move or capture (0x2000) = 1 - capture 
 
 if capure
@@ -69,9 +69,9 @@ function GenerateMoves() {
             for(let i = start_dir; i < end_dir; i++) {
                 let to_move = index + mv_dir[i];
                 if (brd_pieces[to_move] == PIECES.EMPTY) {
-                    let mv_piece = move_men;
+                    let mv_piece = 0;
                     if ((brd_side == COLOURS.WHITE && to_move > 36) ||
-                        (brd_side == COLOURS.BLACK && to_move < 9)) mv_piece = move_king;
+                        (brd_side == COLOURS.BLACK && to_move < 9)) mv_piece = 1;
                     AddQuiteMove(index, to_move, mv_piece);
                 }
             }
@@ -79,7 +79,7 @@ function GenerateMoves() {
             for(let i = 0; i < 4; i++) {
                 let to_move = index + mv_dir[i];
                 while(brd_pieces[to_move] = PIECES.EMPTY) {
-                    AddQuiteMove(index, to_move, mv_piece);
+                    AddQuiteMove(index, to_move, 0);
                     to_move += mv_dir[i];
                 }
             }

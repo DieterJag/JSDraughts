@@ -4,6 +4,7 @@ let brd_side = COLOURS.WHITE;
 let brd_pieces = new Array(BRD_SQ_NUM);
 let brd_posKey;	
 let brd_ply;
+let brd_hisPly;
 let brd_history = [];
 let brd_moveList = new Array(MAXDEPTH * MAXPOSITIONMOVES);
 let brd_moveScores = new Array(MAXDEPTH * MAXPOSITIONMOVES);
@@ -64,6 +65,7 @@ function ResetBoard() {
 	}
 	brd_side = COLOURS.BOTH;
 	brd_ply = 0;
+	brd_hisPly = 0;	
 	brd_posKey = 0;
 	brd_moveListStart[brd_ply] = 0;
 }

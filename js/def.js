@@ -6,6 +6,7 @@ let MAXDEPTH = 64;
 
 let INFINITE = 30000;
 let MATE = 29000;
+let NOMOVE = 0;
 
 let START_FEN = "W:W1,2,3,4,5,6,7,8,9,10,11,12:B21,22,23,24,25,26,27,28,29,30,31,32";
 
@@ -49,3 +50,8 @@ function RAND_32() {
 }
 
 function HASH_SIDE() { brd_posKey ^= SideKey; }
+
+function FROMSQ(m) { return (m & 0x3F); }
+function TOSQ(m)  { return (((m)>>6) & 0x3F); }
+function CAPTURED(m)  { return (m & 0x2000); }
+function MVPS(m)  { return (((m) >> 12) & 1); }
