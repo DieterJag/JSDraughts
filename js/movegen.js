@@ -31,15 +31,14 @@ function AddCapuresMoves() {
         let bit_cap = 0;
         let from;
         let to;
-        let piece;
+        let piece = element.change_piece;
         element.forEach((cap_element, index) => {
             if (index == 0) from = cap_element.from;
             to = cap_element.to;
-            piece = cap_element.piece;
             bit_cap = (bit_cap << 6) | (cap_element.captured << 1) | ((brd_pieces[ap_element.captured] - 1) & 1);
         })
-        brd_moveList[brd_moveListStart[brd_ply + 1]] = from | (to << 6) | (((piece - 1) & 1) << 7) | 
-                                                        0x2000  | cap_element.length | (bit_cap << 18);
+        brd_moveList[brd_moveListStart[brd_ply + 1]] = from | (to << 6) | (piece << 12) | 0x2000 | 
+                                                    (cap_element.length << 14) | (bit_cap << 18);
 	    brd_moveListStart[brd_ply + 1]++;	    
     })
 }
@@ -159,8 +158,14 @@ function GenerateCaptures() {
                                         aPathOfCaptures.push(pathOfCapture); // dublicate capture path without last capture
                                         cap_path_now = aPathOfCaptures[aPathOfCaptures.length - 1];
                                     }
-                                    if (atack_piece == PIECES.wM && empty_index > 36) atack_piece = PIECES.wK;
-                                    else if (atack_piece == PIECES.bM && empty_index < 9) atack_piece = PIECES.bK;
+                                    if (atack_piece == PIECES.wM && empty_index > 36) {
+                                        atack_piece = PIECES.wK;
+                                        cap_path_now.change_piece = 1;
+                                    }
+                                    else if (atack_piece == PIECES.bM && empty_index < 9) {
+                                        atack_piece = PIECES.bK;
+                                        cap_path_now.change_piece = 1;
+                                    }
                                     cap_path_now.add(new Capture(cap_index, empty_index, def_index, atack_piece, mv_dir[j]));
                                     is_new_capture = BOOL.TRUE;
                                     is_new_path = BOOL.TRUE;

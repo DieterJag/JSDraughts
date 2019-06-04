@@ -6,7 +6,34 @@ function ClearPieces(move) {
         let index = captures & 0x3F;
         let pce = brd_pieces[index];	
         HASH_PCE(pce, index);
-        brd_pieces[ibdex] = PIECES.EMPTY;
+        brd_pieces[index] = PIECES.EMPTY;
+        captures >>= 7;
+    }
+}
+
+function AddCapturedPieces(move) {
+    let mv_piece_all = MVPS(move);	
+    let captures = move >> 14;
+    let cap_count = captures & 0xF;
+    if (brd_side = COLOURS.WHITE) {
+        if (mv_piece_all == 1) piece = PIECES.wK;
+        else piece = PIECES.wM;
+    } else {
+        if (mv_piece_all == 1) piece = PIECES.bK;
+        else piece = PIECES.bM;
+    }
+	
+    captures >>= 4;
+    for(let i = 0; i < cap_count; i++) {
+        let index = captures & 0x3F;
+        let mv_piece = (captures >> 6) & 1;
+        if (brd_side = COLOURS.WHITE) {
+            if (mv_piece == 1) piece = PIECES.wM;
+        } else {
+            if (mv_piece == 1) piece = PIECES.bM;
+        }
+        HASH_PCE(piece, index);
+        brd_pieces[index] = piece;
         captures >>= 7;
     }
 }
@@ -74,6 +101,6 @@ function TakeMove() {
 	
 	let capture = CAPTURED(move);
     if(capture) {      
-        AddPieces();
+        AddCapturedPieces(move);
     }
 }

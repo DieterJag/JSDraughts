@@ -4,6 +4,7 @@ class PathOfCapture {
     
     constructor() {
         this.captures = [];
+        this.change_piece = 0;
     }
 
     // add capture one move
