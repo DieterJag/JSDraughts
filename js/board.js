@@ -5,6 +5,9 @@ let brd_pieces = new Array(BRD_SQ_NUM);
 let brd_posKey;	
 let brd_ply;
 let brd_history = [];
+let brd_moveList = new Array(MAXDEPTH * MAXPOSITIONMOVES);
+let brd_moveScores = new Array(MAXDEPTH * MAXPOSITIONMOVES);
+let brd_moveListStart = new Array(MAXDEPTH);
 
 function ParseFenPos(fen, color) {
     let pos;
@@ -59,6 +62,10 @@ function ResetBoard() {
         if (FilesBrd[index] == SQUARES.OFFBOARD) brd_pieces[index] = SQUARES.OFFBOARD;
         else brd_pieces[index] = PIECES.EMPTY;
 	}
+	brd_side = COLOURS.BOTH;
+	brd_ply = 0;
+	brd_posKey = 0;
+	brd_moveListStart[brd_ply] = 0;
 }
 
 function GeneratePosKey() {
