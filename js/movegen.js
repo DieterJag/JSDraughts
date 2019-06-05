@@ -1,14 +1,14 @@
 /*
 move bits
-000c cccc cpss ss00 0000 0011 1111 -> 6 bits of square from ( & 0x1F)
-000c cccc cpss ss00 1111 1100 0000 -> 6 bits of square to ((>> 6) & 0x1F)
-000c cccc cpss ss01 0000 0000 0000 -> 1 bits piece (0x1000) (1 - men -> king, 0 - otherwise)
-000c cccc cpss ss10 0000 0000 0000 -> 1 bits move or capture (0x2000) = 1 - capture 
+0000 0000 0011 1111 -> 6 bits of square from ( & 0x1F)
+0000 1111 1100 0000 -> 6 bits of square to ((>> 6) & 0x1F)
+0001 0000 0000 0000 -> 1 bits piece (0x1000) (1 - men -> king, 0 - otherwise)
+0010 0000 0000 0000 -> 1 bits move or capture (0x2000) = 1 - capture 
 
-if capure
-ssss -> 4 bits captured pieces count ((move >> 14) $0xf)
-ccc cccp -> 7 * cap_count bits of capture square (5 bits) and piece (1 bit) ((move >> 18) $0x7f) first time
-                                                                        ((shift_move >> 7) $0x7f) next time
+capure bits
+00kk kkkk kkkk kkcc cccc cccc cccc cccc
+c -> 18 bits by catured board indexes set to 1 - cantured 0 - not captured
+k -> max 12 captured pieces 1 - captured king 0 - captured men (set by captured piece number) 
 */
 
 let mv_dir = new Array(4);
@@ -26,19 +26,55 @@ function AddQuiteMove(from, to, mv_piece) {
 	brd_moveListStart[brd_ply + 1]++;	
 }
 
+// function printCapture(index, move)
+// {
+// 	let from = FROMSQ(move);
+//     let to = TOSQ(move);
+//     let mv_piece_all = MVPS(move);	
+//     let captures = move >> 14;
+//     let cap_count = captures & 0xF;
+//     if (brd_side = COLOURS.WHITE) {
+//         if (mv_piece_all == 1) piece = PIECES.wK;
+//         else piece = PIECES.wM;
+//     } else {
+//         if (mv_piece_all == 1) piece = PIECES.bK;
+//         else piece = PIECES.bM;
+//     }
+    
+//     console.log("index="+index+" from="+from+" to="+to+" piece="+piece+" cap_count="+cap_count);
+    
+//     captures >>= 4;
+//     for(let i = 0; i < cap_count; i++) {
+//         let index = (captures >> 1) & 0x3F;
+//         let mv_piece = captures & 1;
+//         if (brd_side = COLOURS.WHITE) {
+//             if (mv_piece == 1) piece = PIECES.wM;
+//         } else {
+//             if (mv_piece == 1) piece = PIECES.bM;
+//         }
+//         console.log("capture index="+index+" piece="+piece);
+//         captures >>= 7;
+//     }
+// }
+
 function AddCapuresMoves() {
     aPathOfCaptures.forEach(element => {
+        let bit_king = 0;
         let bit_cap = 0;
         let from;
         let to;
         let piece = element.change_piece;
-        element.forEach((cap_element, index) => {
+        let cap_count = 0;
+        element.captures.forEach((cap_element, index) => {
             if (index == 0) from = cap_element.from;
             to = cap_element.to;
-            bit_cap = (bit_cap << 6) | (cap_element.captured << 1) | ((brd_pieces[ap_element.captured] - 1) & 1);
+            bit_cap |= (1 << brd_capture_pieces[cap_element]);
+            if ((brd_pieces[cap_element] & 1) == 0) bit_king |= (1 << index); // set king piece
         })
-        brd_moveList[brd_moveListStart[brd_ply + 1]] = from | (to << 6) | (piece << 12) | 0x2000 | 
-                                                    (cap_element.length << 14) | (bit_cap << 18);
+        brd_moveList[brd_moveListStart[brd_ply + 1]] = from | (to << 6) | (piece << 12) | 0x2000;
+        brd_captureList[brd_captuteListStart[brd_ply + 1]] = (bit_king << 18) | bit_cap;
+        // printCapture(brd_moveListStart[brd_ply + 1], brd_moveList[brd_moveListStart[brd_ply + 1]]);
+        // console.log("capure nr="+brd_moveListStart[brd_ply + 1]+" move="+brd_moveList[brd_moveListStart[brd_ply + 1]].toString(16));
 	    brd_moveListStart[brd_ply + 1]++;	    
     })
 }
@@ -114,6 +150,7 @@ function GenerateCaptures() {
         defence_men = PIECES.wM;
         defence_king = PIECES.wK;
     }
+	brd_moveListStart[brd_ply + 1] = brd_moveListStart[brd_ply];
 
     // aPathOfCaptures.forEach(element => {
     //     element.length = 0;});

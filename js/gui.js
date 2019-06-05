@@ -9,6 +9,9 @@ $("#SetFen").click(function () {
         GenerateMoves();
         console.log(aMoves);
     }
+    console.log(brd_moveList);
+    console.log(brd_moveListStart);
+    console.log(brd_history);
 
 	// GameController.PlayerSide = brd_side;	
 	// CheckAndSet();	

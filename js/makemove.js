@@ -84,6 +84,7 @@ function MakeMove(move) {
 	return BOOL.TRUE;	
 }
 
+// need to correct by brd_capture_pieces
 function TakeMove() {		
 	
 	brd_hisPly--;
