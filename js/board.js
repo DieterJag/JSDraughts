@@ -3,6 +3,7 @@
 let brd_side = COLOURS.WHITE;
 let brd_pieces = new Array(BRD_SQ_NUM);
 let brd_capture_pieces = new Array(BRD_SQ_NUM);
+let brd_capture_to_pieces = new Array(BRD_CAPTURE_SQ_NUM);
 let brd_posKey;	
 let brd_ply;
 let brd_hisPly;

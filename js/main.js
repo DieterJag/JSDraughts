@@ -85,10 +85,12 @@ function InitCaptureBoard() {
 			RanksBrd[index] == RANKS.RANK_8) brd_capture_pieces[index] = SQUARES.OFFBOARD;
         else {
 			brd_capture_pieces[index] = cap_index;
+			brd_capture_to_pieces[cap_index] = index;
 			cap_index++;
 		}
 	}
 	console.log(brd_capture_pieces);
+	console.log(brd_capture_to_pieces);
 }
 
 function init() {

@@ -26,37 +26,6 @@ function AddQuiteMove(from, to, mv_piece) {
 	brd_moveListStart[brd_ply + 1]++;	
 }
 
-// function printCapture(index, move)
-// {
-// 	let from = FROMSQ(move);
-//     let to = TOSQ(move);
-//     let mv_piece_all = MVPS(move);	
-//     let captures = move >> 14;
-//     let cap_count = captures & 0xF;
-//     if (brd_side = COLOURS.WHITE) {
-//         if (mv_piece_all == 1) piece = PIECES.wK;
-//         else piece = PIECES.wM;
-//     } else {
-//         if (mv_piece_all == 1) piece = PIECES.bK;
-//         else piece = PIECES.bM;
-//     }
-    
-//     console.log("index="+index+" from="+from+" to="+to+" piece="+piece+" cap_count="+cap_count);
-    
-//     captures >>= 4;
-//     for(let i = 0; i < cap_count; i++) {
-//         let index = (captures >> 1) & 0x3F;
-//         let mv_piece = captures & 1;
-//         if (brd_side = COLOURS.WHITE) {
-//             if (mv_piece == 1) piece = PIECES.wM;
-//         } else {
-//             if (mv_piece == 1) piece = PIECES.bM;
-//         }
-//         console.log("capture index="+index+" piece="+piece);
-//         captures >>= 7;
-//     }
-// }
-
 function AddCapuresMoves() {
     aPathOfCaptures.forEach(element => {
         let bit_king18 = 0;
@@ -76,7 +45,7 @@ function AddCapuresMoves() {
 
         let j = 1;
         let l = 1;
-        for(let i = 0; i < 18; i++) {
+        for(let i = 0; i < BRD_CAPTURE_SQ_NUM; i++) {
             if (bit_cap & j) {
                 if(bit_king18 & j) bit_king |= l;
                 l <<= 1;
@@ -84,9 +53,7 @@ function AddCapuresMoves() {
             j <<= 1;
         }
         brd_moveList[brd_moveListStart[brd_ply + 1]] = from | (to << 6) | (piece << 12) | 0x2000;
-        brd_captureList[brd_captuteListStart[brd_ply + 1]] = (bit_king << 18) | bit_cap;
-        // printCapture(brd_moveListStart[brd_ply + 1], brd_moveList[brd_moveListStart[brd_ply + 1]]);
-        // console.log("capure nr="+brd_moveListStart[brd_ply + 1]+" move="+brd_moveList[brd_moveListStart[brd_ply + 1]].toString(16));
+        brd_captureList[brd_captuteListStart[brd_ply + 1]] = (bit_king << BRD_CAPTURE_SQ_NUM) | bit_cap;
         brd_moveListStart[brd_ply + 1]++;
         brd_captuteListStart[brd_ply + 1]++;	    
     })
