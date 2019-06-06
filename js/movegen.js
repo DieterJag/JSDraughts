@@ -59,23 +59,36 @@ function AddQuiteMove(from, to, mv_piece) {
 
 function AddCapuresMoves() {
     aPathOfCaptures.forEach(element => {
+        let bit_king18 = 0;
         let bit_king = 0;
         let bit_cap = 0;
         let from;
         let to;
         let piece = element.change_piece;
-        let cap_count = 0;
+
         element.captures.forEach((cap_element, index) => {
             if (index == 0) from = cap_element.from;
             to = cap_element.to;
             bit_cap |= (1 << brd_capture_pieces[cap_element]);
-            if ((brd_pieces[cap_element] & 1) == 0) bit_king |= (1 << index); // set king piece
+            if ((brd_pieces[cap_element] & 1) == 0) bit_king18 |= (1 << brd_capture_pieces[cap_element]); // set king piece
+            // if ((brd_pieces[cap_element] & 1) == 0) bit_king |= (1 << index); // set king piece
         })
+
+        let j = 1;
+        let l = 1;
+        for(let i = 0; i < 18; i++) {
+            if (bit_cap & j) {
+                if(bit_king18 & j) bit_king |= l;
+                l <<= 1;
+            }
+            j <<= 1;
+        }
         brd_moveList[brd_moveListStart[brd_ply + 1]] = from | (to << 6) | (piece << 12) | 0x2000;
         brd_captureList[brd_captuteListStart[brd_ply + 1]] = (bit_king << 18) | bit_cap;
         // printCapture(brd_moveListStart[brd_ply + 1], brd_moveList[brd_moveListStart[brd_ply + 1]]);
         // console.log("capure nr="+brd_moveListStart[brd_ply + 1]+" move="+brd_moveList[brd_moveListStart[brd_ply + 1]].toString(16));
-	    brd_moveListStart[brd_ply + 1]++;	    
+        brd_moveListStart[brd_ply + 1]++;
+        brd_captuteListStart[brd_ply + 1]++;	    
     })
 }
 
@@ -151,6 +164,7 @@ function GenerateCaptures() {
         defence_king = PIECES.wK;
     }
 	brd_moveListStart[brd_ply + 1] = brd_moveListStart[brd_ply];
+	brd_captureListStart[brd_ply + 1] = brd_captureListStart[brd_ply];
 
     // aPathOfCaptures.forEach(element => {
     //     element.length = 0;});

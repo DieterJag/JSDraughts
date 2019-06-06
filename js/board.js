@@ -9,6 +9,8 @@ let brd_hisPly;
 let brd_history = [];
 let brd_moveList = new Array(MAXDEPTH * MAXPOSITIONMOVES);
 let brd_moveScores = new Array(MAXDEPTH * MAXPOSITIONMOVES);
+let brd_captuteList  = new Array(MAXDEPTH * MAXPOSITIONMOVES);
+let brd_captuteListStart = new Array(MAXDEPTH * MAXPOSITIONMOVES);
 let brd_moveListStart = new Array(MAXDEPTH);
 
 function ParseFenPos(fen, color) {
@@ -69,6 +71,7 @@ function ResetBoard() {
 	brd_hisPly = 0;	
 	brd_posKey = 0;
 	brd_moveListStart[brd_ply] = 0;
+	brd_captureListStart[brd_ply] = 0;
 }
 
 function GeneratePosKey() {
