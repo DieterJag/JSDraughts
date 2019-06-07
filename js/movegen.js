@@ -77,8 +77,6 @@ function GenerateMoves() {
         end_dir = 4;
     }
 
-    aMoves.length = 0;
-
     brd_pieces.forEach((element, index) => {
         if (element == move_men) {
             for(let i = start_dir; i < end_dir; i++) {

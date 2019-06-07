@@ -7,7 +7,6 @@ $("#SetFen").click(function () {
     console.log(aPathOfCaptures);
     if (aPathOfCaptures.length == 0) {
         GenerateMoves();
-        console.log(aMoves);
     }
     console.log(brd_moveList);
     console.log(brd_moveListStart);

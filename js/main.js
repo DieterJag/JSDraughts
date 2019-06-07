@@ -55,7 +55,7 @@ function InitFilesRanksBrd() {
 function InitHashKeys() {
     let index = 0;
 	
-	for(index = 0; index < 2 * 4; ++index) {				
+	for(index = 0; index < 46 * 5; ++index) {				
 		PieceKeys[index] = RAND_32();
 	}
 	
@@ -102,4 +102,14 @@ function init() {
 	initBoardSquares();
 	SetInitialBoardPieces();
 	initDirections();
+	GenerateCaptures();
+    console.log(aPathOfCaptures);
+    if (aPathOfCaptures.length == 0) {
+        GenerateMoves();
+    }
+    console.log(brd_moveList);
+    console.log(brd_moveListStart);
+	console.log(brd_history);
+	MakeMove(brd_moveList[0]);
+	console.log(brd_moveList[0].toString(16));
 }

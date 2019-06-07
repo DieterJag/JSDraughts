@@ -10,8 +10,8 @@ let brd_hisPly;
 let brd_history = [];
 let brd_moveList = new Array(MAXDEPTH * MAXPOSITIONMOVES);
 let brd_moveScores = new Array(MAXDEPTH * MAXPOSITIONMOVES);
-let brd_captuteList  = new Array(MAXDEPTH * MAXPOSITIONMOVES);
-let brd_captuteListStart = new Array(MAXDEPTH * MAXPOSITIONMOVES);
+let brd_captureList  = new Array(MAXDEPTH * MAXPOSITIONMOVES);
+let brd_captureListStart = new Array(MAXDEPTH * MAXPOSITIONMOVES);
 let brd_moveListStart = new Array(MAXDEPTH);
 
 function ParseFenPos(fen, color) {

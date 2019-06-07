@@ -11,31 +11,32 @@ function ClearPieces(captures) {
     }
 }
 
-// need to correct by brd_capture_pieces
-function AddCapturedPieces(move) {
-    let mv_piece_all = MVPS(move);	
-    let captures = move >> 14;
-    let cap_count = captures & 0xF;
-    if (brd_side = COLOURS.WHITE) {
-        if (mv_piece_all == 1) piece = PIECES.wK;
-        else piece = PIECES.wM;
+function AddCapturedPieces(captures) {
+    let bit = 1;
+    let kings = captures >> BRD_CAPTURE_SQ_NUM;
+    let piece_men;
+    let piece_king;
+
+    if (brd_side == COLOURS.WHITE) {
+        piece_king = PIECES.wK;
+        piece_men = PIECES.wM;
     } else {
-        if (mv_piece_all == 1) piece = PIECES.bK;
-        else piece = PIECES.bM;
+        piece_king = PIECES.bK;
+        piece_men = PIECES.bM;
     }
-	
-    captures >>= 4;
-    for(let i = 0; i < cap_count; i++) {
-        let index = captures & 0x3F;
-        let mv_piece = (captures >> 6) & 1;
-        if (brd_side = COLOURS.WHITE) {
-            if (mv_piece == 1) piece = PIECES.wM;
-        } else {
-            if (mv_piece == 1) piece = PIECES.bM;
+
+    let cap_bit = 1;
+    let pce;
+    for(let i = 0; i < BRD_CAPTURE_SQ_NUM; i++) {
+        if (captures & bit) {
+            let index = brd_capture_to_pieces[i];
+            if (kings & cap_bit) brd_pieces[index]  = piece_king;
+            else brd_pieces[index] = piece_men;
+            HASH_PCE(pce, index);
+            brd_pieces[index] = PIECES.EMPTY;
+            cap_bit <<= 1;
         }
-        HASH_PCE(piece, index);
-        brd_pieces[index] = piece;
-        captures >>= 7;
+        bit <<= 1;
     }
 }
 
@@ -51,7 +52,7 @@ function MovePiece(from, to, piece) {
 	
 }
 
-function MakeMove(move) {
+function MakeMove(move, captures = undefined) {
 	
 	let from = FROMSQ(move);
     let to = TOSQ(move);
@@ -67,19 +68,20 @@ function MakeMove(move) {
     }
 	
 	brd_history[brd_hisPly].posKey = brd_posKey;
-	brd_history[brd_hisPly].move = move;
+    brd_history[brd_hisPly].move = move;
+    if (captures != undefined) brd_history[brd_hisPly].captures = captures;
 	brd_hisPly++;
 	brd_ply++;
 	
     let capture = CAPTURED(move);
 	
+	brd_side ^= 1;
 	if (capture) {
         ClearPieces(brd_history[brd_hisPly].captures);
     }
 	
 	MovePiece(from, to, piece);
 	
-	brd_side ^= 1;
     HASH_SIDE();
 	
 	return BOOL.TRUE;	

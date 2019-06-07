@@ -50,6 +50,9 @@ function RAND_32() {
 
 }
 
+function HASH_PCE(pce,sq) { 
+	brd_posKey ^= PieceKeys[pce*46 + sq]; 
+}
 function HASH_SIDE() { brd_posKey ^= SideKey; }
 
 function FROMSQ(m) { return (m & 0x3F); }
