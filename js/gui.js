@@ -45,3 +45,46 @@ function ClearAllPieces() {
 	console.log("Removing pieces");
 	$(".Piece").remove();
 }
+
+function MoveGUIPiece(move) {
+	let from = FROMSQ(move);
+	let to = TOSQ(move);
+	
+	let rank = RanksBrd[to];
+	let file = FilesBrd[to];
+	let rankName = "rank" + (rank + 1);	
+	let fileName = "file" + (file + 1);
+	
+	$( ".Piece" ).each(function( index ) {
+     if( (RanksBrd[from] == 7 - Math.round($(this).position().top/60)) && (FilesBrd[from] == Math.round($(this).position().left/60)) ){
+     	$(this).removeClass();
+     	$(this).addClass("Piece clickElement " + rankName + " " + fileName);     
+     }
+    });
+    
+    // printGameLine();
+}
+
+function PreSearch() {
+		
+	if(GameController.GameOver != BOOL.TRUE) {				
+		srch_thinking = BOOL.TRUE;
+		$('#ThinkingImageDiv').append('<image src="image/think3.png" id="ThinkingPng"/>')
+		setTimeout( function() {StartSearch(); }, 200);
+	}
+}
+
+function StartSearch() {
+	srch_depth = MAXDEPTH;
+	var t = $.now();
+	var tt = $('#ThinkTimeChoice').val();
+	console.log("time:" + t + " TimeChoice:" + tt);
+	srch_time = parseInt(tt) * 1000;
+	SearchPosition(); 	
+	
+	// TODO MakeMove here on internal board and GUI
+	MakeMove(srch_best);
+	MoveGUIPiece(srch_best);	
+	$('#ThinkingPng').remove();
+	CheckAndSet();
+}

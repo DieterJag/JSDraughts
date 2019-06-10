@@ -59,7 +59,7 @@ function MakeMove(move, captures = undefined) {
     let mv_piece = MVPS(move);
     let piece;
 
-    if (brd_side = COLOURS.WHITE) {
+    if (brd_side == COLOURS.WHITE) {
         if (mv_piece == 1) piece = PIECES.wK;
         else piece = PIECES.wM;
     } else {
@@ -95,15 +95,24 @@ function TakeMove() {
     let move = brd_history[brd_hisPly].move;
     let from = FROMSQ(move);
     let to = TOSQ(move);	
-    let piece = MVPS(move);
-	
+    let mv_piece = MVPS(move);
+    let piece;
+
     brd_side ^= 1;
     HASH_SIDE();
 	
-	MovePiece(to, from, -piece);
+   if (brd_side == COLOURS.WHITE) {
+        if (mv_piece == 1) piece = PIECES.wM;
+        else piece = brd_pieces[to];
+    } else {
+        if (mv_piece == 1) piece = PIECES.bM;
+        else piece = brd_pieces[to];
+    }
+	
+	MovePiece(to, from, piece);
 	
 	let capture = CAPTURED(move);
-    if(capture) {      
+    if (capture) {      
         AddCapturedPieces(brd_history[brd_hisPly].captures);
     }
 }

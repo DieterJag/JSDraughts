@@ -22,7 +22,7 @@ function initDirections() {
 }
 
 function AddQuiteMove(from, to, mv_piece) {
-	brd_moveList[brd_moveListStart[brd_ply + 1]] = from | (to << 6) | (((mv_piece - 1) & 1) << 7);
+	brd_moveList[brd_moveListStart[brd_ply + 1]] = from | (to << 6) | (mv_piece << 12);
 	brd_moveListStart[brd_ply + 1]++;	
 }
 
@@ -40,7 +40,6 @@ function AddCapuresMoves() {
             to = cap_element.to;
             bit_cap |= (1 << brd_capture_pieces[cap_element]);
             if ((brd_pieces[cap_element] & 1) == 0) bit_king18 |= (1 << brd_capture_pieces[cap_element]); // set king piece
-            // if ((brd_pieces[cap_element] & 1) == 0) bit_king |= (1 << index); // set king piece
         })
 
         let j = 1;

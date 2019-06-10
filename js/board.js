@@ -14,6 +14,11 @@ let brd_captureList  = new Array(MAXDEPTH * MAXPOSITIONMOVES);
 let brd_captureListStart = new Array(MAXDEPTH * MAXPOSITIONMOVES);
 let brd_moveListStart = new Array(MAXDEPTH);
 
+var brd_PvTable = [];	
+var brd_PvArray = new Array(MAXDEPTH);
+var brd_searchHistory = new Array(4 * BRD_SQ_NUM);
+var brd_searchKillers = new Array(3 * MAXDEPTH);
+
 function ParseFenPos(fen, color) {
     let pos;
     let piece;

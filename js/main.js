@@ -73,6 +73,12 @@ function InitBoardVars() {
 		}); 
 	}
 
+	for(index = 0; index < PVENTRIES; index++) {
+		brd_PvTable.push({
+			move : NOMOVE,
+			posKey : 0
+		}); 
+	}
 }
 
 function InitCaptureBoard() {
@@ -89,8 +95,8 @@ function InitCaptureBoard() {
 			cap_index++;
 		}
 	}
-	console.log(brd_capture_pieces);
-	console.log(brd_capture_to_pieces);
+	// console.log(brd_capture_pieces);
+	// console.log(brd_capture_to_pieces);
 }
 
 function init() {
@@ -102,14 +108,27 @@ function init() {
 	initBoardSquares();
 	SetInitialBoardPieces();
 	initDirections();
-	GenerateCaptures();
-    console.log(aPathOfCaptures);
-    if (aPathOfCaptures.length == 0) {
-        GenerateMoves();
-    }
-    console.log(brd_moveList);
-    console.log(brd_moveListStart);
-	console.log(brd_history);
-	MakeMove(brd_moveList[0]);
-	console.log(brd_moveList[0].toString(16));
+	// GenerateCaptures();
+    // if (aPathOfCaptures.length == 0) {
+    //     GenerateMoves();
+    // }
+	// MakeMove(brd_moveList[1]);
+	// MoveGUIPiece(brd_moveList[1]);
+
+	// GenerateCaptures();
+    // if (aPathOfCaptures.length == 0) {
+    //     GenerateMoves();
+	// }
+	// MakeMove(brd_moveList[brd_moveListStart[brd_ply]]);
+	// // MoveGUIPiece(brd_moveList[brd_moveListStart[brd_ply-1]]);
+	// TakeMove();
+
+	// GenerateCaptures();
+    // if (aPathOfCaptures.length == 0) {
+    //     GenerateMoves();
+	// }
+	// MakeMove(brd_moveList[brd_moveListStart[brd_ply]]);
+	// MoveGUIPiece(brd_moveList[brd_moveListStart[brd_ply-1]]);
+
+	PreSearch();
 }

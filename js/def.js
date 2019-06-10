@@ -39,6 +39,8 @@ let RanksBrd = new Array(BRD_SQ_NUM);
 
 let MAX_CAPTURE_VARIATION = 50;
 
+let PVENTRIES = 10000;
+
 function FR2SQ(f,r) {
     return ( (5 + ((f+r) / 2) ) + ( r * 4 ) );
 }
@@ -59,3 +61,11 @@ function FROMSQ(m) { return (m & 0x3F); }
 function TOSQ(m)  { return (((m)>>6) & 0x3F); }
 function CAPTURED(m)  { return (m & 0x2000); }
 function MVPS(m)  { return (((m) >> 12) & 1); }
+
+let GameController = {};
+GameController.EngineSide = COLOURS.BOTH;
+GameController.PlayerSide = COLOURS.BOTH;
+GameController.BoardFlipped = BOOL.FALSE;
+GameController.GameOver = BOOL.FALSE;
+GameController.BookLoaded = BOOL.FALSE;
+GameController.GameSaved = BOOL.TRUE;
