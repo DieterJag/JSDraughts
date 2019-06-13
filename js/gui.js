@@ -88,3 +88,61 @@ function StartSearch() {
 	$('#ThinkingPng').remove();
 	CheckAndSet();
 }
+
+function CheckAndSet() {
+	if(CheckResult() != BOOL.TRUE) {
+		GameController.GameOver = BOOL.FALSE;
+		$("#GameStatus").text('');		
+	} else {
+		GameController.GameOver = BOOL.TRUE;
+		GameController.GameSaved = BOOL.TRUE; // save the game here
+	}
+	//var fenStr = BoardToFen();
+	 $("#currentFenSpan").text(BoardToFen());
+}
+
+function CheckResult() {
+
+    if (ThreeFoldRep() >= 2) {
+     $("#GameStatus").text("GAME DRAWN {3-fold repetition}"); 
+     return BOOL.TRUE;
+    }
+	
+	if (DrawMaterial() == BOOL.TRUE) {
+     $("#GameStatus").text("GAME DRAWN {insufficient material to mate}"); 
+     return BOOL.TRUE;
+    }
+	
+	console.log('Checking end of game');
+	GenerateMoves();
+      
+    var MoveNum = 0;
+	var found = 0;
+	for(MoveNum = brd_moveListStart[brd_ply]; MoveNum < brd_moveListStart[brd_ply + 1]; ++MoveNum)  {	
+       
+        if ( MakeMove(brd_moveList[MoveNum]) == BOOL.FALSE)  {
+            continue;
+        }
+        found++;
+		TakeMove();
+		break;
+    }
+    
+    $("#currentFenSpan").text(BoardToFen()); 
+	
+	if(found != 0) return BOOL.FALSE;
+	var InCheck = SqAttacked(brd_pList[PCEINDEX(Kings[brd_side],0)], brd_side^1);
+	console.log('No Move Found, incheck:' + InCheck);
+	
+	if(InCheck == BOOL.TRUE)	{
+	    if(brd_side == COLOURS.WHITE) {
+	      $("#GameStatus").text("GAME OVER {black mates}");return BOOL.TRUE;
+        } else {
+	      $("#GameStatus").text("GAME OVER {white mates}");return BOOL.TRUE;
+        }
+    } else {
+      $("#GameStatus").text("GAME DRAWN {stalemate}");return BOOL.TRUE;
+    }	
+    console.log('Returning False');
+	return BOOL.FALSE;	
+}
