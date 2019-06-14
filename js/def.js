@@ -57,6 +57,8 @@ function HASH_PCE(pce,sq) {
 }
 function HASH_SIDE() { brd_posKey ^= SideKey; }
 
+function IND2STD(ind) {return (ind - 4 - Math.floor(ind/9)); }
+
 function FROMSQ(m) { return (m & 0x3F); }
 function TOSQ(m)  { return (((m)>>6) & 0x3F); }
 function CAPTURED(m)  { return (m & 0x2000); }

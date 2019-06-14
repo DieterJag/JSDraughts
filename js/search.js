@@ -86,7 +86,7 @@ function Quiescence(alpha, beta) {
 	
 	srch_nodes++;
 	
-	if(IsRepetition() || brd_fiftyMove >= 100) {
+	if(IsRepetition()) {
 		return 0;
 	}
 	
@@ -199,7 +199,10 @@ function AlphaBeta(alpha, beta, depth, DoNull) {
 		}	
 	}
 		
-    GenerateMoves();
+	GenerateCaptures();
+    if (aPathOfCaptures.length == 0) {
+        GenerateMoves();
+	}
       
     var MoveNum = 0;
 	var Legal = 0;

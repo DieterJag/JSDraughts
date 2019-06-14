@@ -10,13 +10,15 @@ function ThreeFoldRep() {
 
 function DrawMaterial() {
 
-    let pieces_count = new Array(5);
+    return BOOL.FALSE;
 
-    brd_pieces.forEach((element, index) => {
-        if (brd_pieces[index] < 5) pieces_count[brd_pieces[index]]++;
-    })
+    // let pieces_count = new Array(5);
 
-    if (pieces_count[PIECES.wM] != pieces_count[PIECES.bM] || pieces_count[PIECES.wK] != pieces_count[PIECES.bK]) return BOOL.FALSE;
+    // brd_pieces.forEach(element => {
+    //     if (element < 5) pieces_count[element]++;
+    // })
+
+    // if (pieces_count[PIECES.wM] != pieces_count[PIECES.bM] || pieces_count[PIECES.wK] != pieces_count[PIECES.bK]) return BOOL.FALSE;
 	
-    return BOOL.TRUE;
+    // return BOOL.TRUE;
 }

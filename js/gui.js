@@ -131,18 +131,13 @@ function CheckResult() {
     $("#currentFenSpan").text(BoardToFen()); 
 	
 	if(found != 0) return BOOL.FALSE;
-	var InCheck = SqAttacked(brd_pList[PCEINDEX(Kings[brd_side],0)], brd_side^1);
-	console.log('No Move Found, incheck:' + InCheck);
 	
-	if(InCheck == BOOL.TRUE)	{
-	    if(brd_side == COLOURS.WHITE) {
-	      $("#GameStatus").text("GAME OVER {black mates}");return BOOL.TRUE;
-        } else {
-	      $("#GameStatus").text("GAME OVER {white mates}");return BOOL.TRUE;
-        }
-    } else {
-      $("#GameStatus").text("GAME DRAWN {stalemate}");return BOOL.TRUE;
-    }	
+	if(brd_side == COLOURS.WHITE) {
+		$("#GameStatus").text("GAME OVER {black mates}");return BOOL.TRUE;
+	} else {
+		$("#GameStatus").text("GAME OVER {white mates}");return BOOL.TRUE;
+	}
+	// no possible
     console.log('Returning False');
 	return BOOL.FALSE;	
 }

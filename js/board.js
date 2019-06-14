@@ -21,61 +21,38 @@ let brd_searchKillers = new Array(3 * MAXDEPTH);
 
 function BoardToFen() {
     let fenStr;
+    let fenW = "";
+    let fenB = "";
+
+    brd_pieces.forEach((element, index) => {
+        switch(element){
+            case PIECES.wM:
+                if (fenW.length == 0) fenW = "W";
+                else fenW += ",";
+                fenW += IND2STD(index);
+                break;
+            case PIECES.wK:
+                if (fenW.length == 0) fenW = "W";
+                else fenW += ",";
+                fenW += "K"+IND2STD(index);
+                break;
+            case PIECES.bM:
+                if (fenW.length == 0) fenB = "B";
+                else fenB += ",";
+                fenB+= IND2STD(index);
+                break;
+            case PIECES.bK:
+                if (fenW.length == 0) fenB = "B";
+                else fenB += ",";
+                fenB+= "K"+IND2STD(index);
+                break;
+        }
+    })
     
     if (brd_side == 0) fenStr = "W:";
     else fenStr = "B:";
 	
-	for(rank = RANKS.RANK_8; rank >= RANKS.RANK_1; rank--) {
-		emptyCount = 0; 
-		for(file = FILES.FILE_A; file <= FILES.FILE_H; file++) {
-			sq = FR2SQ(file,rank);
-			piece = brd_pieces[sq];
-			if(piece == PIECES.EMPTY) {
-				emptyCount++;
-			} else {
-				if(emptyCount!=0) {
-					fenStr += String.fromCharCode('0'.charCodeAt() + emptyCount);
-				}
-				emptyCount = 0;
-				fenStr += PceChar[piece];
-			}
-		}
-		if(emptyCount!=0) {
-			fenStr += String.fromCharCode('0'.charCodeAt() + emptyCount);
-		}
-		
-		if(rank!=RANKS.RANK_1) {
-			fenStr += '/'
-		} else {
-			fenStr += ' ';
-		}
-	}
-	
-	fenStr += SideChar[brd_side] + ' ';
-	if(brd_enPas == SQUARES.NO_SQ) {
-		fenStr += '- '
-	} else {
-		fenStr += PrSq(brd_enPas) + ' ';
-	}
-	
-	if(brd_castlePerm == 0) {
-		fenStr += '- '
-	} else {
-		if(brd_castlePerm & CASTLEBIT.WKCA) fenStr += 'K';
-		if(brd_castlePerm & CASTLEBIT.WQCA) fenStr += 'Q';
-		if(brd_castlePerm & CASTLEBIT.BKCA) fenStr += 'k';
-		if(brd_castlePerm & CASTLEBIT.BQCA) fenStr += 'q';
-	}
-	fenStr += ' ';
-	fenStr += brd_fiftyMove;
-	fenStr += ' ';
-	var tempHalfMove = brd_hisPly;
-	if(brd_side == COLOURS.BLACK) {
-		tempHalfMove--;
-	}
-	fenStr += tempHalfMove/2;	
-	
-	return fenStr;
+	return fenStr+fenW+fenB;
 }
 
 function ParseFenPos(fen, color) {
