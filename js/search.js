@@ -1,12 +1,12 @@
-var srch_nodes;
-var srch_fh;
-var srch_fhf;
-var srch_depth;
-var srch_time;
-var srch_start;
-var srch_stop;
-var srch_best;
-var srch_thinking;
+let srch_nodes;
+let srch_fh;
+let srch_fhf;
+let srch_depth;
+let srch_time;
+let srch_start;
+let srch_stop;
+let srch_best;
+let srch_thinking;
 
 function CheckUp() {
 	if( ($.now()-srch_start) > srch_time ) srch_stop = BOOL.TRUE;
@@ -14,9 +14,9 @@ function CheckUp() {
 
 function PickNextMove(moveNum) {
 
-	var index = 0;
-	var bestScore = 0; 
-	var bestNum = moveNum;
+	let index = 0;
+	let bestScore = 0; 
+	let bestNum = moveNum;
 	
 	for (index = moveNum; index < brd_moveListStart[brd_ply + 1]; ++index) {
 		if (brd_moveScores[index] > bestScore) {
@@ -36,7 +36,7 @@ function PickNextMove(moveNum) {
 
 function IsRepetition() {
 
-	var index = 0;
+	let index = 0;
 
 	for(index = 0; index < brd_hisPly-1; ++index) {				
 		if(brd_posKey == brd_history[index].posKey) {
@@ -57,8 +57,8 @@ function ClearPvTable() {
 
 function ClearForSearch() {
 	
-	var index = 0;
-	var index2 = 0;
+	let index = 0;
+	let index2 = 0;
 	
 	for(index = 0; index < 14 * BRD_SQ_NUM; ++index) {		
 		brd_searchHistory[index] = 0;	
@@ -94,7 +94,7 @@ function Quiescence(alpha, beta) {
 		return EvalPosition();
 	}
 	
-	var Score = EvalPosition();
+	let Score = EvalPosition();
 	
 	if(Score >= beta) {
 		return beta;
@@ -106,12 +106,12 @@ function Quiescence(alpha, beta) {
 	
 	GenerateCaptures();
       
-    var MoveNum = 0;
-	var Legal = 0;
-	var OldAlpha = alpha;
-	var BestMove = NOMOVE;
+    let MoveNum = 0;
+	let Legal = 0;
+	let OldAlpha = alpha;
+	let BestMove = NOMOVE;
 	Score = -INFINITE;
-	var PvMove = ProbePvTable();	
+	let PvMove = ProbePvTable();	
 	
 	if( PvMove != NOMOVE) {
 		for(MoveNum = brd_moveListStart[brd_ply]; MoveNum < brd_moveListStart[brd_ply + 1]; ++MoveNum) {
@@ -174,13 +174,13 @@ function AlphaBeta(alpha, beta, depth, DoNull) {
 		return EvalPosition(pos);
 	}
 	
-	var Score = -INFINITE;
+	let Score = -INFINITE;
 	
 	if( DoNull == BOOL.TRUE && 
 			brd_ply != 0 && (brd_material[brd_side] > 50200) && depth >= 4) {
 		
 		
-		var ePStore = brd_enPas;
+		let ePStore = brd_enPas;
 		if(brd_enPas != SQUARES.NO_SQ) HASH_EP();
 		brd_side ^= 1;
     	HASH_SIDE();
@@ -204,12 +204,12 @@ function AlphaBeta(alpha, beta, depth, DoNull) {
         GenerateMoves();
 	}
       
-    var MoveNum = 0;
-	var Legal = 0;
-	var OldAlpha = alpha;
-	var BestMove = NOMOVE;
+    let MoveNum = 0;
+	let Legal = 0;
+	let OldAlpha = alpha;
+	let BestMove = NOMOVE;
 	Score = -INFINITE;
-	var PvMove = ProbePvTable();		
+	let PvMove = ProbePvTable();		
 	
 	if( PvMove != NOMOVE) {
 		for(MoveNum = brd_moveListStart[brd_ply]; MoveNum < brd_moveListStart[brd_ply + 1]; ++MoveNum) {
@@ -265,14 +265,14 @@ function AlphaBeta(alpha, beta, depth, DoNull) {
 	return alpha;
 } 
 
-var domUpdate_depth;
-var domUpdate_move;
-var domUpdate_score;
-var domUpdate_nodes;
-var domUpdate_ordering;
+let domUpdate_depth;
+let domUpdate_move;
+let domUpdate_score;
+let domUpdate_nodes;
+let domUpdate_ordering;
 
 function UpdateDOMStats() {
-		var scoreText = "Score: " + (domUpdate_score/100).toFixed(2);
+		let scoreText = "Score: " + (domUpdate_score/100).toFixed(2);
 		if(Math.abs(domUpdate_score) > MATE-MAXDEPTH) {
 			scoreText = "Score: " + "Mate In " + (MATE - Math.abs(domUpdate_score)) + " moves";
 		}
@@ -287,11 +287,11 @@ function UpdateDOMStats() {
 
 function SearchPosition() {
 	
-	var bestMove = NOMOVE;
-	var bestScore = -INFINITE;
-	var currentDepth = 0;	
-	var pvNum = 0;
-	var line;
+	let bestMove = NOMOVE;
+	let bestScore = -INFINITE;
+	let currentDepth = 0;	
+	let pvNum = 0;
+	let line;
 	ClearForSearch();
 	
 	if(GameController.BookLoaded == BOOL.TRUE) {
