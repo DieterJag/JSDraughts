@@ -7,4 +7,3 @@ class Capture {
         this.dir = dir;
     }
 }
-

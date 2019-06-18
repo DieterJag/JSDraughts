@@ -52,9 +52,9 @@ function AddCapuresMoves() {
             j <<= 1;
         }
         brd_moveList[brd_moveListStart[brd_ply + 1]] = from | (to << 6) | (piece << 12) | 0x2000;
-        brd_captureList[brd_captuteListStart[brd_ply + 1]] = (bit_king << BRD_CAPTURE_SQ_NUM) | bit_cap;
+        brd_captureList[brd_captureListStart[brd_ply + 1]] = (bit_king << BRD_CAPTURE_SQ_NUM) | bit_cap;
         brd_moveListStart[brd_ply + 1]++;
-        brd_captuteListStart[brd_ply + 1]++;	    
+        brd_captureListStart[brd_ply + 1]++;	    
     })
 }
 
@@ -284,4 +284,28 @@ function GenerateCaptures() {
         index++;
     });
     AddCapuresMoves();
+}
+
+// capure move need to add
+function MoveExists(move) {
+	
+	GenerateCaptures();
+    if (aPathOfCaptures.length == 0) {
+        GenerateMoves();
+    }
+    
+	let index;
+	let moveFound = NOMOVE;
+	for(index = brd_moveListStart[brd_ply]; index < brd_moveListStart[brd_ply + 1]; ++index) {
+	
+		moveFound = brd_moveList[index];	
+		if(MakeMove(moveFound) == BOOL.FALSE) {
+			continue;
+		}				
+		TakeMove();
+		if(move == moveFound) {
+			return BOOL.TRUE;
+		}
+	}
+	return BOOL.FALSE;
 }

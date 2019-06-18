@@ -76,8 +76,8 @@ function PreSearch() {
 
 function StartSearch() {
 	srch_depth = MAXDEPTH;
-	var t = $.now();
-	var tt = $('#ThinkTimeChoice').val();
+	let t = $.now();
+	let tt = $('#ThinkTimeChoice').val();
 	console.log("time:" + t + " TimeChoice:" + tt);
 	srch_time = parseInt(tt) * 1000;
 	SearchPosition(); 	
@@ -97,8 +97,7 @@ function CheckAndSet() {
 		GameController.GameOver = BOOL.TRUE;
 		GameController.GameSaved = BOOL.TRUE; // save the game here
 	}
-	//var fenStr = BoardToFen();
-	 $("#currentFenSpan").text(BoardToFen());
+	$("#currentFenSpan").text(BoardToFen());
 }
 
 function CheckResult() {
@@ -116,8 +115,8 @@ function CheckResult() {
 	console.log('Checking end of game');
 	GenerateMoves();
       
-    var MoveNum = 0;
-	var found = 0;
+    let MoveNum = 0;
+	let found = 0;
 	for(MoveNum = brd_moveListStart[brd_ply]; MoveNum < brd_moveListStart[brd_ply + 1]; ++MoveNum)  {	
        
         if ( MakeMove(brd_moveList[MoveNum]) == BOOL.FALSE)  {

@@ -155,7 +155,7 @@ function Quiescence(alpha, beta) {
 	return alpha;
 }
 
-function AlphaBeta(alpha, beta, depth, DoNull) {
+function AlphaBeta(alpha, beta, depth) {
 
 		
 	if(depth <= 0) {
@@ -176,28 +176,23 @@ function AlphaBeta(alpha, beta, depth, DoNull) {
 	
 	let Score = -INFINITE;
 	
-	if( DoNull == BOOL.TRUE && 
-			brd_ply != 0 && (brd_material[brd_side] > 50200) && depth >= 4) {
+	// if( DoNull == BOOL.TRUE && 
+	// 		brd_ply != 0 && (brd_material[brd_side] > 50200) && depth >= 4) {
 		
 		
-		let ePStore = brd_enPas;
-		if(brd_enPas != SQUARES.NO_SQ) HASH_EP();
-		brd_side ^= 1;
-    	HASH_SIDE();
-    	brd_enPas = SQUARES.NO_SQ;
+	// 	brd_side ^= 1;
+    // 	HASH_SIDE();
+ 		
+	// 	Score = -AlphaBeta( -beta, -beta + 1, depth-4, BOOL.FALSE);
 		
-		Score = -AlphaBeta( -beta, -beta + 1, depth-4, BOOL.FALSE);
+	// 	brd_side ^= 1;
+    // 	HASH_SIDE();
 		
-		brd_side ^= 1;
-    	HASH_SIDE();
-		brd_enPas = ePStore;
-		if(brd_enPas != SQUARES.NO_SQ) HASH_EP();
-		
-		if(srch_stop == BOOL.TRUE) return 0;	
-		if (Score >= beta) {		 
-		  return beta;
-		}	
-	}
+	// 	if(srch_stop == BOOL.TRUE) return 0;	
+	// 	if (Score >= beta) {		 
+	// 	  return beta;
+	// 	}	
+	// }
 		
 	GenerateCaptures();
     if (aPathOfCaptures.length == 0) {
@@ -214,7 +209,7 @@ function AlphaBeta(alpha, beta, depth, DoNull) {
 	if( PvMove != NOMOVE) {
 		for(MoveNum = brd_moveListStart[brd_ply]; MoveNum < brd_moveListStart[brd_ply + 1]; ++MoveNum) {
 			if( brd_moveList[MoveNum] == PvMove) {
-				brd_moveScores[MoveNum].score = 2000000;
+				brd_moveScores[MoveNum] = 2000000; //?????
 				break;
 			}
 		}
@@ -229,7 +224,7 @@ function AlphaBeta(alpha, beta, depth, DoNull) {
         }
         
 		Legal++;
-		Score = -AlphaBeta( -beta, -alpha, depth-1, BOOL.TRUE);
+		Score = -AlphaBeta( -beta, -alpha, depth-1);
 		TakeMove();						
 		if(srch_stop == BOOL.TRUE) return 0;				
 		

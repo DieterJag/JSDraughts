@@ -5,6 +5,9 @@ let MAXGAMEMOVES = 2048;
 let MAXPOSITIONMOVES = 256;
 let MAXDEPTH = 64;
 
+let EC_SIZE = 0x8000;
+let EC_MASK = EC_SIZE - 1;
+
 let INFINITE = 30000;
 let MATE = 29000;
 let NOMOVE = 0;
@@ -22,6 +25,8 @@ let PceChar = ".MKmk";
 let SideChar = "wb-";
 let RankChar = "12345678";
 let FileChar = "abcdefgh";
+
+let MFLAGCAP = 0x2000;
 
 let PieceCol = [ COLOURS.BOTH, COLOURS.WHITE, COLOURS.WHITE, COLOURS.BLACK, COLOURS.BLACK ];
 
