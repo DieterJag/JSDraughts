@@ -91,10 +91,10 @@ function Quiescence(alpha, beta) {
 	}
 	
 	if(brd_ply > MAXDEPTH - 1) {
-		return EvalPosition();
+		return EvalPosition(alpha, beta);
 	}
 	
-	let Score = EvalPosition();
+	let Score = EvalPosition(alpha, beta);
 	
 	if(Score >= beta) {
 		return beta;
@@ -116,7 +116,7 @@ function Quiescence(alpha, beta) {
 	if( PvMove != NOMOVE) {
 		for(MoveNum = brd_moveListStart[brd_ply]; MoveNum < brd_moveListStart[brd_ply + 1]; ++MoveNum) {
 			if( brd_moveList[MoveNum] == PvMove) {
-				brd_moveScores[MoveNum].score = 2000000;
+				brd_moveScores[MoveNum] = 2000000;
 				break;
 			}
 		}
@@ -171,7 +171,7 @@ function AlphaBeta(alpha, beta, depth) {
 	}
 	
 	if(brd_ply > MAXDEPTH - 1) {
-		return EvalPosition(pos);
+		return EvalPosition(alpha, beta);
 	}
 	
 	let Score = -INFINITE;
