@@ -636,7 +636,7 @@ function EvalPosition(alpha, beta) {
                             }
                                                                                                                                 } // (2) danger
                                                                     
-                    if ( ( ( brd_pieces[index+4] & PIECES.bM ) != 0 ) && ( ( brd_pieces[index+8] & WHITE ) != 0 ) ){ // (3) danger
+                    if ( ( ( brd_pieces[index+4] & PIECES.bM ) != 0 ) && ( ( brd_pieces[index+8] == COLORS.WHITE) ) ){ // (3) danger
                     is_square_safe = 0;
                     // can white capture from square
                     if ( brd_pieces[index+10] == PIECES.EMPTY ){b_losing++;break;}
@@ -653,7 +653,7 @@ function EvalPosition(alpha, beta) {
                             }
                                                                                                                                             } // (3) danger
                                                                                                                                             
-                    if ( ( brd_pieces[index+9] == PIECES.EMPTY ) && ( ( brd_pieces[index+1] & WHITE ) != 0 ) ){ // (4) danger
+                    if ( ( brd_pieces[index+9] == PIECES.EMPTY ) && ( ( brd_pieces[index+1] == COLORS.WHITE) ) ){ // (4) danger
                     is_square_safe = 0;          	
                     // can white capture from square+9
                     if ( ( ( brd_pieces[index+4] & PIECES.bM ) != 0 ) && ( brd_pieces[index-1] == PIECES.EMPTY ) ){b_losing++;break;}
@@ -674,8 +674,8 @@ function EvalPosition(alpha, beta) {
                                                                                                                                 } // (4) danger
                                                                                                                                 
                     // incomplete dangers
-                    if ( ( ( brd_pieces[index-5] & PIECES.bM ) != 0 ) && ( ( brd_pieces[index-10] & WHITE ) != 0 ) ){ break; } // (5)
-                    if ( ( ( brd_pieces[index-4] & PIECES.bM ) != 0 ) && ( ( brd_pieces[index-8] & WHITE ) != 0 ) ){ break; } // (6)
+                    if ( ( ( brd_pieces[index-5] & PIECES.bM ) != 0 ) && ( ( brd_pieces[index-10] == COLORS.WHITE) ) ){ break; } // (5)
+                    if ( ( ( brd_pieces[index-4] & PIECES.bM ) != 0 ) && ( ( brd_pieces[index-8] == COLORS.WHITE) ) ){ break; } // (6)
                     // assert( is_square_safe^can_recapture == 1 );
                     b_free += is_square_safe;
                     b_exchanges += can_recapture;    
@@ -686,7 +686,7 @@ function EvalPosition(alpha, beta) {
                     do{
                     let is_square_safe = 1;
                     let can_recapture = 0;
-                    if ( ( brd_pieces[index+8] & WHITE ) != 0 ){ // (1) danger
+                    if ( ( brd_pieces[index+8] == COLORS.WHITE) ){ // (1) danger
                     is_square_safe = 0;
                     // can white capture from square
                     if ( ( ( brd_pieces[index-4] & PIECES.bM ) != 0 ) && ( brd_pieces[index-8] == PIECES.EMPTY ) ){b_losing++; break;}
@@ -706,7 +706,7 @@ function EvalPosition(alpha, beta) {
                             }
                                                                             } // (1) danger
             
-                    if ( ( ( brd_pieces[index+9] & WHITE ) != 0 ) && ( brd_pieces[index-1] == PIECES.EMPTY ) ){ // (2) danger
+                    if ( ( ( brd_pieces[index+9] == COLORS.WHITE) ) && ( brd_pieces[index-1] == PIECES.EMPTY ) ){ // (2) danger
                     is_square_safe = 0;                         
                     // can white capture from (square-1)
                     if ( ( ( brd_pieces[index-5] & PIECES.bM ) != 0 ) && ( brd_pieces[index-9] == PIECES.EMPTY ) ){b_losing++; break;}
@@ -726,7 +726,7 @@ function EvalPosition(alpha, beta) {
                             }
                                                                                                                             } // (2) danger
                                                                     
-                    if ( ( ( brd_pieces[index+5] & PIECES.bM ) != 0 ) && ( ( brd_pieces[index+10] & WHITE ) != 0 ) ){ // (3) danger
+                    if ( ( ( brd_pieces[index+5] & PIECES.bM ) != 0 ) && ( ( brd_pieces[index+10] == COLORS.WHITE) ) ){ // (3) danger
                     is_square_safe = 0;
                     // can white capture from square
                     if ( brd_pieces[index+8] == PIECES.EMPTY ) {b_losing++;break;}
@@ -743,7 +743,7 @@ function EvalPosition(alpha, beta) {
                             }
                                                                                                                     } // (3) danger
                                                                                                                     
-                    if ( ( brd_pieces[index+9] == PIECES.EMPTY ) && ( ( brd_pieces[index-1] & WHITE ) != 0 ) ){  // (4) danger
+                    if ( ( brd_pieces[index+9] == PIECES.EMPTY ) && ( ( brd_pieces[index-1] == COLORS.WHITE) ) ){  // (4) danger
                     is_square_safe = 0;
                     // can white capture from square+9
                     if ( ( ( brd_pieces[index+5] & PIECES.bM ) != 0 ) && ( brd_pieces[index+1] == PIECES.EMPTY ) ){b_losing++;break;}
@@ -763,8 +763,8 @@ function EvalPosition(alpha, beta) {
                             }
                                         }
                     // incomplete dangers
-                    if ( ( ( brd_pieces[index-4] & PIECES.bM ) != 0 ) && ( ( brd_pieces[index-8] & WHITE ) != 0 ) ){ break;} // (5)
-                    if ( ( ( brd_pieces[index-5] & PIECES.bM ) != 0 ) && ( ( brd_pieces[index-10] & WHITE ) != 0 ) ){ break;} // (6)
+                    if ( ( ( brd_pieces[index-4] & PIECES.bM ) != 0 ) && ( ( brd_pieces[index-8] == COLORS.WHITE) ) ){ break;} // (5)
+                    if ( ( ( brd_pieces[index-5] & PIECES.bM ) != 0 ) && ( ( brd_pieces[index-10] == COLORS.WHITE) ) ){ break;} // (6)
                     // assert( is_square_safe^can_recapture == 1 );
                     b_free += is_square_safe;
                     b_exchanges += can_recapture;          
@@ -779,17 +779,17 @@ function EvalPosition(alpha, beta) {
                 if ( ( brd_pieces[index-10] & PIECES.bM ) != 0 ){ // (1) danger
                 is_square_safe = 0;
                 // can black capture from square
-                if ( ( ( brd_pieces[index+5] & WHITE ) != 0 ) && ( brd_pieces[index+10] == PIECES.EMPTY ) ){w_losing++; break;}
-                if ( ( ( brd_pieces[index+4] & WHITE ) != 0 ) && ( brd_pieces[index+8] == PIECES.EMPTY ) ){w_losing++; break;}
-                if ( ( ( brd_pieces[index-4] & WHITE ) != 0 ) && ( brd_pieces[index-8] == PIECES.EMPTY ) ){w_losing++; break;}
+                if ( ( ( brd_pieces[index+5] == COLORS.WHITE) ) && ( brd_pieces[index+10] == PIECES.EMPTY ) ){w_losing++; break;}
+                if ( ( ( brd_pieces[index+4] == COLORS.WHITE) ) && ( brd_pieces[index+8] == PIECES.EMPTY ) ){w_losing++; break;}
+                if ( ( ( brd_pieces[index-4] == COLORS.WHITE) ) && ( brd_pieces[index-8] == PIECES.EMPTY ) ){w_losing++; break;}
                 // can white recapture square
-                if ( ( brd_pieces[index+5] & WHITE ) != 0 )
+                if ( ( brd_pieces[index+5] == COLORS.WHITE) )
                 can_recapture = 1;
                 else          	
-                if ( ( ( brd_pieces[index+4] & WHITE ) != 0 ) && ( brd_pieces[index-4] == PIECES.EMPTY ) )
+                if ( ( ( brd_pieces[index+4] == COLORS.WHITE) ) && ( brd_pieces[index-4] == PIECES.EMPTY ) )
                 can_recapture = 1;
                 else
-                if ( ( brd_pieces[index+4] == PIECES.EMPTY ) && ( ( brd_pieces[index-4] & WHITE ) != 0 ) )
+                if ( ( brd_pieces[index+4] == PIECES.EMPTY ) && ( ( brd_pieces[index-4] == COLORS.WHITE) ) )
                 can_recapture = 1;
                 else{
                 w_losing++;break;
@@ -799,14 +799,14 @@ function EvalPosition(alpha, beta) {
                 if ( ( brd_pieces[index-9] & PIECES.bM ) != 0 && ( brd_pieces[index-1] == PIECES.EMPTY ) ){ // (2) danger
                 is_square_safe = 0;
                 // can black capture from (square-1)
-                if ( ( ( brd_pieces[index+3] & WHITE ) != 0 ) && ( brd_pieces[index+7] == PIECES.EMPTY ) ){w_losing++; break;}
-                if ( ( ( brd_pieces[index+4] & WHITE ) != 0 ) && ( brd_pieces[index+9] == PIECES.EMPTY ) ){w_losing++; break;}
-                if ( ( ( brd_pieces[index-6] & WHITE ) != 0 ) && ( brd_pieces[index-11] == PIECES.EMPTY ) ){w_losing++; break;}
+                if ( ( ( brd_pieces[index+3] == COLORS.WHITE) ) && ( brd_pieces[index+7] == PIECES.EMPTY ) ){w_losing++; break;}
+                if ( ( ( brd_pieces[index+4] == COLORS.WHITE) ) && ( brd_pieces[index+9] == PIECES.EMPTY ) ){w_losing++; break;}
+                if ( ( ( brd_pieces[index-6] == COLORS.WHITE) ) && ( brd_pieces[index-11] == PIECES.EMPTY ) ){w_losing++; break;}
                 // can white recapture (square-1)
-                if ( ( brd_pieces[index+3] & WHITE ) != 0 )
+                if ( ( brd_pieces[index+3] == COLORS.WHITE) )
                 can_recapture = 1;
                 else
-                if ( ( ( brd_pieces[index-6] & WHITE ) != 0 ) && ( brd_pieces[index+4] == PIECES.EMPTY ) )
+                if ( ( ( brd_pieces[index-6] == COLORS.WHITE) ) && ( brd_pieces[index+4] == PIECES.EMPTY ) )
                 can_recapture = 1;
                 else
                     if ( ( brd_pieces[index-6] == PIECES.EMPTY ) && ( ( brd_pieces[index+4] & WHITE ) !=0 ) )
@@ -816,17 +816,17 @@ function EvalPosition(alpha, beta) {
                         }
                                                                                                                         } // (2) danger
                                                                                                                         
-                if ( ( brd_pieces[index-4] & WHITE ) != 0 && ( brd_pieces[index-8] & PIECES.bM ) != 0 ){ // (3) danger
+                if ( ( brd_pieces[index-4] == COLORS.WHITE) && ( brd_pieces[index-8] & PIECES.bM ) != 0 ){ // (3) danger
                 is_square_safe = 0;
                 // can black capture from square
                 if ( brd_pieces[index-10] == PIECES.EMPTY ){w_losing++; break;}
-                if ( ( ( brd_pieces[index+5] & WHITE ) != 0 ) && ( brd_pieces[index+10] == PIECES.EMPTY ) ){w_losing++; break;}
-                if ( ( ( brd_pieces[index+4] & WHITE ) != 0 ) && ( brd_pieces[index+8] == PIECES.EMPTY ) ){w_losing++; break;}
+                if ( ( ( brd_pieces[index+5] == COLORS.WHITE) ) && ( brd_pieces[index+10] == PIECES.EMPTY ) ){w_losing++; break;}
+                if ( ( ( brd_pieces[index+4] == COLORS.WHITE) ) && ( brd_pieces[index+8] == PIECES.EMPTY ) ){w_losing++; break;}
                 // can white recapture square
                 if ( brd_pieces[index+5] == PIECES.EMPTY )
                 can_recapture = 1;
                 else
-                if ( ( brd_pieces[index+4] & WHITE ) != 0 )
+                if ( ( brd_pieces[index+4] == COLORS.WHITE) )
                 can_recapture = 1;
                 else{
                 w_losing++;break;
@@ -836,14 +836,14 @@ function EvalPosition(alpha, beta) {
                 if ( ( brd_pieces[index-9] == PIECES.EMPTY ) && ( brd_pieces[index-1] & PIECES.bM ) != 0 ){ // (4) danger
                 is_square_safe = 0;
                 // can black capture from square-9
-                if ( ( ( brd_pieces[index-4] & WHITE ) != 0 ) && ( brd_pieces[index+1] == PIECES.EMPTY ) ){w_losing++;break;}
-                if ( ( ( brd_pieces[index-14] & WHITE ) != 0 ) && ( brd_pieces[index-19] == PIECES.EMPTY ) ){w_losing++;break;}
-                if ( ( ( brd_pieces[index-13] & WHITE ) != 0 ) && ( brd_pieces[index-17] == PIECES.EMPTY ) ){w_losing++;break;}
+                if ( ( ( brd_pieces[index-4] == COLORS.WHITE) ) && ( brd_pieces[index+1] == PIECES.EMPTY ) ){w_losing++;break;}
+                if ( ( ( brd_pieces[index-14] == COLORS.WHITE) ) && ( brd_pieces[index-19] == PIECES.EMPTY ) ){w_losing++;break;}
+                if ( ( ( brd_pieces[index-13] == COLORS.WHITE) ) && ( brd_pieces[index-17] == PIECES.EMPTY ) ){w_losing++;break;}
                 // can white recapture square-9
-                if ( ( brd_pieces[index-13] & WHITE ) != 0 )
+                if ( ( brd_pieces[index-13] == COLORS.WHITE) )
                 can_recapture = 1;
                 else
-                if ( ( ( brd_pieces[index-14] & WHITE ) != 0 ) && ( brd_pieces[index-4] == PIECES.EMPTY ) )
+                if ( ( ( brd_pieces[index-14] == COLORS.WHITE) ) && ( brd_pieces[index-4] == PIECES.EMPTY ) )
                 can_recapture = 1;
                 else
                     if ( ( brd_pieces[index-14] == PIECES.EMPTY ) && ( ( brd_pieces[index-4] & WHITE ) !=0 ) )
@@ -870,17 +870,17 @@ function EvalPosition(alpha, beta) {
                 if ( ( brd_pieces[index-8] & PIECES.bM ) != 0 ){ // (1) danger
                 is_square_safe = 0;
                 // can black capture from square
-                if ( ( ( brd_pieces[index+4] & WHITE ) != 0 ) && ( brd_pieces[index+8] == PIECES.EMPTY ) ){w_losing++; break;}
-                if ( ( ( brd_pieces[index+5] & WHITE ) != 0 ) && ( brd_pieces[index+10] == PIECES.EMPTY ) ){w_losing++; break;}
-                if ( ( ( brd_pieces[index-5] & WHITE ) != 0 ) && ( brd_pieces[index-10] == PIECES.EMPTY ) ){w_losing++; break;}
+                if ( ( ( brd_pieces[index+4] == COLORS.WHITE) ) && ( brd_pieces[index+8] == PIECES.EMPTY ) ){w_losing++; break;}
+                if ( ( ( brd_pieces[index+5] == COLORS.WHITE) ) && ( brd_pieces[index+10] == PIECES.EMPTY ) ){w_losing++; break;}
+                if ( ( ( brd_pieces[index-5] == COLORS.WHITE) ) && ( brd_pieces[index-10] == PIECES.EMPTY ) ){w_losing++; break;}
                 // can white recapture square
-                if ( ( brd_pieces[index+4] & WHITE ) != 0 )
+                if ( ( brd_pieces[index+4] == COLORS.WHITE) )
                 can_recapture = 1;
                 else
-                if ( ( ( brd_pieces[index+5] & WHITE ) != 0 ) && ( brd_pieces[index-5] == PIECES.EMPTY ) )
+                if ( ( ( brd_pieces[index+5] == COLORS.WHITE) ) && ( brd_pieces[index-5] == PIECES.EMPTY ) )
                 can_recapture = 1;
                 else
-                if ( ( brd_pieces[index+5] == PIECES.EMPTY ) && ( ( brd_pieces[index-5] & WHITE ) != 0 ) )
+                if ( ( brd_pieces[index+5] == PIECES.EMPTY ) && ( ( brd_pieces[index-5] == COLORS.WHITE) ) )
                 can_recapture = 1;
                 else{
                 w_losing++;break;
@@ -890,34 +890,34 @@ function EvalPosition(alpha, beta) {
                 if ( ( brd_pieces[index-9] & PIECES.bM ) != 0 && ( brd_pieces[index+1] == PIECES.EMPTY ) ){ // (2) danger
                 is_square_safe = 0;
                 // can black capture from (square+1)
-                if ( ( ( brd_pieces[index+6] & WHITE ) != 0 ) && ( brd_pieces[index+11] == PIECES.EMPTY ) ){w_losing++; break;}
-                if ( ( ( brd_pieces[index+5] & WHITE ) != 0 ) && ( brd_pieces[index+9] == PIECES.EMPTY ) ){w_losing++;break;}
-                if ( ( ( brd_pieces[index-3] & WHITE ) != 0 ) && ( brd_pieces[index-7] == PIECES.EMPTY ) ){w_losing++; break;}
+                if ( ( ( brd_pieces[index+6] == COLORS.WHITE) ) && ( brd_pieces[index+11] == PIECES.EMPTY ) ){w_losing++; break;}
+                if ( ( ( brd_pieces[index+5] == COLORS.WHITE) ) && ( brd_pieces[index+9] == PIECES.EMPTY ) ){w_losing++;break;}
+                if ( ( ( brd_pieces[index-3] == COLORS.WHITE) ) && ( brd_pieces[index-7] == PIECES.EMPTY ) ){w_losing++; break;}
                 // can white recapture (square+1)
-                if ( ( ( brd_pieces[index+6] & WHITE ) != 0 ) )
+                if ( ( ( brd_pieces[index+6] == COLORS.WHITE) ) )
                 can_recapture = 1;
                 else
-                if ( ( ( brd_pieces[index-3] & WHITE ) != 0 ) && ( brd_pieces[index+5] == PIECES.EMPTY ) )
+                if ( ( ( brd_pieces[index-3] == COLORS.WHITE) ) && ( brd_pieces[index+5] == PIECES.EMPTY ) )
                 can_recapture = 1;
                 else
-                if ( ( brd_pieces[index-3] == PIECES.EMPTY ) && ( ( brd_pieces[index+5] & WHITE ) != 0 ) )
+                if ( ( brd_pieces[index-3] == PIECES.EMPTY ) && ( ( brd_pieces[index+5] == COLORS.WHITE) ) )
                 can_recapture = 1;
                 else{
                 w_losing++;break;
                     }
                                                                                                                         } // (2) danger
                                                                                                                         
-                if ( ( brd_pieces[index-5] & WHITE ) != 0 && ( brd_pieces[index-10] & PIECES.bM ) != 0 ){ // (3) danger
+                if ( ( brd_pieces[index-5] == COLORS.WHITE) && ( brd_pieces[index-10] & PIECES.bM ) != 0 ){ // (3) danger
                 is_square_safe = 0;         	
                 // can black capture from square
                 if ( brd_pieces[index-8] == PIECES.EMPTY ){w_losing++; break;}
-                if ( ( ( brd_pieces[index+5] & WHITE ) != 0 ) && ( brd_pieces[index+10] == PIECES.EMPTY ) ){w_losing++; break;}
-                if ( ( ( brd_pieces[index+4] & WHITE ) != 0 ) && ( brd_pieces[index+8] == PIECES.EMPTY ) ){w_losing++; break;}
+                if ( ( ( brd_pieces[index+5] == COLORS.WHITE) ) && ( brd_pieces[index+10] == PIECES.EMPTY ) ){w_losing++; break;}
+                if ( ( ( brd_pieces[index+4] == COLORS.WHITE) ) && ( brd_pieces[index+8] == PIECES.EMPTY ) ){w_losing++; break;}
                 // can white recapture square
                 if ( brd_pieces[index+4] == PIECES.EMPTY )
                 can_recapture = 1;
                 else
-                if ( ( brd_pieces[index+5] & WHITE ) != 0 )
+                if ( ( brd_pieces[index+5] == COLORS.WHITE) )
                 can_recapture = 1;
                 else{
                 w_losing++;break;
@@ -927,14 +927,14 @@ function EvalPosition(alpha, beta) {
                 if ( ( brd_pieces[index-9] == PIECES.EMPTY ) && ( ( brd_pieces[index+1] & PIECES.bM ) != 0 ) ){ // (4) danger
                 is_square_safe = 0;
                 // can black capture from square-9
-                if ( ( ( brd_pieces[index-14] & WHITE ) != 0 ) && ( brd_pieces[index-19] == PIECES.EMPTY ) ){w_losing++;break;}
-                if ( ( ( brd_pieces[index-13] & WHITE ) != 0 ) && ( brd_pieces[index-17] == PIECES.EMPTY ) ){w_losing++;break;}
-                if ( ( ( brd_pieces[index-5] & WHITE ) != 0 ) && ( brd_pieces[index-1] == PIECES.EMPTY ) ){w_losing++;break;}
+                if ( ( ( brd_pieces[index-14] == COLORS.WHITE) ) && ( brd_pieces[index-19] == PIECES.EMPTY ) ){w_losing++;break;}
+                if ( ( ( brd_pieces[index-13] == COLORS.WHITE) ) && ( brd_pieces[index-17] == PIECES.EMPTY ) ){w_losing++;break;}
+                if ( ( ( brd_pieces[index-5] == COLORS.WHITE) ) && ( brd_pieces[index-1] == PIECES.EMPTY ) ){w_losing++;break;}
                 // can white recapture square-9
-                if ( ( brd_pieces[index-14] & WHITE ) != 0 )
+                if ( ( brd_pieces[index-14] == COLORS.WHITE) )
                 can_recapture = 1;
                 else
-                if ( ( ( brd_pieces[index-13] & WHITE ) != 0 ) && ( brd_pieces[index-5] == PIECES.EMPTY ) )
+                if ( ( ( brd_pieces[index-13] == COLORS.WHITE) ) && ( brd_pieces[index-5] == PIECES.EMPTY ) )
                 can_recapture = 1;
                 else
                 if ( ( brd_pieces[index-13] == PIECES.EMPTY ) && ( ( brd_pieces[index-5] & WHITE ) !=0 ) )
@@ -1014,344 +1014,315 @@ function EvalPosition(alpha, beta) {
     if ( brd_pieces[28] == PIECES.bM ){ // b6 ?
         do{
             if ( ( brd_pieces[32] == PIECES.EMPTY ) && ( brd_pieces[37] == PIECES.EMPTY ) ){ endgame += 24;break;}
-            if ( brd_side != BLACK ) break;
-            if (( brd_pieces[38] & WHITE ) != 0 ) break;
+            if ( brd_side == COLORS.BLACK ) break;
+            if (( brd_pieces[38] == COLORS.WHITE) ) break;
             if ( brd_pieces[33] != PIECES.EMPTY ) break;
-            if ( ( ( brd_pieces[37] & WHITE ) != 0 ) && ( brd_pieces[29] == PIECES.EMPTY )) break;
-            if ( ( ( brd_pieces[29] & WHITE ) != 0 ) && ( brd_pieces[37] == PIECES.EMPTY )) break;
+            if ( ( ( brd_pieces[37] == COLORS.WHITE) ) && ( brd_pieces[29] == PIECES.EMPTY )) break;
+            if ( ( ( brd_pieces[29] == COLORS.WHITE) ) && ( brd_pieces[37] == PIECES.EMPTY )) break;
             endgame += 12;
         }while(0);
     }
     
     if ( brd_pieces[29] == PIECES.bM ){ // d6 ?
-    do{
-    if ( color != BLACK ) break;
-    if ( brd_pieces[34] != PIECES.EMPTY ) break;
-    if ( ( brd_pieces[39] & WHITE ) != 0 ) break;
-    if ( ( brd_pieces[38] == PIECES.EMPTY ) && ( ( brd_pieces[30] & WHITE ) != 0 ) ) break;
-    if ( ( ( brd_pieces[38] & WHITE ) != 0 ) && ( brd_pieces[30] == PIECES.EMPTY ) ) break;	
-    endgame += 12;
+        do{
+            if ( brd_side != COLORS.BLACK ) break;
+            if ( brd_pieces[34] != PIECES.EMPTY ) break;
+            if ( ( brd_pieces[39] == COLORS.WHITE) ) break;
+            if ( ( brd_pieces[38] == PIECES.EMPTY ) && ( ( brd_pieces[30] == COLORS.WHITE) ) ) break;
+            if ( ( ( brd_pieces[38] == COLORS.WHITE) ) && ( brd_pieces[30] == PIECES.EMPTY ) ) break;	
+            endgame += 12;
         }while(0);
-    do{
-    if ( color != BLACK ) break;
-    if ( brd_pieces[33] != PIECES.EMPTY ) break;
-    if ( ( brd_pieces[37] & WHITE ) != 0 ) break;
-    if ( ( brd_pieces[38] == PIECES.EMPTY ) && ( ( brd_pieces[28] & WHITE ) != 0 ) ) break;
-    if ( ( ( brd_pieces[38] & WHITE ) != 0 ) && ( brd_pieces[28] == PIECES.EMPTY ) ) break;	
-    endgame += 12;
+        do{
+            if ( brd_side != COLORS.BLACK ) break;
+            if ( brd_pieces[33] != PIECES.EMPTY ) break;
+            if ( ( brd_pieces[37] == COLORS.WHITE) ) break;
+            if ( ( brd_pieces[38] == PIECES.EMPTY ) && ( ( brd_pieces[28] == COLORS.WHITE) ) ) break;
+            if ( ( ( brd_pieces[38] == COLORS.WHITE) ) && ( brd_pieces[28] == PIECES.EMPTY ) ) break;	
+            endgame += 12;
         }while(0);
-                                            }
+    }
                                             
     if ( brd_pieces[30] == PIECES.bM ){ // f6 ?
-    do{
-    if ( color != BLACK ) break;
-    if ( brd_pieces[35] != PIECES.EMPTY ) break;
-    if ( ( brd_pieces[40] & WHITE ) != 0 ) break;
-    if ( ( brd_pieces[39] == PIECES.EMPTY ) && ( ( brd_pieces[31] & WHITE ) != 0 ) ) break;
-    if ( ( ( brd_pieces[39] & WHITE ) != 0 ) && ( brd_pieces[31] == PIECES.EMPTY ) ) break;
-    endgame += 12;
+        do{
+            if ( brd_side != COLORS.BLACK ) break;
+            if ( brd_pieces[35] != PIECES.EMPTY ) break;
+            if ( ( brd_pieces[40] == COLORS.WHITE) ) break;
+            if ( ( brd_pieces[39] == PIECES.EMPTY ) && ( ( brd_pieces[31] == COLORS.WHITE) ) ) break;
+            if ( ( ( brd_pieces[39] == COLORS.WHITE) ) && ( brd_pieces[31] == PIECES.EMPTY ) ) break;
+            endgame += 12;
         }while(0);
-    do{
-    if ( color != BLACK ) break;
-    if ( brd_pieces[34] != PIECES.EMPTY ) break;
-    if ( ( brd_pieces[38] & WHITE ) != 0 ) break;
-    if ( ( brd_pieces[39] == PIECES.EMPTY ) && ( ( brd_pieces[29] & WHITE ) != 0 ) ) break;
-    if ( ( ( brd_pieces[39] & WHITE ) != 0 ) && ( brd_pieces[29] == PIECES.EMPTY ) ) break;
-    endgame += 12;
+        do{
+            if ( brd_side != COLORS.BLACK ) break;
+            if ( brd_pieces[34] != PIECES.EMPTY ) break;
+            if ( ( brd_pieces[38] == COLORS.WHITE) ) break;
+            if ( ( brd_pieces[39] == PIECES.EMPTY ) && ( ( brd_pieces[29] == COLORS.WHITE) ) ) break;
+            if ( ( ( brd_pieces[39] == COLORS.WHITE) ) && ( brd_pieces[29] == PIECES.EMPTY ) ) break;
+            endgame += 12;
         }while(0);
-                                                }
+    }
                                                 
     if ( brd_pieces[31] == PIECES.bM ){ // h6 ?
-    if ( is_wht_kng(b) == 0 ){
-    if ( brd_pieces[39] == PIECES.EMPTY && brd_pieces[40] == PIECES.wM )
-    endgame += 8;
-    if ( brd_pieces[24] == PIECES.bM )  // h6 + c5
-    endgame += 8;
-    do{
-    if ( color != BLACK ) break;
-    if (( brd_pieces[39] & WHITE ) != 0 ) break;
-    if ( brd_pieces[35] != PIECES.EMPTY ) break;
-    if ( ( ( brd_pieces[30] & WHITE ) != 0 ) && ( brd_pieces[40] == PIECES.EMPTY ) ) break;
-    if ( ( brd_pieces[30] == PIECES.EMPTY ) && ( ( brd_pieces[40] & WHITE ) != 0 ) ) break;
-    endgame += 12;
-        }while(0);
-                                            }
-                    }                                            
+        if ( is_wht_kng(b) == 0 ){
+            if ( brd_pieces[39] == PIECES.EMPTY && brd_pieces[40] == PIECES.wM ) endgame += 8;
+            if ( brd_pieces[24] == PIECES.bM ) endgame += 8;
+            do{
+                if ( brd_side != COLORS.BLACK ) break;
+                if (( brd_pieces[39] == COLORS.WHITE) ) break;
+                if ( brd_pieces[35] != PIECES.EMPTY ) break;
+                if ( ( ( brd_pieces[30] == COLORS.WHITE) ) && ( brd_pieces[40] == PIECES.EMPTY ) ) break;
+                if ( ( brd_pieces[30] == PIECES.EMPTY ) && ( ( brd_pieces[40] == COLORS.WHITE) ) ) break;
+                endgame += 12;
+            }while(0);
+        }
+    }                                            
     // passers on a3,c3,e3,g3
     if ( brd_pieces[14] == PIECES.wM ){ // a3 ?
-    if ( is_blk_kng(b) == 0 ){
-    if ( brd_pieces[6] == PIECES.EMPTY && brd_pieces[5] == PIECES.bM )
-    endgame -= 8;
-    if ( brd_pieces[21] == PIECES.wM ) // a3 + f4
-    endgame -= 8;
-    do{
-    if ( color != WHITE ) break;
-    if (( brd_pieces[6] & BLACK) != 0) break;
-    if ( brd_pieces[10] != PIECES.EMPTY ) break;
-    if ( ( ( brd_pieces[5] & BLACK ) != 0 ) && ( brd_pieces[15] == PIECES.EMPTY ) ) break;
-    if ( ( brd_pieces[5] == PIECES.EMPTY ) && ( ( brd_pieces[15] & BLACK) != 0 ) ) break;
-    endgame -= 12;
-        }while(0);
-                                                }
-                                                }
+        if ( is_blk_kng(b) == 0 ){
+            if ( brd_pieces[6] == PIECES.EMPTY && brd_pieces[5] == PIECES.bM )
+            endgame -= 8;
+            if ( brd_pieces[21] == PIECES.wM ) // a3 + f4
+            endgame -= 8;
+            do{
+                if ( brd_side != COLORS.WHITE ) break;
+                if (( brd_pieces[6] == COLORS.BLACK)) break;
+                if ( brd_pieces[10] != PIECES.EMPTY ) break;
+                if ( ( ( brd_pieces[5]  == COLORS.BLACK ) ) && ( brd_pieces[15] == PIECES.EMPTY ) ) break;
+                if ( ( brd_pieces[5] == PIECES.EMPTY ) && ( ( brd_pieces[15] == COLORS.BLACK) ) ) break;
+                endgame -= 12;
+            }while(0);
+        }
+    }
     
     if ( brd_pieces[15] == PIECES.wM ){ // c3 ?
-    do{
-    if ( color != WHITE ) break;
-    if ( brd_pieces[10] != PIECES.EMPTY ) break;
-    if ( ( brd_pieces[5] & BLACK ) != 0 ) break;
-    if ( ( brd_pieces[6] == PIECES.EMPTY ) && ( ( brd_pieces[14] & BLACK ) != 0 ) ) break;
-    if ( ( ( brd_pieces[6] & BLACK ) != 0 ) && ( brd_pieces[14] == PIECES.EMPTY ) ) break;
-    endgame -= 12;
+        do{
+            if ( brd_side != COLORS.WHITE ) break;
+            if ( brd_pieces[10] != PIECES.EMPTY ) break;
+            if ( ( brd_pieces[5]  == COLORS.BLACK ) ) break;
+            if ( ( brd_pieces[6] == PIECES.EMPTY ) && ( ( brd_pieces[14]  == COLORS.BLACK ) ) ) break;
+            if ( ( ( brd_pieces[6]  == COLORS.BLACK ) ) && ( brd_pieces[14] == PIECES.EMPTY ) ) break;
+            endgame -= 12;
         }while(0);
-    do{
-    if ( color != WHITE ) break;
-    if ( brd_pieces[11] != PIECES.EMPTY ) break;
-    if ( ( brd_pieces[7] & BLACK ) != 0 ) break;
-    if ( ( brd_pieces[6] == PIECES.EMPTY ) && ( ( brd_pieces[16] & BLACK ) != 0 ) ) break;
-    if ( ( ( brd_pieces[6] & BLACK ) != 0 ) && ( brd_pieces[16] == PIECES.EMPTY ) ) break;
-    endgame -= 12;
+        do{
+            if ( brd_side != COLORS.WHITE ) break;
+            if ( brd_pieces[11] != PIECES.EMPTY ) break;
+            if ( ( brd_pieces[7]  == COLORS.BLACK ) ) break;
+            if ( ( brd_pieces[6] == PIECES.EMPTY ) && ( ( brd_pieces[16]  == COLORS.BLACK ) ) ) break;
+            if ( ( ( brd_pieces[6]  == COLORS.BLACK ) ) && ( brd_pieces[16] == PIECES.EMPTY ) ) break;
+            endgame -= 12;
         }while(0);
-                                                }
+    }
                                                 
     if ( brd_pieces[16] == PIECES.wM ){ // e3 ?
-    do{
-    if ( color != WHITE ) break;
-    if ( brd_pieces[11] != PIECES.EMPTY ) break;
-    if ( ( brd_pieces[6] & BLACK ) != 0 ) break;
-    if ( ( brd_pieces[7] == PIECES.EMPTY ) && ( ( brd_pieces[15] & BLACK ) != 0 ) ) break;
-    if ( ( ( brd_pieces[7] & BLACK ) != 0 ) && ( brd_pieces[15] == PIECES.EMPTY ) ) break;
-    endgame -= 12;
+        do{
+            if ( brd_side != COLORS.WHITE ) break;
+            if ( brd_pieces[11] != PIECES.EMPTY ) break;
+            if ( ( brd_pieces[6]  == COLORS.BLACK ) ) break;
+            if ( ( brd_pieces[7] == PIECES.EMPTY ) && ( ( brd_pieces[15] == COLORS.BLACK ) ) ) break;
+            if ( ( ( brd_pieces[7] == COLORS.BLACK ) ) && ( brd_pieces[15] == PIECES.EMPTY ) ) break;
+            endgame -= 12;
         }while(0);
-    do{
-    if ( color != WHITE ) break;
-    if ( brd_pieces[12] != PIECES.EMPTY ) break;
-    if ( ( brd_pieces[8] & BLACK ) != 0 ) break;
-    if ( ( brd_pieces[7] == PIECES.EMPTY ) && ( ( brd_pieces[17] & BLACK ) != 0 ) ) break;
-    if ( ( ( brd_pieces[7] & BLACK ) != 0 ) && ( brd_pieces[17] == PIECES.EMPTY ) ) break;
-    endgame -= 12;
+        do{
+            if ( brd_side != COLORS.WHITE ) break;
+            if ( brd_pieces[12] != PIECES.EMPTY ) break;
+            if ( ( brd_pieces[8] == COLORS.BLACK ) ) break;
+            if ( ( brd_pieces[7] == PIECES.EMPTY ) && ( ( brd_pieces[17] == COLORS.BLACK ) ) ) break;
+            if ( ( ( brd_pieces[7] == COLORS.BLACK ) ) && ( brd_pieces[17] == PIECES.EMPTY ) ) break;
+            endgame -= 12;
         }while(0);
-                                                }
+    }
     
     if ( brd_pieces[17] == PIECES.wM ){ // g3 ?
-    do{
-    if ( ( brd_pieces[8] == PIECES.EMPTY ) && ( brd_pieces[13] == PIECES.EMPTY ) ){ endgame -= 24;break;}
-    if ( color != WHITE ) break;
-    if ( (brd_pieces[7] & BLACK) != 0 ) break;
-    if ( brd_pieces[12] != PIECES.EMPTY ) break;   	
-    if ( ( ( brd_pieces[8] & BLACK ) != 0 ) && ( brd_pieces[16] == PIECES.EMPTY ) ) break;
-    if ( ( brd_pieces[8] == PIECES.EMPTY ) && ( ( brd_pieces[16] & BLACK ) != 0 ) ) break;
-    endgame -= 12;
+        do{
+            if ( ( brd_pieces[8] == PIECES.EMPTY ) && ( brd_pieces[13] == PIECES.EMPTY ) ){ endgame -= 24;break;}
+            if ( brd_side != COLORS.WHITE ) break;
+            if ( (brd_pieces[7] == COLORS.BLACK) ) break;
+            if ( brd_pieces[12] != PIECES.EMPTY ) break;   	
+            if ( ( ( brd_pieces[8] == COLORS.BLACK ) ) && ( brd_pieces[16] == PIECES.EMPTY ) ) break;
+            if ( ( brd_pieces[8] == PIECES.EMPTY ) && ( ( brd_pieces[16]  == COLORS.BLACK ) ) ) break;
+            endgame -= 12;
         }while(0);
-                                                }
+    }
     // stroennost shashek  
     let shadow = 5; // bonus for stroennost
     // stroennost for black
-    if ( (brd_pieces[16] & BLACK) != 0 )
-    if ( (brd_pieces[11] & BLACK) != 0 )
-    if ( (brd_pieces[6] & BLACK) != 0 )
-    if ( brd_pieces[21] == PIECES.EMPTY )
-        eval += shadow;
-    if ( (brd_pieces[16] & BLACK) != 0 )
-    if ( (brd_pieces[12] & BLACK) != 0 )
-    if ( (brd_pieces[8] & BLACK) != 0 )
-    if ( brd_pieces[20] == PIECES.EMPTY )
-        eval += shadow;
-    if ( (brd_pieces[20] & BLACK) != 0 )
-    if ( (brd_pieces[15] & BLACK) != 0 )
-    if ( (brd_pieces[10] & BLACK) != 0 )
-    if ( brd_pieces[25] == PIECES.EMPTY )
-        eval += shadow;
-    if ( (brd_pieces[20] & BLACK) != 0 )
-    if ( (brd_pieces[16] & BLACK) != 0 )
-    if ( (brd_pieces[12] & BLACK) != 0 )
-    if ( brd_pieces[24] == PIECES.EMPTY )
-        eval += shadow;
-    if ( (brd_pieces[25] & BLACK) != 0 )
-    if ( (brd_pieces[20] & BLACK) != 0 )
-    if ( (brd_pieces[15] & BLACK) != 0 )
-    if ( brd_pieces[30] == PIECES.EMPTY )
-        eval += shadow;
+    if ( (brd_pieces[16] == COLORS.BLACK) )
+    if ( (brd_pieces[11] == COLORS.BLACK) )
+    if ( (brd_pieces[6] == COLORS.BLACK) )
+    if ( brd_pieces[21] == PIECES.EMPTY ) eval += shadow;
+    if ( (brd_pieces[16] == COLORS.BLACK) )
+    if ( (brd_pieces[12] == COLORS.BLACK) )
+    if ( (brd_pieces[8] == COLORS.BLACK) )
+    if ( brd_pieces[20] == PIECES.EMPTY ) eval += shadow;
+    if ( (brd_pieces[20] == COLORS.BLACK) )
+    if ( (brd_pieces[15] == COLORS.BLACK) )
+    if ( (brd_pieces[10] == COLORS.BLACK) )
+    if ( brd_pieces[25] == PIECES.EMPTY ) eval += shadow;
+    if ( (brd_pieces[20] == COLORS.BLACK) )
+    if ( (brd_pieces[16] == COLORS.BLACK) )
+    if ( (brd_pieces[12] == COLORS.BLACK) )
+    if ( brd_pieces[24] == PIECES.EMPTY ) eval += shadow;
+    if ( (brd_pieces[25] == COLORS.BLACK) )
+    if ( (brd_pieces[20] == COLORS.BLACK) )
+    if ( (brd_pieces[15] == COLORS.BLACK) )
+    if ( brd_pieces[30] == PIECES.EMPTY ) eval += shadow;
     
     // stroennost for white
-    if ( (brd_pieces[29] & WHITE) != 0 )
-    if ( (brd_pieces[34] & WHITE) != 0 )
-    if ( (brd_pieces[39] & WHITE) != 0 )
-    if ( brd_pieces[24] == PIECES.EMPTY )
-        eval -= shadow;
-    if ( (brd_pieces[29] & WHITE) != 0 )
-    if ( (brd_pieces[33] & WHITE) != 0 )
-    if ( (brd_pieces[37] & WHITE) != 0 )
-    if ( brd_pieces[25] == PIECES.EMPTY )
-        eval -= shadow;
-    if ( (brd_pieces[25] & WHITE) != 0 )
-    if ( (brd_pieces[30] & WHITE) != 0 )
-    if ( (brd_pieces[35] & WHITE) != 0 )
-    if ( brd_pieces[20] == PIECES.EMPTY )
-        eval -= shadow;
-    if ( (brd_pieces[25] & WHITE) != 0 )
-    if ( (brd_pieces[29] & WHITE) != 0 )
-    if ( (brd_pieces[33] & WHITE) != 0 )
-    if ( brd_pieces[21] == PIECES.EMPTY )
-        eval -= shadow;
-    if ( (brd_pieces[20] & WHITE) != 0 )
-    if ( (brd_pieces[25] & WHITE) != 0 )
-    if ( (brd_pieces[30] & WHITE) != 0 )
-    if ( brd_pieces[15] == PIECES.EMPTY )
-        eval -= shadow;
+    if ( (brd_pieces[29] == COLORS.WHITE) )
+    if ( (brd_pieces[34] == COLORS.WHITE) )
+    if ( (brd_pieces[39] == COLORS.WHITE) )
+    if ( brd_pieces[24] == PIECES.EMPTY ) eval -= shadow;
+    if ( (brd_pieces[29] == COLORS.WHITE) )
+    if ( (brd_pieces[33] == COLORS.WHITE) )
+    if ( (brd_pieces[37] == COLORS.WHITE) )
+    if ( brd_pieces[25] == PIECES.EMPTY ) eval -= shadow;
+    if ( (brd_pieces[25] == COLORS.WHITE) )
+    if ( (brd_pieces[30] == COLORS.WHITE) )
+    if ( (brd_pieces[35] == COLORS.WHITE) )
+    if ( brd_pieces[20] == PIECES.EMPTY ) eval -= shadow;
+    if ( (brd_pieces[25] == COLORS.WHITE) )
+    if ( (brd_pieces[29] == COLORS.WHITE) )
+    if ( (brd_pieces[33] == COLORS.WHITE) )
+    if ( brd_pieces[21] == PIECES.EMPTY ) eval -= shadow;
+    if ( (brd_pieces[20] == COLORS.WHITE) )
+    if ( (brd_pieces[25] == COLORS.WHITE) )
+    if ( (brd_pieces[30] == COLORS.WHITE) )
+    if ( brd_pieces[15] == PIECES.EMPTY ) eval -= shadow;
     // end stroennost
     let attackers,defenders;
     if ( brd_pieces[24] == PIECES.bM ){ // brd_pieces[24] safety
-        if ( brd_pieces[25] == PIECES.wM )
-        eval -= 10;
-        if (( brd_pieces[31] != PIECES.bM ) && ( brd_pieces[34] == PIECES.wM ) && ( brd_pieces[39] == PIECES.wM ))
-        eval -= 10; // bad for brd_pieces[24]
-        if ( ( brd_pieces[23] == PIECES.wM ) && ( brd_pieces[14] != PIECES.EMPTY ) && ( brd_pieces[15] == PIECES.EMPTY ) && ( brd_pieces[19] == PIECES.EMPTY ))   	
-        eval -= 10; // bad for brd_pieces[24]
+        if ( brd_pieces[25] == PIECES.wM ) eval -= 10;
+        if (( brd_pieces[31] != PIECES.bM ) && ( brd_pieces[34] == PIECES.wM ) && ( brd_pieces[39] == PIECES.wM )) eval -= 10; // bad for brd_pieces[24]
+        if ( ( brd_pieces[23] == PIECES.wM ) && ( brd_pieces[14] != PIECES.EMPTY ) && 
+            ( brd_pieces[15] == PIECES.EMPTY ) && ( brd_pieces[19] == PIECES.EMPTY )) eval -= 10; // bad for brd_pieces[24]
         attackers = defenders = 0;
-        if ( brd_pieces[5] == PIECES.bM )
-            defenders++;
-        if ( brd_pieces[6] == PIECES.bM )
-                defenders++;
-        if ( brd_pieces[10] == PIECES.bM )
-            defenders++;
-        if ( brd_pieces[14] == PIECES.bM )
-            defenders++;
-        if ( brd_pieces[29] == PIECES.wM )
-            attackers++;
-        if ( brd_pieces[33] == PIECES.wM )
-                attackers++;
-        if ( brd_pieces[37] == PIECES.wM )
-            attackers++;
-        if ( brd_pieces[38] == PIECES.wM )
-            attackers++;	   
+        if ( brd_pieces[5] == PIECES.bM ) defenders++;
+        if ( brd_pieces[6] == PIECES.bM ) defenders++;
+        if ( brd_pieces[10] == PIECES.bM ) defenders++;
+        if ( brd_pieces[14] == PIECES.bM ) defenders++;
+        if ( brd_pieces[29] == PIECES.wM ) attackers++;
+        if ( brd_pieces[33] == PIECES.wM ) attackers++;
+        if ( brd_pieces[37] == PIECES.wM ) attackers++;
+        if ( brd_pieces[38] == PIECES.wM ) attackers++;	   
         // must be defenders >= attackers
-        if ( defenders < attackers )
-            eval -= 20; 
-                                }
+        if ( defenders < attackers ) eval -= 20; 
+    }
                                                 
     if ( brd_pieces[21] == PIECES.wM ){ // brd_pieces[21] safety
-        if ( brd_pieces[20] == PIECES.bM )
-            eval += 10;
-        if ( ( brd_pieces[14] != PIECES.wM ) && ( brd_pieces[6] == PIECES.bM ) && ( brd_pieces[11] == PIECES.bM ))
-        eval += 10; // bad for brd_pieces[21]
-    if ( ( brd_pieces[22] == PIECES.bM ) && ( brd_pieces[31] != PIECES.EMPTY ) && ( brd_pieces[30] == PIECES.EMPTY ) && ( brd_pieces[26] == PIECES.EMPTY )) 
-        eval += 10; // bad for brd_pieces[21]
+        if ( brd_pieces[20] == PIECES.bM ) eval += 10;
+        if ( ( brd_pieces[14] != PIECES.wM ) && ( brd_pieces[6] == PIECES.bM ) && ( brd_pieces[11] == PIECES.bM )) eval += 10; // bad for brd_pieces[21]
+        if ( ( brd_pieces[22] == PIECES.bM ) && ( brd_pieces[31] != PIECES.EMPTY ) && 
+            ( brd_pieces[30] == PIECES.EMPTY ) && ( brd_pieces[26] == PIECES.EMPTY )) eval += 10; // bad for brd_pieces[21]
         attackers = defenders = 0;
-        if ( brd_pieces[39] == PIECES.wM )
-            defenders++;
-        if ( brd_pieces[40] == PIECES.wM )
-                defenders++;
-        if ( brd_pieces[35] == PIECES.wM )
-                defenders++;
-        if ( brd_pieces[31] == PIECES.wM )
-                defenders++;
-        if ( brd_pieces[16] == PIECES.bM )
-                attackers++;
-        if ( brd_pieces[12] == PIECES.bM )
-                attackers++;
-        if ( brd_pieces[8] == PIECES.bM )
-                attackers++;
-        if ( brd_pieces[7] == PIECES.bM )
-                attackers++;
+        if ( brd_pieces[39] == PIECES.wM ) defenders++;
+        if ( brd_pieces[40] == PIECES.wM ) defenders++;
+        if ( brd_pieces[35] == PIECES.wM ) defenders++;
+        if ( brd_pieces[31] == PIECES.wM ) defenders++;
+        if ( brd_pieces[16] == PIECES.bM ) attackers++;
+        if ( brd_pieces[12] == PIECES.bM ) attackers++;
+        if ( brd_pieces[8] == PIECES.bM ) attackers++;
+        if ( brd_pieces[7] == PIECES.bM ) attackers++;
         // must be defenders >= attackers
-        if ( defenders < attackers )
-            eval += 20;
-                                                    }                                     
+        if ( defenders < attackers ) eval += 20;
+    }                                     
                                                 
     // blocked pieces in quadrants
-    if ( ( brd_pieces[23] == PIECES.wM ) && ( brd_pieces[14] == PIECES.bM ) && ( brd_pieces[15] == PIECES.bM ) && ( brd_pieces[19] == PIECES.bM)){
-    eval -= 40;
-                }
+    if ( ( brd_pieces[23] == PIECES.wM ) && ( brd_pieces[14] == PIECES.bM ) && 
+        ( brd_pieces[15] == PIECES.bM ) && ( brd_pieces[19] == PIECES.bM)){
+        eval -= 40;
+    }
     
-    if (( brd_pieces[11] == PIECES.bM ) && ( brd_pieces[15] == PIECES.bM ) && ( brd_pieces[16] == PIECES.bM ) && ( brd_pieces[20] == PIECES.bM)){
-    if (( brd_pieces[24] == PIECES.wM ) && ( brd_pieces[28] == PIECES.wM ) && ( brd_pieces[25] == PIECES.wM ) && ( brd_pieces[30] == PIECES.wM)){
-    eval -= 40;
-    if (( brd_pieces[6] == PIECES.bM ) && ( brd_pieces[10] == PIECES.EMPTY ) && ( brd_pieces[14] != PIECES.wM ))
-    eval += 10;
-    if (( brd_pieces[7] == PIECES.bM ) && ( brd_pieces[12] == PIECES.EMPTY ) && ( brd_pieces[17] != PIECES.wM ))
-    eval += 10;
-                }
-                }
+    if (( brd_pieces[11] == PIECES.bM ) && ( brd_pieces[15] == PIECES.bM ) && 
+        ( brd_pieces[16] == PIECES.bM ) && ( brd_pieces[20] == PIECES.bM)){
+        if (( brd_pieces[24] == PIECES.wM ) && ( brd_pieces[28] == PIECES.wM ) && 
+            ( brd_pieces[25] == PIECES.wM ) && ( brd_pieces[30] == PIECES.wM)){
+            eval -= 40;
+            if (( brd_pieces[6] == PIECES.bM ) && ( brd_pieces[10] == PIECES.EMPTY ) && 
+                ( brd_pieces[14] != PIECES.wM )) eval += 10;
+            if (( brd_pieces[7] == PIECES.bM ) && ( brd_pieces[12] == PIECES.EMPTY ) && 
+                ( brd_pieces[17] != PIECES.wM )) eval += 10;
+        }
+    }
     
-    if (( brd_pieces[12] == PIECES.bM ) && ( brd_pieces[16] == PIECES.bM ) && ( brd_pieces[17] == PIECES.bM ) && ( brd_pieces[21] == PIECES.bM)){
-    if (( brd_pieces[22] == PIECES.wM ) && ( brd_pieces[26] == PIECES.wM ) && ( brd_pieces[31] == PIECES.wM )){
-    eval -= 40;
-    if ( brd_pieces[23] == PIECES.bM )
-    eval += 5;
-    if (( brd_pieces[8] == PIECES.bM ) && ( brd_pieces[13] == PIECES.EMPTY ))
-    eval += 5;
-            }
-            }
+    if (( brd_pieces[12] == PIECES.bM ) && ( brd_pieces[16] == PIECES.bM ) && 
+        ( brd_pieces[17] == PIECES.bM ) && ( brd_pieces[21] == PIECES.bM)){
+        if (( brd_pieces[22] == PIECES.wM ) && ( brd_pieces[26] == PIECES.wM ) && 
+            ( brd_pieces[31] == PIECES.wM )){
+            eval -= 40;
+            if ( brd_pieces[23] == PIECES.bM ) eval += 5;
+            if (( brd_pieces[8] == PIECES.bM ) && ( brd_pieces[13] == PIECES.EMPTY )) eval += 5;
+        }
+    }
     
-    if (( brd_pieces[15] == PIECES.bM ) && ( brd_pieces[19] == PIECES.bM ) && ( brd_pieces[20] == PIECES.bM ) && ( brd_pieces[24] == PIECES.bM)){
-    eval -= 40;
-    if (( brd_pieces[10] == PIECES.bM ) && ( brd_pieces[14] == PIECES.EMPTY ))
-    eval += 10;
-    if (( brd_pieces[11] == PIECES.bM ) && ( brd_pieces[16] == PIECES.EMPTY ) && ( brd_pieces[21] != PIECES.wM ))
-    eval += 10;
-                }
+    if (( brd_pieces[15] == PIECES.bM ) && ( brd_pieces[19] == PIECES.bM ) && 
+        ( brd_pieces[20] == PIECES.bM ) && ( brd_pieces[24] == PIECES.bM)){
+        eval -= 40;
+        if (( brd_pieces[10] == PIECES.bM ) && ( brd_pieces[14] == PIECES.EMPTY )) eval += 10;
+        if (( brd_pieces[11] == PIECES.bM ) && ( brd_pieces[16] == PIECES.EMPTY ) && ( brd_pieces[21] != PIECES.wM )) eval += 10;
+    }
     
-    if (( brd_pieces[16] == PIECES.bM ) && ( brd_pieces[20] == PIECES.bM ) && ( brd_pieces[21] == PIECES.bM ) && ( brd_pieces[25] == PIECES.bM)){
-    eval -= 40;
-    if (( brd_pieces[11] == PIECES.bM ) && ( brd_pieces[15] == PIECES.EMPTY ) && ( brd_pieces[19] != PIECES.wM ))
-    eval += 10;
-    if (( brd_pieces[12] == PIECES.bM ) && ( brd_pieces[17] == PIECES.EMPTY ) && ( brd_pieces[22] != PIECES.wM ))
-    eval += 10;
-                                        }
+    if (( brd_pieces[16] == PIECES.bM ) && ( brd_pieces[20] == PIECES.bM ) && 
+        ( brd_pieces[21] == PIECES.bM ) && ( brd_pieces[25] == PIECES.bM)){
+        eval -= 40;
+        if (( brd_pieces[11] == PIECES.bM ) && ( brd_pieces[15] == PIECES.EMPTY ) && ( brd_pieces[19] != PIECES.wM )) eval += 10;
+        if (( brd_pieces[12] == PIECES.bM ) && ( brd_pieces[17] == PIECES.EMPTY ) && ( brd_pieces[22] != PIECES.wM )) eval += 10;
+    }
         
-    if ( ( brd_pieces[34] == PIECES.wM ) && ( brd_pieces[31] == PIECES.wM ) && ( brd_pieces[17] == PIECES.bM ) && ( brd_pieces[21] == PIECES.bM ) && ( brd_pieces[22] == PIECES.bM ) && ( brd_pieces[26] == PIECES.bM)){
-    eval -= 40;
-                }
+    if ( ( brd_pieces[34] == PIECES.wM ) && ( brd_pieces[31] == PIECES.wM ) && 
+        ( brd_pieces[17] == PIECES.bM ) && ( brd_pieces[21] == PIECES.bM ) && 
+        ( brd_pieces[22] == PIECES.bM ) && ( brd_pieces[26] == PIECES.bM)){
+        eval -= 40;
+    }
     //*********************************** for white color
-    if ( ( brd_pieces[22] == PIECES.bM ) && ( brd_pieces[30] == PIECES.wM ) && ( brd_pieces[31] == PIECES.wM ) && (brd_pieces[26] == PIECES.wM)){
-    eval += 40;
-                        }
+    if ( ( brd_pieces[22] == PIECES.bM ) && ( brd_pieces[30] == PIECES.wM ) && 
+        ( brd_pieces[31] == PIECES.wM ) && (brd_pieces[26] == PIECES.wM)){
+        eval += 40;
+    }
                         
-    if (( brd_pieces[33] == PIECES.wM ) && ( brd_pieces[28] == PIECES.wM ) && ( brd_pieces[29] == PIECES.wM ) && (brd_pieces[24] == PIECES.wM)){
-    if (( brd_pieces[23] == PIECES.bM ) && ( brd_pieces[19] == PIECES.bM ) && ( brd_pieces[14] == PIECES.bM )){
-    eval += 40;
-    if ( brd_pieces[22] == PIECES.wM )
-    eval -= 5;
-    if (( brd_pieces[37] == PIECES.wM ) && ( brd_pieces[32] == PIECES.EMPTY ))
-    eval -= 5;
-                    }
-                }
+    if (( brd_pieces[33] == PIECES.wM ) && ( brd_pieces[28] == PIECES.wM ) && 
+        ( brd_pieces[29] == PIECES.wM ) && (brd_pieces[24] == PIECES.wM)){
+        if (( brd_pieces[23] == PIECES.bM ) && ( brd_pieces[19] == PIECES.bM ) && ( brd_pieces[14] == PIECES.bM )){
+            eval += 40;
+            if ( brd_pieces[22] == PIECES.wM ) eval -= 5;
+            if (( brd_pieces[37] == PIECES.wM ) && ( brd_pieces[32] == PIECES.EMPTY )) eval -= 5;
+        }
+    }
     
-    if (( brd_pieces[34] == PIECES.wM ) && ( brd_pieces[29] == PIECES.wM ) && ( brd_pieces[30] == PIECES.wM ) && (brd_pieces[25] == PIECES.wM)){
-    if (( brd_pieces[15] == PIECES.bM ) && ( brd_pieces[20] == PIECES.bM ) && ( brd_pieces[21] == PIECES.bM ) && ( brd_pieces[17] == PIECES.bM)){
-    eval += 40;
-    if (( brd_pieces[38] == PIECES.wM ) && ( brd_pieces[33] == PIECES.EMPTY ) && ( brd_pieces[28] != PIECES.bM  ))
-    eval -= 10;
-    if (( brd_pieces[39] == PIECES.wM ) && ( brd_pieces[35] == PIECES.EMPTY ) && ( brd_pieces[31] != PIECES.bM  ))
-    eval -= 10;
-                    }
-                    }
-    if ( ( brd_pieces[11] == PIECES.bM ) && ( brd_pieces[14] == PIECES.bM ) && ( brd_pieces[28] == PIECES.wM ) && ( brd_pieces[23] == PIECES.wM ) && ( brd_pieces[24] == PIECES.wM ) && (brd_pieces[19] == PIECES.wM)){
-    eval += 40;
-            }
+    if (( brd_pieces[34] == PIECES.wM ) && ( brd_pieces[29] == PIECES.wM ) && 
+        ( brd_pieces[30] == PIECES.wM ) && (brd_pieces[25] == PIECES.wM)){
+        if (( brd_pieces[15] == PIECES.bM ) && ( brd_pieces[20] == PIECES.bM ) && 
+            ( brd_pieces[21] == PIECES.bM ) && ( brd_pieces[17] == PIECES.bM)){
+            eval += 40;
+            if (( brd_pieces[38] == PIECES.wM ) && ( brd_pieces[33] == PIECES.EMPTY ) && ( brd_pieces[28] != PIECES.bM  ))
+            eval -= 10;
+            if (( brd_pieces[39] == PIECES.wM ) && ( brd_pieces[35] == PIECES.EMPTY ) && ( brd_pieces[31] != PIECES.bM  ))
+            eval -= 10;
+        }
+    }
+    if ( ( brd_pieces[11] == PIECES.bM ) && ( brd_pieces[14] == PIECES.bM ) && 
+        ( brd_pieces[28] == PIECES.wM ) && ( brd_pieces[23] == PIECES.wM ) && 
+        ( brd_pieces[24] == PIECES.wM ) && (brd_pieces[19] == PIECES.wM)){
+        eval += 40;
+    }
     
-    if (( brd_pieces[29] == PIECES.wM ) && ( brd_pieces[24] == PIECES.wM ) && ( brd_pieces[25] == PIECES.wM ) && (brd_pieces[20] == PIECES.wM)){
-    eval += 40;
-    if (( brd_pieces[33] == PIECES.wM ) && ( brd_pieces[28] == PIECES.EMPTY ) && ( brd_pieces[23] != PIECES.bM  ))
-    eval -= 10;
-    if (( brd_pieces[34] == PIECES.wM ) && ( brd_pieces[30] == PIECES.EMPTY ) && ( brd_pieces[26] != PIECES.bM  ))
-    eval -= 10;
-                                }   
-    if (( brd_pieces[30] == PIECES.wM ) && ( brd_pieces[25] == PIECES.wM ) && ( brd_pieces[26] == PIECES.wM ) && (brd_pieces[21] == PIECES.wM)){
-    eval += 40;
-    if (( brd_pieces[34] == PIECES.wM ) && ( brd_pieces[29] == PIECES.EMPTY ) && ( brd_pieces[24] != PIECES.bM  ))
-    eval -= 10;
-    if (( brd_pieces[35] == PIECES.wM ) && ( brd_pieces[31] == PIECES.EMPTY ))
-    eval -= 10;
-                            }
+    if (( brd_pieces[29] == PIECES.wM ) && ( brd_pieces[24] == PIECES.wM ) && 
+        ( brd_pieces[25] == PIECES.wM ) && (brd_pieces[20] == PIECES.wM)){
+        eval += 40;
+        if (( brd_pieces[33] == PIECES.wM ) && ( brd_pieces[28] == PIECES.EMPTY ) && ( brd_pieces[23] != PIECES.bM  )) eval -= 10;
+        if (( brd_pieces[34] == PIECES.wM ) && ( brd_pieces[30] == PIECES.EMPTY ) && ( brd_pieces[26] != PIECES.bM  )) eval -= 10;
+    }   
+    if (( brd_pieces[30] == PIECES.wM ) && ( brd_pieces[25] == PIECES.wM ) && 
+        ( brd_pieces[26] == PIECES.wM ) && (brd_pieces[21] == PIECES.wM)){
+        eval += 40;
+        if (( brd_pieces[34] == PIECES.wM ) && ( brd_pieces[29] == PIECES.EMPTY ) && ( brd_pieces[24] != PIECES.bM  )) eval -= 10;
+        if (( brd_pieces[35] == PIECES.wM ) && ( brd_pieces[31] == PIECES.EMPTY )) eval -= 10;
+    }
             
-        // phase mix
-        // smooth transition between game phases
-        eval += ((opening * phase + endgame * antiphase )/24);
-        eval &= ~(GrainSize - 1);
+    // phase mix
+    // smooth transition between game phases
+    eval += ((opening * phase + endgame * antiphase )/24);
+    eval &= ~(GrainSize - 1);
     // negamax formulation requires this:
-    eval = ( color == BLACK ) ? eval : -eval;
+    eval = ( brd_side == COLORS.BLACK ) ? eval : -eval;
     EvalHash[(HASH_KEY & EC_MASK)] = (HASH_KEY & 0xffffffffffff0000) | ( eval & 0xffff);
     return eval;
 }
