@@ -90,16 +90,16 @@ function EvalPosition(alpha, beta) {
                 break;
         }
     });
-
+    
     count_w = count_wm + count_wk;
     count_b = count_bm + count_bk;
 
-    if (count_wm == 0 || count_wk == 0) {
+    if (count_wm == 0 && count_wk == 0) {
         eval = -MATE;
         if (brd_side == COLORS.BLACK) eval = - eval;
         return eval;
     } 
-    if (count_bm == 0 || count_bk == 0) {
+    if (count_bm == 0 && count_bk == 0) {
         eval = MATE;
         if (brd_side == COLORS.BLACK) eval = - eval;
         return eval;
@@ -407,7 +407,7 @@ function EvalPosition(alpha, beta) {
             let balance = 0;
             let code;
             let index;
-            let value = [0,0,0,0,0,1,256];
+            let value = [0, 1, 0, 256, 0];
             let count_bma,count_bmb,count_bmc,count_bmd ; // number black men left a-b-c-d
             let count_bme,count_bmf,count_bmg,count_bmh ; // number black men right e-f-g-h
             let count_wma,count_wmb,count_wmc,count_wmd ; // number white men left a-b-c-d
@@ -484,7 +484,7 @@ function EvalPosition(alpha, beta) {
             // 2 blacks stops 3 whites in right flank
             if ( ( count_wmf+count_wmg+count_wmh+count_wme ) == 3 ){
                 if ( ( count_bmf+count_bmg+count_bmh+count_bme ) == 2 ){
-                    if ( ( brd_pieces[21] == BLK_MAN ) && ( brd_pieces[22] == PIECES.bM ) ){
+                    if ( ( brd_pieces[21] == PIECES.bM ) && ( brd_pieces[22] == PIECES.bM ) ){
                         if ((brd_pieces[35] == PIECES.wM) && (brd_pieces[30] == PIECES.wM) && 
                             (brd_pieces[31] == PIECES.wM)) endgame += 24;
                     }
@@ -573,9 +573,9 @@ function EvalPosition(alpha, beta) {
             eval += cscore_center[count_bmef][count_wmef];
             
             index = -8*count_bma - 4*count_bmb -2*count_bmc -1*count_bmd + 1*count_bme + 2*count_bmf + 4*count_bmg + 8*count_bmh;
-            balance -= abs(index);
-            index = -8*count_wma - 4*count_wmb -2*count_wmc - 1*count_wmd  + 1*nwme + 2*count_wmf + 4*count_wmg + 8*count_wmh;
-            balance += abs(index);
+            balance -= Math.abs(index);
+            index = -8*count_wma - 4*count_wmb -2*count_wmc - 1*count_wmd  + 1*count_wme + 2*count_wmf + 4*count_wmg + 8*count_wmh;
+            balance += Math.abs(index);
             eval += balance;
         } // balance
                 // mobility check
@@ -809,7 +809,7 @@ function EvalPosition(alpha, beta) {
                 if ( ( ( brd_pieces[index-6] == COLORS.WHITE) ) && ( brd_pieces[index+4] == PIECES.EMPTY ) )
                 can_recapture = 1;
                 else
-                    if ( ( brd_pieces[index-6] == PIECES.EMPTY ) && ( ( brd_pieces[index+4] & WHITE ) !=0 ) )
+                    if ( ( brd_pieces[index-6] == PIECES.EMPTY ) && ( ( brd_pieces[index+4] == COLORS.WHITE ) ) )
                     can_recapture = 1;
                     else{
                     w_losing++;break;
@@ -846,7 +846,7 @@ function EvalPosition(alpha, beta) {
                 if ( ( ( brd_pieces[index-14] == COLORS.WHITE) ) && ( brd_pieces[index-4] == PIECES.EMPTY ) )
                 can_recapture = 1;
                 else
-                    if ( ( brd_pieces[index-14] == PIECES.EMPTY ) && ( ( brd_pieces[index-4] & WHITE ) !=0 ) )
+                    if ( ( brd_pieces[index-14] == PIECES.EMPTY ) && ( ( brd_pieces[index-4] == COLORS.WHITE ) ) )
                     can_recapture = 1;
                     else{
                     w_losing++;break;
@@ -854,8 +854,8 @@ function EvalPosition(alpha, beta) {
                                 } // (4)
                     
                 // incomplete                                                                                                                           
-                if (( brd_pieces[index+5] & WHITE)!=0 && ( brd_pieces[index+10] & PIECES.bM)!=0){ break;} // (5)
-                if (( brd_pieces[index+4] & WHITE)!=0 && ( brd_pieces[index+8] & PIECES.bM)!=0){ break;} // (6)
+                if (( brd_pieces[index+5] == COLORS.WHITE ) && ( brd_pieces[index+10] & PIECES.bM)!=0){ break;} // (5)
+                if (( brd_pieces[index+4] == COLORS.WHITE ) && ( brd_pieces[index+8] & PIECES.bM)!=0){ break;} // (6)
             
                 // assert( is_square_safe^can_recapture == 1 );	
                 w_free += is_square_safe;
@@ -937,7 +937,7 @@ function EvalPosition(alpha, beta) {
                 if ( ( ( brd_pieces[index-13] == COLORS.WHITE) ) && ( brd_pieces[index-5] == PIECES.EMPTY ) )
                 can_recapture = 1;
                 else
-                if ( ( brd_pieces[index-13] == PIECES.EMPTY ) && ( ( brd_pieces[index-5] & WHITE ) !=0 ) )
+                if ( ( brd_pieces[index-13] == PIECES.EMPTY ) && ( ( brd_pieces[index-5] == COLORS.WHITE ) ) )
                 can_recapture = 1;
                 else{
                 w_losing++;break;
@@ -945,8 +945,8 @@ function EvalPosition(alpha, beta) {
                     } // (4)
                     
                 // incomplete dangers
-                if ( ( ( brd_pieces[index+4] & WHITE) !=0 ) && ( ( brd_pieces[index+8] & PIECES.bM ) !=0 ) ){ break;} // (5)
-                if ( ( ( brd_pieces[index+5] & WHITE) !=0 ) && ( ( brd_pieces[index+10] & PIECES.bM ) !=0 ) ){ break;} // (6)
+                if ( ( ( brd_pieces[index+4] == COLORS.WHITE ) ) && ( ( brd_pieces[index+8] & PIECES.bM ) !=0 ) ){ break;} // (5)
+                if ( ( ( brd_pieces[index+5] == COLORS.WHITE ) ) && ( ( brd_pieces[index+10] & PIECES.bM ) !=0 ) ){ break;} // (6)
                 // assert( is_square_safe^can_recapture == 1 );		
                 w_free += is_square_safe;
                 w_exchanges += can_recapture;

@@ -77,7 +77,7 @@ function PreSearch() {
 function StartSearch() {
 	srch_depth = MAXDEPTH;
 	let t = $.now();
-	let tt = $('#ThinkTimeChoice').val();
+	let tt = $('#ThinkingTimeChoise').val();
 	console.log("time:" + t + " TimeChoice:" + tt);
 	srch_time = parseInt(tt) * 1000;
 	SearchPosition(); 	
