@@ -978,21 +978,19 @@ function EvalPosition(alpha, beta) {
         if ( w_free == 0 && w_exchanges == 1 ) eval += 36;
     } // if ( (nbk == 0) && (nwk == 0) )
                 
-        // developed black's single corner
-        if ( ( brd_pieces[5] == PIECES.EMPTY ) && ( brd_pieces[10] == PIECES.EMPTY ) ){
+    // developed black's single corner
+    if ( ( brd_pieces[5] == PIECES.EMPTY ) && ( brd_pieces[10] == PIECES.EMPTY ) ){
         opening += 20;
-        if (( brd_pieces[14] != PIECES.wM ) && ( brd_pieces[15] != PIECES.wM ))
-        endgame += 20;
-                }
-        // developed white's single corner
-        if ( ( brd_pieces[40] == PIECES.EMPTY )  && ( brd_pieces[35] == PIECES.EMPTY ) ){
+        if (( brd_pieces[14] != PIECES.wM ) && ( brd_pieces[15] != PIECES.wM )) endgame += 20;
+    }
+    // developed white's single corner
+    if ( ( brd_pieces[40] == PIECES.EMPTY )  && ( brd_pieces[35] == PIECES.EMPTY ) ){
         opening -= 20;
-        if (( brd_pieces[30] != PIECES.bM ) && ( brd_pieces[31] != PIECES.bM ))
-        endgame -= 20;
-                }
-        // one pattern ( V. K. Adamovich , Genadij I. Xackevich , Viktor Litvinovich )
-        if ( ( brd_pieces[15] == PIECES.bM ) && ( brd_pieces[30] == PIECES.wM ) ){
-           if ( ( brd_pieces[16] == PIECES.bM ) && ( brd_pieces[21] == PIECES.bM ) ){
+        if (( brd_pieces[30] != PIECES.bM ) && ( brd_pieces[31] != PIECES.bM )) endgame -= 20;
+    }
+    // one pattern ( V. K. Adamovich , Genadij I. Xackevich , Viktor Litvinovich )
+    if ( ( brd_pieces[15] == PIECES.bM ) && ( brd_pieces[30] == PIECES.wM ) ){
+        if ( ( brd_pieces[16] == PIECES.bM ) && ( brd_pieces[21] == PIECES.bM ) ){
             if ( ( brd_pieces[24] == PIECES.wM ) && ( brd_pieces[29] == PIECES.wM ) ){
                 if ( ( brd_pieces[20] == PIECES.EMPTY ) && ( brd_pieces[25] == PIECES.EMPTY ) ){
                     if ( brd_side == COLORS.BLACK )
@@ -1001,33 +999,29 @@ function EvalPosition(alpha, beta) {
                     if ((brd_pieces[22] != PIECES.bM) || (brd_pieces[26] != PIECES.wM)) eval -= 8;
                 }
             }
-           }
         }
-        // parallel checkers
-        if (( brd_pieces[8] == PIECES.bM ) && ( brd_pieces[16] == PIECES.bM ))
-        if ( brd_pieces[12] + brd_pieces[7] + brd_pieces[20] == PIECES.EMPTY )
-            endgame -= 24;
-        if (( brd_pieces[13] == PIECES.bM ) && ( brd_pieces[21] == PIECES.bM ))
-        if ( brd_pieces[12] + brd_pieces[17] + brd_pieces[25] == PIECES.EMPTY )
-            endgame -= 24;
-        if (( brd_pieces[37] == PIECES.wM ) && ( brd_pieces[29] == PIECES.wM ))
-        if ( brd_pieces[38] + brd_pieces[33] + brd_pieces[25] == PIECES.EMPTY )
-            endgame += 24;
-        if (( brd_pieces[32] == PIECES.wM ) && ( brd_pieces[24] == PIECES.wM ))
-        if ( brd_pieces[33] + brd_pieces[28] + brd_pieces[20] == PIECES.EMPTY )
-            endgame += 24; 
+    }
+    // parallel checkers
+    if (( brd_pieces[8] == PIECES.bM ) && ( brd_pieces[16] == PIECES.bM ))
+    if ( brd_pieces[12] + brd_pieces[7] + brd_pieces[20] == PIECES.EMPTY ) endgame -= 24;
+    if (( brd_pieces[13] == PIECES.bM ) && ( brd_pieces[21] == PIECES.bM ))
+    if ( brd_pieces[12] + brd_pieces[17] + brd_pieces[25] == PIECES.EMPTY ) endgame -= 24;
+    if (( brd_pieces[37] == PIECES.wM ) && ( brd_pieces[29] == PIECES.wM ))
+    if ( brd_pieces[38] + brd_pieces[33] + brd_pieces[25] == PIECES.EMPTY ) endgame += 24;
+    if (( brd_pieces[32] == PIECES.wM ) && ( brd_pieces[24] == PIECES.wM ))
+    if ( brd_pieces[33] + brd_pieces[28] + brd_pieces[20] == PIECES.EMPTY ) endgame += 24; 
     // passers on b6,d6,f6,h6
     if ( brd_pieces[28] == PIECES.bM ){ // b6 ?
-    do{
-    if ( ( brd_pieces[32] == PIECES.EMPTY ) && ( brd_pieces[37] == PIECES.EMPTY ) ){ endgame += 24;break;}
-    if ( color != BLACK ) break;
-    if (( brd_pieces[38] & WHITE ) != 0 ) break;
-    if ( brd_pieces[33] != PIECES.EMPTY ) break;
-    if ( ( ( brd_pieces[37] & WHITE ) != 0 ) && ( brd_pieces[29] == PIECES.EMPTY )) break;
-    if ( ( ( brd_pieces[29] & WHITE ) != 0 ) && ( brd_pieces[37] == PIECES.EMPTY )) break;
-    endgame += 12;
+        do{
+            if ( ( brd_pieces[32] == PIECES.EMPTY ) && ( brd_pieces[37] == PIECES.EMPTY ) ){ endgame += 24;break;}
+            if ( brd_side != BLACK ) break;
+            if (( brd_pieces[38] & WHITE ) != 0 ) break;
+            if ( brd_pieces[33] != PIECES.EMPTY ) break;
+            if ( ( ( brd_pieces[37] & WHITE ) != 0 ) && ( brd_pieces[29] == PIECES.EMPTY )) break;
+            if ( ( ( brd_pieces[29] & WHITE ) != 0 ) && ( brd_pieces[37] == PIECES.EMPTY )) break;
+            endgame += 12;
         }while(0);
-                                            }
+    }
     
     if ( brd_pieces[29] == PIECES.bM ){ // d6 ?
     do{
