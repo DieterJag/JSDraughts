@@ -164,7 +164,7 @@ function EvalPosition(alpha, beta) {
                 return 0;
             }
         }
-        if ( eval > 0 && nwk == 1 && main_line == PIECES.wK ){
+        if ( eval > 0 && count_wk == 1 && main_line == PIECES.wK ){
             if ( count_wm == 0 || brd_pieces[13] == PIECES.wM){
                 eval_hash[(brd_posKey & EC_MASK)] = brd_posKey & 0xffffffffffff0000;
                 return (0);
