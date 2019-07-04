@@ -96,12 +96,12 @@ function EvalPosition(alpha, beta) {
 
     if (count_wm == 0 || count_wk == 0) {
         eval = -MATE;
-        if (brd_side == COLOURS.BLACK) eval = - eval;
+        if (brd_side == COLORS.BLACK) eval = - eval;
         return eval;
     } 
     if (count_bm == 0 || count_bk == 0) {
         eval = MATE;
-        if (brd_side == COLOURS.BLACK) eval = - eval;
+        if (brd_side == COLORS.BLACK) eval = - eval;
         return eval;
     } 
 
@@ -191,7 +191,7 @@ function EvalPosition(alpha, beta) {
                 // Triangle
                 if ( count_b_double_line1 == 0 && count_b_double_line2 == 0 ) {
                     if ( count_b_triple_line1 == 0 && count_b_triple_line2 == 0 ) {
-                        if (brd_side == COLOURS.BLACK){
+                        if (brd_side == COLORS.BLACK){
                             if ((brd_pieces[15] == PIECES.wK) && (brd_pieces[29] == PIECES.wK) && (brd_pieces[16] == PIECES.wK))
                                 eval -= 1000;
                             if ((brd_pieces[29] == PIECES.wK) && (brd_pieces[16] == PIECES.wK) && (brd_pieces[30] == PIECES.wK))
@@ -218,7 +218,7 @@ function EvalPosition(alpha, beta) {
                 }
                 if ( count_b_double_line1 == 0 && count_b_double_line2 == 0 ){
                     if ( count_b_triple_line1 == 0 && count_b_triple_line2 == 0 ){
-                        if ( brd_side == COLOURS.WHITE ){
+                        if ( brd_side == COLORS.WHITE ){
                             if ((brd_pieces[15] == PIECES.bK) && (brd_pieces[29] == PIECES.bK) && (brd_pieces[16] == PIECES.bK))
                             eval += 1000;
                             if ((brd_pieces[29] == PIECES.bK) && (brd_pieces[16] == PIECES.bK) && (brd_pieces[30] == PIECES.bK))
@@ -241,7 +241,7 @@ function EvalPosition(alpha, beta) {
                 }
             })
             // negamax formulation requires this:
-            eval = ( brd_side == COLOURS.BLACK ) ? eval : -eval;
+            eval = ( brd_side == COLORS.BLACK ) ? eval : -eval;
             EvalHash[ (U32) ( HASH_KEY & EC_MASK ) ] = (HASH_KEY & 0xffffffffffff0000) | ( eval & 0xffff);
             return (eval); 
         } // only kings left
@@ -293,7 +293,7 @@ function EvalPosition(alpha, beta) {
     //Lazy evaluation
     // Early exit from evaluation if eval already is extremely low or extremely high
     if ( beta - alpha == 1 ){
-        let teval = ( brd_side == COLOURS.WHITE ) ? -eval : eval;
+        let teval = ( brd_side == COLORS.WHITE ) ? -eval : eval;
         if ( ( teval - 130 ) > beta )
         return teval;
         if ( ( teval + 130 ) < alpha )
@@ -1062,7 +1062,7 @@ function EvalPosition(alpha, beta) {
     }
                                                 
     if ( brd_pieces[31] == PIECES.bM ){ // h6 ?
-        if ( is_wht_kng(b) == 0 ){
+        if ( count_wk == 0 ){
             if ( brd_pieces[39] == PIECES.EMPTY && brd_pieces[40] == PIECES.wM ) endgame += 8;
             if ( brd_pieces[24] == PIECES.bM ) endgame += 8;
             do{
@@ -1077,7 +1077,7 @@ function EvalPosition(alpha, beta) {
     }                                            
     // passers on a3,c3,e3,g3
     if ( brd_pieces[14] == PIECES.wM ){ // a3 ?
-        if ( is_blk_kng(b) == 0 ){
+        if ( count_bk == 0 ){
             if ( brd_pieces[6] == PIECES.EMPTY && brd_pieces[5] == PIECES.bM )
             endgame -= 8;
             if ( brd_pieces[21] == PIECES.wM ) // a3 + f4
@@ -1320,9 +1320,9 @@ function EvalPosition(alpha, beta) {
     // phase mix
     // smooth transition between game phases
     eval += ((opening * phase + endgame * antiphase )/24);
-    eval &= ~(GrainSize - 1);
+    eval &= ~(2 - 1);
     // negamax formulation requires this:
     eval = ( brd_side == COLORS.BLACK ) ? eval : -eval;
-    EvalHash[(HASH_KEY & EC_MASK)] = (HASH_KEY & 0xffffffffffff0000) | ( eval & 0xffff);
+    eval_hash[(brd_posKey & EC_MASK)] = (brd_posKey & 0xffffffffffff0000) | ( eval & 0xffff);
     return eval;
 }

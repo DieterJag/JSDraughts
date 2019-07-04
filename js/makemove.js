@@ -17,7 +17,7 @@ function AddCapturedPieces(captures) {
     let piece_men;
     let piece_king;
 
-    if (brd_side == COLOURS.WHITE) {
+    if (brd_side == COLORS.WHITE) {
         piece_king = PIECES.wK;
         piece_men = PIECES.wM;
     } else {
@@ -59,7 +59,7 @@ function MakeMove(move, captures = undefined) {
     let mv_piece = MVPS(move);
     let piece;
 
-    if (brd_side == COLOURS.WHITE) {
+    if (brd_side == COLORS.WHITE) {
         if (mv_piece == 1) piece = PIECES.wK;
         else piece = PIECES.wM;
     } else {
@@ -101,7 +101,7 @@ function TakeMove() {
     brd_side ^= 1;
     HASH_SIDE();
 	
-   if (brd_side == COLOURS.WHITE) {
+   if (brd_side == COLORS.WHITE) {
         if (mv_piece == 1) piece = PIECES.wM;
         else piece = brd_pieces[to];
     } else {

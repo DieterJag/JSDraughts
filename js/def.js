@@ -17,7 +17,7 @@ let START_FEN = "W:W1,2,3,4,5,6,7,8,9,10,11,12:B21,22,23,24,25,26,27,28,29,30,31
 let FILES =  { FILE_A:0, FILE_B:1, FILE_C:2, FILE_D:3, FILE_E:4, FILE_F:5, FILE_G:6, FILE_H:7, FILE_NONE:8 };
 let RANKS =  { RANK_1:0, RANK_2:1, RANK_3:2, RANK_4:3, RANK_5:4, RANK_6:5, RANK_7:6, RANK_8:7, RANK_NONE:8 };
 
-let COLOURS = { WHITE:0, BLACK:1, BOTH:2 };
+let COLORS = { WHITE:0, BLACK:1, BOTH:2 };
 
 let PIECES =  { EMPTY : 0, wM : 1, wK : 2, bM : 3, bK : 4 };
 
@@ -28,7 +28,7 @@ let FileChar = "abcdefgh";
 
 let MFLAGCAP = 0x2000;
 
-let PieceCol = [ COLOURS.BOTH, COLOURS.WHITE, COLOURS.WHITE, COLOURS.BLACK, COLOURS.BLACK ];
+let PieceCol = [ COLORS.BOTH, COLORS.WHITE, COLORS.WHITE, COLORS.BLACK, COLORS.BLACK ];
 
 let PieceKeys = new Array(2 * 64);
 let SideKey;
@@ -70,8 +70,8 @@ function CAPTURED(m)  { return (m & 0x2000); }
 function MVPS(m)  { return (((m) >> 12) & 1); }
 
 let GameController = {};
-GameController.EngineSide = COLOURS.BOTH;
-GameController.PlayerSide = COLOURS.BOTH;
+GameController.EngineSide = COLORS.BOTH;
+GameController.PlayerSide = COLORS.BOTH;
 GameController.BoardFlipped = BOOL.FALSE;
 GameController.GameOver = BOOL.FALSE;
 GameController.BookLoaded = BOOL.FALSE;

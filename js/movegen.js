@@ -64,7 +64,7 @@ function GenerateMoves() {
     let start_dir;
     let end_dir;
 
-    if (brd_side == COLOURS.WHITE) {
+    if (brd_side == COLORS.WHITE) {
         move_men = PIECES.wM;
         move_king = PIECES.wK;
         start_dir = 0;
@@ -82,8 +82,8 @@ function GenerateMoves() {
                 let to_move = index + mv_dir[i];
                 if (brd_pieces[to_move] == PIECES.EMPTY) {
                     let mv_piece = 0;
-                    if ((brd_side == COLOURS.WHITE && to_move > 36) ||
-                        (brd_side == COLOURS.BLACK && to_move < 9)) mv_piece = 1;
+                    if ((brd_side == COLORS.WHITE && to_move > 36) ||
+                        (brd_side == COLORS.BLACK && to_move < 9)) mv_piece = 1;
                     AddQuiteMove(index, to_move, mv_piece);
                 }
             }
@@ -116,7 +116,7 @@ function GenerateCaptures() {
     let cap_count_from;
     let atack_piece;
  
-    if (brd_side == COLOURS.WHITE) {
+    if (brd_side == COLORS.WHITE) {
         atack_men = PIECES.wM;
         atack_king = PIECES.wK;
         defence_men = PIECES.bM;

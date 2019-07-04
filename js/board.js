@@ -1,6 +1,6 @@
 // board variables
 
-let brd_side = COLOURS.WHITE;
+let brd_side = COLORS.WHITE;
 let brd_pieces = new Array(BRD_SQ_NUM);
 let brd_capture_pieces = new Array(BRD_SQ_NUM);
 let brd_capture_to_pieces = new Array(BRD_CAPTURE_SQ_NUM);
@@ -62,8 +62,8 @@ function ParseFenPos(fen, color) {
     let file;
 
     switch(color) {
-        case COLOURS.WHITE: piece = PIECES.wM; break;
-        case COLOURS.BLACK: piece = PIECES.bM; break;
+        case COLORS.WHITE: piece = PIECES.wM; break;
+        case COLORS.BLACK: piece = PIECES.bM; break;
     }
     if (fen[0] == 'K') { piece++; pos = Number(fen.substr(1));}
     else pos = Number(fen);
@@ -93,9 +93,9 @@ function ParseFen(fen) {
     fenA.forEach(element => {
         // console.log("index="+index+" fen="+element);
         switch(index) {
-            case 0: brd_side = (element == "W") ? COLOURS.WHITE : COLOURS.BLACK; break;
-            case 1: if (element[0] == 'W') ParseFenColor(element.substr(1), COLOURS.WHITE); break;
-            case 2: if (element[0] == 'B') ParseFenColor(element.substr(1), COLOURS.BLACK); break;
+            case 0: brd_side = (element == "W") ? COLORS.WHITE : COLORS.BLACK; break;
+            case 1: if (element[0] == 'W') ParseFenColor(element.substr(1), COLORS.WHITE); break;
+            case 2: if (element[0] == 'B') ParseFenColor(element.substr(1), COLORS.BLACK); break;
         }
         index++;
     });
@@ -108,7 +108,7 @@ function ResetBoard() {
         if (FilesBrd[index] == SQUARES.OFFBOARD) brd_pieces[index] = SQUARES.OFFBOARD;
         else brd_pieces[index] = PIECES.EMPTY;
 	}
-	brd_side = COLOURS.BOTH;
+	brd_side = COLORS.BOTH;
 	brd_ply = 0;
 	brd_hisPly = 0;	
 	brd_posKey = 0;
@@ -130,7 +130,7 @@ function GeneratePosKey() {
 		}		
 	}
 	
-	if(brd_side == COLOURS.WHITE) {
+	if(brd_side == COLORS.WHITE) {
 		finalKey ^= SideKey;
 	}
 		

@@ -131,7 +131,7 @@ function CheckResult() {
 	
 	if(found != 0) return BOOL.FALSE;
 	
-	if(brd_side == COLOURS.WHITE) {
+	if(brd_side == COLORS.WHITE) {
 		$("#GameStatus").text("GAME OVER {black mates}");return BOOL.TRUE;
 	} else {
 		$("#GameStatus").text("GAME OVER {white mates}");return BOOL.TRUE;
