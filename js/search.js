@@ -58,7 +58,6 @@ function ClearPvTable() {
 function ClearForSearch() {
 	
 	let index = 0;
-	let index2 = 0;
 	
 	for(index = 0; index < 14 * BRD_SQ_NUM; ++index) {		
 		brd_searchHistory[index] = 0;	
@@ -285,7 +284,6 @@ function SearchPosition() {
 	let bestMove = NOMOVE;
 	let bestScore = -INFINITE;
 	let currentDepth = 0;	
-	let pvNum = 0;
 	let line;
 	ClearForSearch();
 	
