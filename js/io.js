@@ -14,6 +14,7 @@ function PrMove(move, captures = undefined) {
     if (capture) {
         MvStr += " captured: ";
         let cap_bit = 1;
+        let bit = 1;
         for(let i = 0; i < BRD_CAPTURE_SQ_NUM; i++) {
             if (captures & bit) {
                 // let index = brd_capture_to_pieces[i];
