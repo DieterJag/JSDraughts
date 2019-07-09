@@ -38,8 +38,8 @@ function AddCapuresMoves() {
         element.captures.forEach((cap_element, index) => {
             if (index == 0) from = cap_element.from;
             to = cap_element.to;
-            bit_cap |= (1 << brd_capture_pieces[cap_element]);
-            if ((brd_pieces[cap_element] & 1) == 0) bit_king18 |= (1 << brd_capture_pieces[cap_element]); // set king piece
+            bit_cap |= (1 << brd_capture_pieces[cap_element.captured]);
+            if ((brd_pieces[cap_element.captured] & 1) == 0) bit_king18 |= (1 << brd_capture_pieces[cap_element.captured]); // set king piece
         })
 
         let j = 1;

@@ -46,7 +46,29 @@ function ClearAllPieces() {
 	$(".Piece").remove();
 }
 
-function MoveGUIPiece(move) {
+function ClearGUIPieces(captures) {
+    let bit = 1;
+    for(let i = 0; i < BRD_CAPTURE_SQ_NUM; i++) {
+        if (captures & bit) {
+            let index = brd_capture_to_pieces[i];
+            // let pce = brd_pieces[index];	
+			// let rank = RanksBrd[to];
+			// let file = FilesBrd[to];
+			// let rankName = "rank" + (rank + 1);	
+			// let fileName = "file" + (file + 1);
+			
+			$( ".Piece" ).each(function() {
+				if( (RanksBrd[index] == 7 - Math.round($(this).position().top/60)) && (FilesBrd[index] == Math.round($(this).position().left/60)) ){
+					$(this).removeClass();
+				}
+			});
+		}
+        bit <<= 1;
+    }
+}
+
+// need new parameter captured 2019-07-09
+function MoveGUIPiece(move, captured) {
 	let from = FROMSQ(move);
 	let to = TOSQ(move);
 	
@@ -55,13 +77,20 @@ function MoveGUIPiece(move) {
 	let rankName = "rank" + (rank + 1);	
 	let fileName = "file" + (file + 1);
 	
-	$( ".Piece" ).each(function( index ) {
-     if( (RanksBrd[from] == 7 - Math.round($(this).position().top/60)) && (FilesBrd[from] == Math.round($(this).position().left/60)) ){
+	$( ".Piece" ).each(function() {
+     if((RanksBrd[from] == 7 - Math.round($(this).position().top/60)) && (FilesBrd[from] == Math.round($(this).position().left/60))){
      	$(this).removeClass();
      	$(this).addClass("Piece clickElement " + rankName + " " + fileName);     
      }
     });
-    
+	
+	// caputere remove pieces
+    let capture = CAPTURED(move);
+	
+	if (capture) {
+        ClearGUIPieces(captured);
+    }
+	
     // printGameLine();
 }
 
@@ -83,8 +112,8 @@ function StartSearch() {
 	SearchPosition(); 	
 	
 	// TODO MakeMove here on internal board and GUI
-	MakeMove(srch_best);
-	MoveGUIPiece(srch_best);	
+	MakeMove(srch_best, srch_best_captured);
+	MoveGUIPiece(srch_best, srch_best_captured);	
 	$('#ThinkingPng').remove();
 	CheckAndSet();
 }
