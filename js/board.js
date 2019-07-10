@@ -16,6 +16,7 @@ let brd_moveListStart = new Array(MAXDEPTH);
 
 let brd_PvTable = [];	
 let brd_PvArray = new Array(MAXDEPTH);
+let brd_cap_PvArray = new Array(MAXDEPTH);
 let brd_searchHistory = new Array(4 * BRD_SQ_NUM);
 let brd_searchKillers = new Array(3 * MAXDEPTH);
 

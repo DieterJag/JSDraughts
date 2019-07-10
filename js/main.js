@@ -69,6 +69,7 @@ function InitBoardVars() {
 	for(index = 0; index < MAXGAMEMOVES; index++) {
 		brd_history.push({
 			move : NOMOVE,
+			capture : NOMOVE,
 			posKey : 0
 		}); 
 	}
@@ -76,6 +77,7 @@ function InitBoardVars() {
 	for(index = 0; index < PVENTRIES; index++) {
 		brd_PvTable.push({
 			move : NOMOVE,
+			capture : NOMOVE,
 			posKey : 0
 		}); 
 	}

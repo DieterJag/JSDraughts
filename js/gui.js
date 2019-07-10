@@ -8,9 +8,9 @@ $("#SetFen").click(function () {
     if (aPathOfCaptures.length == 0) {
         GenerateMoves();
     }
-    console.log(brd_moveList);
-    console.log(brd_moveListStart);
-    console.log(brd_history);
+    // console.log(brd_moveList);
+    // console.log(brd_moveListStart);
+    // console.log(brd_history);
 
 	// GameController.PlayerSide = brd_side;	
 	// CheckAndSet();	
@@ -71,6 +71,7 @@ function ClearGUIPieces(captures) {
 function MoveGUIPiece(move, captured) {
 	let from = FROMSQ(move);
 	let to = TOSQ(move);
+    let mv_piece = MVPS(move);
 	
 	let rank = RanksBrd[to];
 	let file = FilesBrd[to];
@@ -78,11 +79,14 @@ function MoveGUIPiece(move, captured) {
 	let fileName = "file" + (file + 1);
 	
 	$( ".Piece" ).each(function() {
-     if((RanksBrd[from] == 7 - Math.round($(this).position().top/60)) && (FilesBrd[from] == Math.round($(this).position().left/60))){
-     	$(this).removeClass();
-     	$(this).addClass("Piece clickElement " + rankName + " " + fileName);     
-     }
-    });
+		if((RanksBrd[from] == 7 - Math.round($(this).position().top/60)) && (FilesBrd[from] == Math.round($(this).position().left/60))){
+			if (mv_piece == 1) {
+				$(this).remove();
+				AddGUIPiece(from, brd_pieces[to]);
+			} else $(this).removeClass();
+			$(this).addClass("Piece clickElement " + rankName + " " + fileName);     
+		}
+	   });
 	
 	// caputere remove pieces
     let capture = CAPTURED(move);
@@ -142,13 +146,19 @@ function CheckResult() {
     }
 	
 	console.log('Checking end of game');
-	GenerateMoves();
+	GenerateCaptures();
+    if (aPathOfCaptures.length == 0) {
+        GenerateMoves();
+    }
       
     let MoveNum = 0;
 	let found = 0;
 	for(MoveNum = brd_moveListStart[brd_ply]; MoveNum < brd_moveListStart[brd_ply + 1]; ++MoveNum)  {	
-       
-        if ( MakeMove(brd_moveList[MoveNum]) == BOOL.FALSE)  {
+	   
+		let move = brd_moveList[MoveNum];
+		let capture;
+		if (CAPTURED(move)) capture = brd_captureList[brd_captureListStart[brd_ply]+MoveNum-brd_moveListStart[brd_ply]];
+        if ( MakeMove(move, capture) == BOOL.FALSE)  {
             continue;
         }
         found++;

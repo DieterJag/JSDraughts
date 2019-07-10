@@ -18,11 +18,11 @@ function AddCapturedPieces(captures) {
     let piece_king;
 
     if (brd_side == COLORS.WHITE) {
-        piece_king = PIECES.wK;
-        piece_men = PIECES.wM;
-    } else {
         piece_king = PIECES.bK;
         piece_men = PIECES.bM;
+    } else {
+        piece_king = PIECES.wK;
+        piece_men = PIECES.wM;
     }
 
     let cap_bit = 1;
@@ -30,10 +30,10 @@ function AddCapturedPieces(captures) {
     for(let i = 0; i < BRD_CAPTURE_SQ_NUM; i++) {
         if (captures & bit) {
             let index = brd_capture_to_pieces[i];
-            if (kings & cap_bit) brd_pieces[index]  = piece_king;
-            else brd_pieces[index] = piece_men;
+            if (kings & cap_bit) pce  = piece_king;
+            else pce = piece_men;
             HASH_PCE(pce, index);
-            brd_pieces[index] = PIECES.EMPTY;
+            brd_pieces[index] = pce;
             cap_bit <<= 1;
         }
         bit <<= 1;
@@ -57,29 +57,28 @@ function MakeMove(move, captures = undefined) {
 	let from = FROMSQ(move);
     let to = TOSQ(move);
     let mv_piece = MVPS(move);
-    let piece;
+    let piece = brd_pieces[from];
 
     if (brd_side == COLORS.WHITE) {
         if (mv_piece == 1) piece = PIECES.wK;
-        else piece = PIECES.wM;
     } else {
         if (mv_piece == 1) piece = PIECES.bK;
-        else piece = PIECES.bM;
     }
 	
 	brd_history[brd_hisPly].posKey = brd_posKey;
     brd_history[brd_hisPly].move = move;
-    if (captures != undefined) brd_history[brd_hisPly].captures = captures;
-	brd_hisPly++;
-	brd_ply++;
+    if (captures != undefined) brd_history[brd_hisPly].capture = captures;
+    else brd_history[brd_hisPly].capture = NOMOVE;
 	
     let capture = CAPTURED(move);
 	
-	brd_side ^= 1;
 	if (capture) {
-        ClearPieces(brd_history[brd_hisPly].captures);
+        ClearPieces(brd_history[brd_hisPly].capture);
     }
 	
+	brd_hisPly++;
+	brd_ply++;
+	brd_side ^= 1;
 	MovePiece(from, to, piece);
 	
     HASH_SIDE();
@@ -113,6 +112,6 @@ function TakeMove() {
 	
 	let capture = CAPTURED(move);
     if (capture) {      
-        AddCapturedPieces(brd_history[brd_hisPly].captures);
+        AddCapturedPieces(brd_history[brd_hisPly].capture);
     }
 }

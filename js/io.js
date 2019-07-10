@@ -15,10 +15,14 @@ function PrMove(move, captures = undefined) {
         MvStr += " captured: ";
         let cap_bit = 1;
         let bit = 1;
+        let kings = captures >> 18;
         for(let i = 0; i < BRD_CAPTURE_SQ_NUM; i++) {
             if (captures & bit) {
-                // let index = brd_capture_to_pieces[i];
+                let index = brd_capture_to_pieces[i];
                 if (kings & cap_bit) MvStr += "K";
+                ff = FilesBrd[index];
+                rf = RanksBrd[index];
+                MvStr += String.fromCharCode('a'.charCodeAt() + ff) + String.fromCharCode('1'.charCodeAt() + rf) + ':';               
                 cap_bit <<= 1;
             }
             bit <<= 1;

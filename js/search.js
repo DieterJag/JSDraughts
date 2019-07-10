@@ -6,6 +6,7 @@ let srch_time;
 let srch_start;
 let srch_stop;
 let srch_best;
+let srch_best_captured;
 let srch_thinking;
 
 function CheckUp() {
@@ -49,8 +50,9 @@ function IsRepetition() {
 function ClearPvTable() {
 	
 	for(index = 0; index < PVENTRIES; index++) {
-			brd_PvTable[index].move = NOMOVE;
-			brd_PvTable[index].posKey = 0;
+		brd_PvTable[index].move = NOMOVE;
+		brd_PvTable[index].capture = NOMOVE;
+		brd_PvTable[index].posKey = 0;
 		
 	}
 }
@@ -109,8 +111,20 @@ function Quiescence(alpha, beta) {
 	let Legal = 0;
 	let OldAlpha = alpha;
 	let BestMove = NOMOVE;
+	let BestCapture = NOMOVE;
 	Score = -INFINITE;
 	let PvMove = ProbePvTable();	
+	let move;
+	let capture;
+	let index = ProbePvTable();
+	if (index != -1) {
+		move = brd_PvTable[index].move;
+		capture = brd_PvTable[index].capture;
+	} else {
+		move = NOMOVE;
+		capture = NOMOVE;
+	}
+	PvMove = move;
 	
 	if( PvMove != NOMOVE) {
 		for(MoveNum = brd_moveListStart[brd_ply]; MoveNum < brd_moveListStart[brd_ply + 1]; ++MoveNum) {
@@ -125,7 +139,10 @@ function Quiescence(alpha, beta) {
 			
 		PickNextMove(MoveNum);	
 		
-        if ( MakeMove(brd_moveList[MoveNum]) == BOOL.FALSE)  {
+		let move = brd_moveList[MoveNum];
+		let capture;
+		if (CAPTURED(move)) capture = brd_captureList[brd_captureListStart[brd_ply]+MoveNum-brd_moveListStart[brd_ply]];
+        if ( MakeMove(move, capture) == BOOL.FALSE)  {
             continue;
         }
         
@@ -143,12 +160,15 @@ function Quiescence(alpha, beta) {
 				return beta;
 			}
 			alpha = Score;
-			BestMove = brd_moveList[MoveNum];			
+			BestMove = brd_moveList[MoveNum];
+			BestCapture = NOMOVE;
+			let capture = CAPTURED(BestMove);
+			if (capture) BestCapture = brd_captureList[brd_captureListStart[brd_ply]+MoveNum-brd_moveListStart[brd_ply]];			
 		}		
     }
 	
 	if(alpha != OldAlpha) {
-		StorePvMove(BestMove);
+		StorePvMove(BestMove, BestCapture);
 	}
 	
 	return alpha;
@@ -202,8 +222,20 @@ function AlphaBeta(alpha, beta, depth) {
 	let Legal = 0;
 	let OldAlpha = alpha;
 	let BestMove = NOMOVE;
+	let BestCapture = NOMOVE;
 	Score = -INFINITE;
 	let PvMove = ProbePvTable();		
+	let move;
+	let capture;
+	let index = ProbePvTable();
+	if (index != -1) {
+		move = brd_PvTable[index].move;
+		capture = brd_PvTable[index].capture;
+	} else {
+		move = NOMOVE;
+		capture = NOMOVE;
+	}
+	PvMove = move;
 	
 	if( PvMove != NOMOVE) {
 		for(MoveNum = brd_moveListStart[brd_ply]; MoveNum < brd_moveListStart[brd_ply + 1]; ++MoveNum) {
@@ -218,7 +250,10 @@ function AlphaBeta(alpha, beta, depth) {
 			
 		PickNextMove(MoveNum);	
 		
-        if ( MakeMove(brd_moveList[MoveNum]) == BOOL.FALSE)  {
+		let move = brd_moveList[MoveNum];
+		let capture;
+		if (CAPTURED(move)) capture = brd_captureList[brd_captureListStart[brd_ply]+MoveNum-brd_moveListStart[brd_ply]];
+        if ( MakeMove(move, capture) == BOOL.FALSE)  {
             continue;
         }
         
@@ -242,9 +277,12 @@ function AlphaBeta(alpha, beta, depth) {
 			}
 			alpha = Score;
 			BestMove = brd_moveList[MoveNum];
-			if((BestMove & MFLAGCAP) == 0) {
+			BestCapture = NOMOVE;
+			let capture = CAPTURED(BestMove);
+			if (capture) BestCapture = brd_captureList[brd_captureListStart[brd_ply]+MoveNum-brd_moveListStart[brd_ply]];			
+			// if((BestMove & MFLAGCAP) == 0) {
 				brd_searchHistory[ brd_pieces[FROMSQ(BestMove)] * BRD_SQ_NUM + TOSQ(BestMove) ] += depth;
-			}
+			// }
 		}		
     }
 	
@@ -253,7 +291,7 @@ function AlphaBeta(alpha, beta, depth) {
 	}
 	
 	if(alpha != OldAlpha) {		
-		StorePvMove(BestMove);
+		StorePvMove(BestMove, BestCapture);
 	}
 	
 	return alpha;
@@ -282,26 +320,27 @@ function UpdateDOMStats() {
 function SearchPosition() {
 	
 	let bestMove = NOMOVE;
+	let bestCapture = NOMOVE;
 	let bestScore = -INFINITE;
 	let currentDepth = 0;	
 	let line;
 	ClearForSearch();
 	
-	if(GameController.BookLoaded == BOOL.TRUE) {
-		bestMove = BookMove();
+	// if(GameController.BookLoaded == BOOL.TRUE) {
+	// 	bestMove = BookMove();
 	
-		if(bestMove != NOMOVE) {
-			$("#OrderingOut").text("Ordering:");
-			$("#DepthOut").text("Depth: ");
-			$("#ScoreOut").text("Score:");
-			$("#NodesOut").text("Nodes:");
-			$("#TimeOut").text("Time: 0s");
-			$("#BestOut").text("BestMove: " + PrMove(bestMove) + '(Book)');
-			srch_best = bestMove;
-			srch_thinking = BOOL.FALSE;
-			return;
-		}
-	}
+	// 	if(bestMove != NOMOVE) {
+	// 		$("#OrderingOut").text("Ordering:");
+	// 		$("#DepthOut").text("Depth: ");
+	// 		$("#ScoreOut").text("Score:");
+	// 		$("#NodesOut").text("Nodes:");
+	// 		$("#TimeOut").text("Time: 0s");
+	// 		$("#BestOut").text("BestMove: " + PrMove(bestMove) + '(Book)');
+	// 		srch_best = bestMove;
+	// 		srch_thinking = BOOL.FALSE;
+	// 		return;
+	// 	}
+	// }
 	
 	// iterative deepening
 	for( currentDepth = 1; currentDepth <= srch_depth; ++currentDepth ) {						
@@ -310,7 +349,8 @@ function SearchPosition() {
 		if(srch_stop == BOOL.TRUE) break;
 		pvNum = GetPvLine(currentDepth);
 		bestMove = brd_PvArray[0];
-		line = ("Depth:" + currentDepth + " best:" + PrMove(bestMove) + " Score:" + bestScore + " nodes:" + srch_nodes); 
+		bestCapture = brd_cap_PvArray[0];
+		line = ("Depth:" + currentDepth + " best:" + PrMove(bestMove, bestCapture) + " Score:" + bestScore + " nodes:" + srch_nodes); 
 		
 		if(currentDepth!=1) {
 			line += (" Ordering:" + ((srch_fhf/srch_fh)*100).toFixed(2) + "%");
@@ -324,9 +364,10 @@ function SearchPosition() {
 		domUpdate_ordering = ((srch_fhf/srch_fh)*100).toFixed(2);
 	}	
 		
-	$("#BestOut").text("BestMove: " + PrMove(bestMove));
+	$("#BestOut").text("BestMove: " + PrMove(bestMove, bestCapture));
 	UpdateDOMStats();
 	srch_best = bestMove;
+	srch_best_captured = bestCapture;
 	srch_thinking = BOOL.FALSE;
 	
 }
