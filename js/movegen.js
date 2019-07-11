@@ -22,7 +22,16 @@ function initDirections() {
 }
 
 function AddQuiteMove(from, to, mv_piece) {
-	brd_moveList[brd_moveListStart[brd_ply + 1]] = from | (to << 6) | (mv_piece << 12);
+    let move = from | (to << 6) | (mv_piece << 12);
+    brd_moveList[brd_moveListStart[brd_ply + 1]] = move;
+	if(brd_searchKillers[brd_ply] == move) {	
+		brd_moveScores[brd_moveListStart[brd_ply + 1]] = 900000;
+	} else if(brd_searchKillers[MAXDEPTH + brd_ply] == move) {	
+		brd_moveScores[brd_moveListStart[brd_ply + 1]] = 800000;
+	} else {	
+		brd_moveScores[brd_moveListStart[brd_ply + 1]] = brd_searchHistory[ brd_pieces[FROMSQ(move)] * BRD_SQ_NUM + TOSQ(move) ];
+	}
+    
 	brd_moveListStart[brd_ply + 1]++;	
 }
 
@@ -34,12 +43,17 @@ function AddCapuresMoves() {
         let from;
         let to;
         let piece = element.change_piece;
+        let score = 0
 
         element.captures.forEach((cap_element, index) => {
             if (index == 0) from = cap_element.from;
             to = cap_element.to;
             bit_cap |= (1 << brd_capture_pieces[cap_element.captured]);
-            if ((brd_pieces[cap_element.captured] & 1) == 0) bit_king18 |= (1 << brd_capture_pieces[cap_element.captured]); // set king piece
+            if ((brd_pieces[cap_element.captured] & 1) == 0) {
+                score = score + 200;
+                bit_king18 |= (1 << brd_capture_pieces[cap_element.captured]); // set king piece
+            }
+            score = score + 100;
         })
 
         let j = 1;
@@ -53,6 +67,7 @@ function AddCapuresMoves() {
         }
         brd_moveList[brd_moveListStart[brd_ply + 1]] = from | (to << 6) | (piece << 12) | 0x2000;
         brd_captureList[brd_captureListStart[brd_ply + 1]] = (bit_king << BRD_CAPTURE_SQ_NUM) | bit_cap;
+        brd_moveScores[brd_moveListStart[brd_ply + 1]] = score + 1000000;
         brd_moveListStart[brd_ply + 1]++;
         brd_captureListStart[brd_ply + 1]++;	    
     })

@@ -29,6 +29,14 @@ function PickNextMove(moveNum) {
 	temp = brd_moveList[moveNum];
 	brd_moveList[moveNum] = brd_moveList[bestNum];
 	brd_moveList[bestNum] = temp;
+
+	if (brd_captureListStart[brd_ply] < brd_captureListStart[brd_ply + 1]) {
+		let cap_moveNum = brd_captureListStart[brd_ply] + moveNum - brd_moveListStart[brd_ply];
+		let cap_bestNum = brd_captureListStart[brd_ply] + bestNum - brd_moveListStart[brd_ply];
+		temp = brd_captureList[cap_moveNum];
+		brd_captureList[cap_moveNum] = brd_captureList[cap_bestNum];
+		brd_captureList[cap_bestNum] = temp;
+	}
 	
 	temp = brd_moveScores[moveNum];
 	brd_moveScores[moveNum] = brd_moveScores[bestNum];
@@ -240,7 +248,7 @@ function AlphaBeta(alpha, beta, depth) {
 	if( PvMove != NOMOVE) {
 		for(MoveNum = brd_moveListStart[brd_ply]; MoveNum < brd_moveListStart[brd_ply + 1]; ++MoveNum) {
 			if( brd_moveList[MoveNum] == PvMove) {
-				brd_moveScores[MoveNum] = 2000000; //?????
+				brd_moveScores[MoveNum] = 2000000; 
 				break;
 			}
 		}
@@ -356,6 +364,11 @@ function SearchPosition() {
 			line += (" Ordering:" + ((srch_fhf/srch_fh)*100).toFixed(2) + "%");
 		}
 		console.log(line);
+		brd_pieces.forEach((element, index) => {
+			if (element == 0 && (index > 27 || index < 18)) console.log(index + " => " + element);
+			else if (element == 1 && (index > 18)) console.log(index + " => " + element);
+			else if (element == 3 && (index < 27)) console.log(index + " => " + element);
+		})
 		
 		domUpdate_depth = currentDepth;
 		domUpdate_move = bestMove;
