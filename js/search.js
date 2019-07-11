@@ -113,7 +113,7 @@ function Quiescence(alpha, beta) {
 	let BestMove = NOMOVE;
 	let BestCapture = NOMOVE;
 	Score = -INFINITE;
-	let PvMove = ProbePvTable();	
+	let PvMove;	
 	let move;
 	let capture;
 	let index = ProbePvTable();

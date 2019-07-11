@@ -90,7 +90,7 @@ function GenerateMoves() {
         } else if (element == move_king) {
             for(let i = 0; i < 4; i++) {
                 let to_move = index + mv_dir[i];
-                while(brd_pieces[to_move] = PIECES.EMPTY) {
+                while(brd_pieces[to_move] == PIECES.EMPTY) {
                     AddQuiteMove(index, to_move, 0);
                     to_move += mv_dir[i];
                 }
@@ -279,7 +279,7 @@ function GenerateCaptures() {
                 }
                 cap_step++;
             }
-            brd_pieces[index] = atack_men;
+            brd_pieces[index] = element;
         }
         index++;
     });
