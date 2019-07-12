@@ -1,4 +1,4 @@
-function GetPvLine(depth) {;
+function GetPvLine(depth) {
 
 	//console.log("GetPvLine");
 	let move;

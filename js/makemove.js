@@ -75,11 +75,15 @@ function MakeMove(move, captures = undefined) {
 	if (capture) {
         ClearPieces(brd_history[brd_hisPly].capture);
     }
-	
+    
 	brd_hisPly++;
 	brd_ply++;
 	brd_side ^= 1;
 	MovePiece(from, to, piece);
+
+    if (brd_pieces[34] == 0 && brd_ply < 6) {
+        console.log("gal klaida");
+    }
 	
     HASH_SIDE();
 	
@@ -114,4 +118,19 @@ function TakeMove() {
     if (capture) {      
         AddCapturedPieces(brd_history[brd_hisPly].capture);
     }
+
+    if (brd_ply == 0 || 
+        (brd_ply == 1 && (brd_pieces[11] == 0 || brd_pieces[15] == 0 || brd_pieces[34] == 0)) ||
+            move == 2215) {
+        console.log("brd_ply="+brd_ply);
+        brd_pieces.forEach((element, index) => {
+            if ((element == 0 && (index > 27 || index < 18)) || 
+                (element == 1 && (index > 18)) || (element == 3 && (index < 27))){
+                    if (brd_ply==0 || (move == 2215 && brd_ply < 5)) {
+                        console.log(index + " => " + element + " brd_ply="+brd_ply);
+                    }
+                } 
+        })
+    }
+    
 }
