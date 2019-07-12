@@ -3,7 +3,7 @@ function ClearPieces(captures) {
     for(let i = 0; i < BRD_CAPTURE_SQ_NUM; i++) {
         if (captures & bit) {
             let index = brd_capture_to_pieces[i];
-            let pce = brd_pieces[brd_capture_to_pieces[i]];	
+            let pce = brd_pieces[index];	
             HASH_PCE(pce, index);
             brd_pieces[index] = PIECES.EMPTY;
         }
@@ -73,6 +73,9 @@ function MakeMove(move, captures = undefined) {
     let capture = CAPTURED(move);
 	
 	if (capture) {
+        if (captures == undefined) {
+            console.log("capture error");
+        }
         ClearPieces(brd_history[brd_hisPly].capture);
     }
     
