@@ -239,7 +239,7 @@ function EvalPosition(alpha, beta) {
             })
             // negamax formulation requires this:
             eval = ( brd_side == COLORS.BLACK ) ? eval : -eval;
-            EvalHash[ (U32) ( HASH_KEY & EC_MASK ) ] = (HASH_KEY & 0xffffffffffff0000) | ( eval & 0xffff);
+            eval_hash[(brd_posKey & EC_MASK)] = (brd_posKey & 0xffffffffffff0000) | ( eval & 0xffff);
             return (eval); 
         } // only kings left
         if ( count_bk == 0 && count_wk == 0 ){ // only men left

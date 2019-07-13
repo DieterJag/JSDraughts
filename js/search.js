@@ -364,11 +364,11 @@ function SearchPosition() {
 			line += (" Ordering:" + ((srch_fhf/srch_fh)*100).toFixed(2) + "%");
 		}
 		console.log(line);
-		brd_pieces.forEach((element, index) => {
-			if (element == 0 && (index > 27 || index < 18)) console.log(index + " => " + element);
-			else if (element == 1 && (index > 18)) console.log(index + " => " + element);
-			else if (element == 3 && (index < 27)) console.log(index + " => " + element);
-		})
+		// brd_pieces.forEach((element, index) => {
+		// 	if (element == 0 && (index > 27 || index < 18)) console.log(index + " => " + element);
+		// 	else if (element == 1 && (index > 18)) console.log(index + " => " + element);
+		// 	else if (element == 3 && (index < 27)) console.log(index + " => " + element);
+		// })
 		
 		domUpdate_depth = currentDepth;
 		domUpdate_move = bestMove;

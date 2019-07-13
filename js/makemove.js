@@ -52,6 +52,33 @@ function MovePiece(from, to, piece) {
 	
 }
 
+function CountPieces()
+{
+    let count_wm = 0;
+    let count_wk = 0;
+    let count_bm = 0;
+    let count_bk = 0;
+
+    brd_pieces.forEach((element, index) => {
+        switch(element) {
+            case PIECES.wK:
+                count_wk++;
+                break;
+            case PIECES.wM:
+                count_wm++;
+                break;
+            case PIECES.bK:
+                count_bk++;
+                break;
+            case PIECES.bM:
+                count_bm++;
+                break;
+        }
+    })
+
+    return (count_wk << 12) | (count_wm << 8) | (count_bk << 4) | count_bm; 
+}
+
 function MakeMove(move, captures = undefined) {
 	
 	let from = FROMSQ(move);
@@ -64,8 +91,8 @@ function MakeMove(move, captures = undefined) {
     } else {
         if (mv_piece == 1) piece = PIECES.bK;
     }
-	
-	brd_history[brd_hisPly].posKey = brd_posKey;
+    
+ 	brd_history[brd_hisPly].posKey = brd_posKey;
     brd_history[brd_hisPly].move = move;
     if (captures != undefined) brd_history[brd_hisPly].capture = captures;
     else brd_history[brd_hisPly].capture = NOMOVE;
@@ -79,14 +106,17 @@ function MakeMove(move, captures = undefined) {
         ClearPieces(brd_history[brd_hisPly].capture);
     }
     
-	brd_hisPly++;
+	MovePiece(from, to, piece);
+    let count_pieces = CountPieces();
+    brd_history[brd_hisPly].countpieces = count_pieces;
+
+    brd_hisPly++;
 	brd_ply++;
 	brd_side ^= 1;
-	MovePiece(from, to, piece);
 
-    if (brd_pieces[34] == 0 && brd_ply < 6) {
-        console.log("gal klaida");
-    }
+    // if (brd_pieces[34] == 0 && brd_ply < 6) {
+    //     console.log("gal klaida");
+    // }
 	
     HASH_SIDE();
 	
@@ -122,18 +152,22 @@ function TakeMove() {
         AddCapturedPieces(brd_history[brd_hisPly].capture);
     }
 
-    if (brd_ply == 0 || 
-        (brd_ply == 1 && (brd_pieces[11] == 0 || brd_pieces[15] == 0 || brd_pieces[34] == 0)) ||
-            move == 2215) {
-        console.log("brd_ply="+brd_ply);
-        brd_pieces.forEach((element, index) => {
-            if ((element == 0 && (index > 27 || index < 18)) || 
-                (element == 1 && (index > 18)) || (element == 3 && (index < 27))){
-                    if (brd_ply==0 || (move == 2215 && brd_ply < 5)) {
-                        console.log(index + " => " + element + " brd_ply="+brd_ply);
-                    }
-                } 
-        })
+    let count_pieces = CountPieces();
+    if (brd_hisPly != 0 && count_pieces != brd_history[brd_hisPly - 1].countpieces) {
+        console.log("TakeMove erorr");
     }
+    // if (brd_ply == 0 || 
+    //     (brd_ply == 1 && (brd_pieces[11] == 0 || brd_pieces[15] == 0 || brd_pieces[34] == 0)) ||
+    //         move == 2215) {
+    //     // console.log("brd_ply="+brd_ply);
+    //     brd_pieces.forEach((element, index) => {
+    //         if ((element == 0 && (index > 27 || index < 18)) || 
+    //             (element == 1 && (index > 18)) || (element == 3 && (index < 27))){
+    //                 if (brd_ply==0 || (move == 2215 && brd_ply < 5)) {
+    //                     console.log(index + " => " + element + " brd_ply="+brd_ply);
+    //                 }
+    //             } 
+    //     })
+    // }
     
 }

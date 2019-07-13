@@ -82,7 +82,7 @@ function MoveGUIPiece(move, captured) {
 		if((RanksBrd[from] == 7 - Math.round($(this).position().top/60)) && (FilesBrd[from] == Math.round($(this).position().left/60))){
 			if (mv_piece == 1) {
 				$(this).remove();
-				AddGUIPiece(from, brd_pieces[to]);
+				AddGUIPiece(to, brd_pieces[to]);
 			} else $(this).removeClass();
 			$(this).addClass("Piece clickElement " + rankName + " " + fileName);     
 		}

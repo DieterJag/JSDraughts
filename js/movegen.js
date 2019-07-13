@@ -249,7 +249,8 @@ function GenerateCaptures() {
                                             }
                                             if (check_add == BOOL.FALSE) {
                                                 let check_def_index = empty_index;
-                                                let check_empty_index = empty_index + mv_dir[j];
+                                                let check_empty_index = empty_index;
+                                                // let check_empty_index = empty_index + mv_dir[j];
                                                 if (check_def_index >= 0 && check_def_index < BRD_SQ_NUM &&
                                                     check_empty_index >= 0 && check_empty_index < BRD_SQ_NUM &&
                                                     (brd_pieces[check_def_index] == defence_men ||
@@ -313,8 +314,10 @@ function MoveExists(move) {
 	let moveFound = NOMOVE;
 	for(index = brd_moveListStart[brd_ply]; index < brd_moveListStart[brd_ply + 1]; ++index) {
 	
-		moveFound = brd_moveList[index];	
-		if(MakeMove(moveFound) == BOOL.FALSE) {
+        moveFound = brd_moveList[index];
+        let capture;	
+		if (CAPTURED(move)) capture = brd_captureList[brd_captureListStart[brd_ply]+index-brd_moveListStart[brd_ply]];
+		if(MakeMove(moveFound, capture) == BOOL.FALSE) {
 			continue;
 		}				
 		TakeMove();
