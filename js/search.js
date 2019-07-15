@@ -232,9 +232,9 @@ function AlphaBeta(alpha, beta, depth) {
 	let BestMove = NOMOVE;
 	let BestCapture = NOMOVE;
 	Score = -INFINITE;
-	let PvMove = ProbePvTable();		
+	let PvMove;		
 	let move;
-	let capture;
+	// let capture;
 	let index = ProbePvTable();
 	if (index != -1) {
 		move = brd_PvTable[index].move;
@@ -295,7 +295,7 @@ function AlphaBeta(alpha, beta, depth) {
     }
 	
 	if(Legal == 0) {
-		return 0;
+		return (brd_side == COLORS.BLACK)?MATE:-MATE;
 	}
 	
 	if(alpha != OldAlpha) {		

@@ -238,7 +238,7 @@ function EvalPosition(alpha, beta) {
                 }
             })
             // negamax formulation requires this:
-            eval = ( brd_side == COLORS.BLACK ) ? eval : -eval;
+            eval = ( brd_side == COLORS.BLACK ) ? -eval : eval;
             eval_hash[(brd_posKey & EC_MASK)] = (brd_posKey & 0xffffffffffff0000) | ( eval & 0xffff);
             return (eval); 
         } // only kings left
@@ -290,7 +290,7 @@ function EvalPosition(alpha, beta) {
     //Lazy evaluation
     // Early exit from evaluation if eval already is extremely low or extremely high
     if ( beta - alpha == 1 ){
-        let teval = ( brd_side == COLORS.WHITE ) ? -eval : eval;
+        let teval = ( brd_side == COLORS.WHITE ) ? eval : -eval;
         if ( ( teval - 130 ) > beta )
         return teval;
         if ( ( teval + 130 ) < alpha )
@@ -1240,7 +1240,7 @@ function EvalPosition(alpha, beta) {
     eval += ((opening * phase + endgame * antiphase )/24);
     eval &= ~(2 - 1);
     // negamax formulation requires this:
-    eval = ( brd_side == COLORS.BLACK ) ? eval : -eval;
+    eval = ( brd_side == COLORS.BLACK ) ? -eval : eval;
     eval_hash[(brd_posKey & EC_MASK)] = (brd_posKey & 0xffffffffffff0000) | ( eval & 0xffff);
     return eval;
 }
