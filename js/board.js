@@ -38,12 +38,12 @@ function BoardToFen() {
                 fenW += "K"+IND2STD(index);
                 break;
             case PIECES.bM:
-                if (fenW.length == 0) fenB = "B";
+                if (fenB.length == 0) fenB = "B";
                 else fenB += ",";
                 fenB+= IND2STD(index);
                 break;
             case PIECES.bK:
-                if (fenW.length == 0) fenB = "B";
+                if (fenB.length == 0) fenB = "B";
                 else fenB += ",";
                 fenB+= "K"+IND2STD(index);
                 break;
@@ -53,7 +53,7 @@ function BoardToFen() {
     if (brd_side == 0) fenStr = "W:";
     else fenStr = "B:";
 	
-	return fenStr+fenW+fenB;
+	return fenStr+fenW+":"+fenB;
 }
 
 function ParseFenPos(fen, color) {

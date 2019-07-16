@@ -266,7 +266,11 @@ function AlphaBeta(alpha, beta, depth) {
         }
         
 		Legal++;
+		console.log("AlpaBeta in beta="+beta+" alpa="+alpha+" depth="+depth);
+		console.log(BoardToFen());
 		Score = -AlphaBeta( -beta, -alpha, depth-1);
+		console.log("AlpaBeta out beta="+beta+" alpa="+alpha+" depth="+depth+" score="+Score);
+		console.log(BoardToFen());
 		TakeMove();						
 		if(srch_stop == BOOL.TRUE) return 0;				
 		
@@ -353,7 +357,11 @@ function SearchPosition() {
 	// iterative deepening
 	for( currentDepth = 1; currentDepth <= srch_depth; ++currentDepth ) {						
 		
+		console.log("AlpaBeta in beta=-"+INFINITE+" alpa="+INFINITE+" depth="+currentDepth+" bestScore="+bestScore);
+		console.log(BoardToFen());
 		bestScore = AlphaBeta(-INFINITE, INFINITE, currentDepth, BOOL.TRUE);
+		console.log("AlpaBeta out depth="+currentDepth+" bestScore="+bestScore);
+		console.log(BoardToFen());
 		if(srch_stop == BOOL.TRUE) break;
 		pvNum = GetPvLine(currentDepth);
 		bestMove = brd_PvArray[0];

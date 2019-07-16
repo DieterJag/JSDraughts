@@ -93,11 +93,13 @@ function EvalPosition(alpha, beta) {
 
     if (count_wm == 0 && count_wk == 0) {
         eval = -MATE;
+        console.log(BoardToFen()+" eval="+eval);
         // if (brd_side == COLORS.BLACK) eval = - eval;
         return eval;
     } 
     if (count_bm == 0 && count_bk == 0) {
         eval = -MATE;
+        console.log(BoardToFen()+" eval="+eval);
         // if (brd_side == COLORS.BLACK) eval = - eval;
         return eval;
     } 
@@ -109,15 +111,18 @@ function EvalPosition(alpha, beta) {
     // draw situations
     if ( count_bm == 0 && count_wm == 0 && Math.abs( count_bk - count_wk) <= 1 ){ 
         // eval_hash[(brd_posKey & EC_MASK)] = brd_posKey & 0xffffffffffff0000;
+        console.log(BoardToFen()+" eval="+eval);
         return 0; // only kings left
     }
     if ( ( eval > 0 ) && ( count_wk > 0 ) && (count_b < (count_wk+2)) ){
         // eval_hash[(brd_posKey & EC_MASK)] = brd_posKey & 0xffffffffffff0000;
+        console.log(BoardToFen()+" eval="+eval);
         return 0; // black cannot win
     }
 
     if ( ( eval < 0 ) && (count_bk > 0) && (count_w < (count_bk+2)) ){
         // eval_hash[(brd_posKey & EC_MASK)] = brd_posKey & 0xffffffffffff0000;
+        console.log(BoardToFen()+" eval="+eval);
         return 0; // white cannot win
     }
 
@@ -158,12 +163,14 @@ function EvalPosition(alpha, beta) {
         if ( eval < 0 && count_bk == 1 && main_line == PIECES.bK) {
             if ( count_bm == 0 || brd_pieces[32] == PIECES.bM ){
                 // eval_hash[(brd_posKey & EC_MASK)] = brd_posKey & 0xffffffffffff0000;
+                console.log(BoardToFen()+" eval="+eval);
                 return 0;
             }
         }
         if ( eval > 0 && count_wk == 1 && main_line == PIECES.wK ){
             if ( count_wm == 0 || brd_pieces[13] == PIECES.wM){
                 // eval_hash[(brd_posKey & EC_MASK)] = brd_posKey & 0xffffffffffff0000;
+                console.log(BoardToFen()+" eval="+eval);
                 return (0);
             }
         }
@@ -235,8 +242,9 @@ function EvalPosition(alpha, beta) {
                 }
             })
             // negamax formulation requires this:
-            eval = ( brd_side == COLORS.BLACK ) ? -eval : eval;
+            eval = ( brd_side == COLORS.BLACK ) ? eval : -eval;
             // eval_hash[(brd_posKey & EC_MASK)] = (brd_posKey & 0xffffffffffff0000) | ( eval & 0xffff);
+            console.log(BoardToFen()+" late game eval="+eval);
             return (eval); 
         } // only kings left
         if ( count_bk == 0 && count_wk == 0 ){ // only men left
@@ -288,11 +296,15 @@ function EvalPosition(alpha, beta) {
     // Early exit from evaluation if eval already is extremely low or extremely high
     if ( beta - alpha == 1 ){
         let teval = ( brd_side == COLORS.WHITE ) ? -eval : eval;
-        if ( ( teval - 130 ) > beta )
-        return teval;
+        if ( ( teval - 130 ) > beta ){
+            console.log(BoardToFen()+" eval="+eval);
+            return teval;
+        }
         // return ( brd_side == COLORS.WHITE )? teval : -teval;
-        if ( ( teval + 130 ) < alpha )
-        return teval;
+        if ( ( teval + 130 ) < alpha ){
+            console.log(BoardToFen()+" eval="+eval);
+            return teval;
+        }
         // return ( brd_side == COLORS.WHITE )? teval : -teval;
     }
     
@@ -1226,5 +1238,6 @@ function EvalPosition(alpha, beta) {
     // negamax formulation requires this:
     // eval = ( brd_side == COLORS.BLACK ) ? -eval : eval;
     // eval_hash[(brd_posKey & EC_MASK)] = (brd_posKey & 0xffffffffffff0000) | ( eval & 0xffff);
+    console.log(BoardToFen()+" last eval="+eval);
     return eval;
 }
