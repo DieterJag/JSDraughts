@@ -1,4 +1,4 @@
-let eval_hash = new Array(EC_SIZE);
+// let eval_hash = new Array(EC_SIZE);
 
 let EVL_man_op = [0,0,0,0,0,  // 0 .. 4
     15,40,42,45,0,            // 5 .. 8 (9)
@@ -58,10 +58,10 @@ function EvalPosition(alpha, beta) {
     let v1;
     let v2;
 
-    if ((( brd_posKey ^ eval_hash[(brd_posKey & EC_MASK )]) & 0xffffffffffff0000) == 0 ) {
-        eval  = eval_hash[(brd_posKey & EC_MASK)] & 0xffff;
-        return  eval;
-    }
+    // if ((( brd_posKey ^ eval_hash[(brd_posKey & EC_MASK )]) & 0xffffffffffff0000) == 0 ) {
+    //     eval  = eval_hash[(brd_posKey & EC_MASK)] & 0xffff;
+    //     return  eval;
+    // }
     brd_pieces.forEach((element, index) => {
         if (index % 5 == 0) main_line += element;
         switch(element) {
@@ -97,7 +97,7 @@ function EvalPosition(alpha, beta) {
         return eval;
     } 
     if (count_bm == 0 && count_bk == 0) {
-        eval = MATE;
+        eval = -MATE;
         // if (brd_side == COLORS.BLACK) eval = - eval;
         return eval;
     } 
@@ -108,16 +108,16 @@ function EvalPosition(alpha, beta) {
 
     // draw situations
     if ( count_bm == 0 && count_wm == 0 && Math.abs( count_bk - count_wk) <= 1 ){ 
-        eval_hash[(brd_posKey & EC_MASK)] = brd_posKey & 0xffffffffffff0000;
+        // eval_hash[(brd_posKey & EC_MASK)] = brd_posKey & 0xffffffffffff0000;
         return 0; // only kings left
     }
     if ( ( eval > 0 ) && ( count_wk > 0 ) && (count_b < (count_wk+2)) ){
-        eval_hash[(brd_posKey & EC_MASK)] = brd_posKey & 0xffffffffffff0000;
+        // eval_hash[(brd_posKey & EC_MASK)] = brd_posKey & 0xffffffffffff0000;
         return 0; // black cannot win
     }
 
     if ( ( eval < 0 ) && (count_bk > 0) && (count_w < (count_bk+2)) ){
-        eval_hash[(brd_posKey & EC_MASK)] = brd_posKey & 0xffffffffffff0000;
+        // eval_hash[(brd_posKey & EC_MASK)] = brd_posKey & 0xffffffffffff0000;
         return 0; // white cannot win
     }
 
@@ -157,13 +157,13 @@ function EvalPosition(alpha, beta) {
     if ( (count_w < 4) && (count_b < 4) ){
         if ( eval < 0 && count_bk == 1 && main_line == PIECES.bK) {
             if ( count_bm == 0 || brd_pieces[32] == PIECES.bM ){
-                eval_hash[(brd_posKey & EC_MASK)] = brd_posKey & 0xffffffffffff0000;
+                // eval_hash[(brd_posKey & EC_MASK)] = brd_posKey & 0xffffffffffff0000;
                 return 0;
             }
         }
         if ( eval > 0 && count_wk == 1 && main_line == PIECES.wK ){
             if ( count_wm == 0 || brd_pieces[13] == PIECES.wM){
-                eval_hash[(brd_posKey & EC_MASK)] = brd_posKey & 0xffffffffffff0000;
+                // eval_hash[(brd_posKey & EC_MASK)] = brd_posKey & 0xffffffffffff0000;
                 return (0);
             }
         }
@@ -236,7 +236,7 @@ function EvalPosition(alpha, beta) {
             })
             // negamax formulation requires this:
             eval = ( brd_side == COLORS.BLACK ) ? -eval : eval;
-            eval_hash[(brd_posKey & EC_MASK)] = (brd_posKey & 0xffffffffffff0000) | ( eval & 0xffff);
+            // eval_hash[(brd_posKey & EC_MASK)] = (brd_posKey & 0xffffffffffff0000) | ( eval & 0xffff);
             return (eval); 
         } // only kings left
         if ( count_bk == 0 && count_wk == 0 ){ // only men left
@@ -356,7 +356,7 @@ function EvalPosition(alpha, beta) {
         // the move : the move is an endgame term that defines whether one side
         // can force the other to retreat
         if ( count_bm == count_wm && count_bm + count_wm <= 12 ){
-            let move;
+            // let move;
         
             let stonesinsystem = 0;
             let has_man_on_7th_b = 0;
@@ -382,9 +382,9 @@ function EvalPosition(alpha, beta) {
             if (brd_pieces[13] == PIECES.wM && brd_pieces[8] == PIECES.EMPTY) has_man_on_7th_w = 1;
             else if (brd_pieces[12] == PIECES.wM && (brd_pieces[7] == PIECES.EMPTY ||
                 brd_pieces[8] == PIECES.EMPTY)) has_man_on_7th_w = 1;
-            else if (brd_pieces[11] == PIECES.bM && (brd_pieces[6] == PIECES.EMPTY ||
+            else if (brd_pieces[11] == PIECES.wM && (brd_pieces[6] == PIECES.EMPTY ||
                 brd_pieces[7] == PIECES.EMPTY)) has_man_on_7th_w = 1;
-            else if (brd_pieces[10] == PIECES.bM && (brd_pieces[5] == PIECES.EMPTY ||
+            else if (brd_pieces[10] == PIECES.wM && (brd_pieces[5] == PIECES.EMPTY ||
                 brd_pieces[6] == PIECES.EMPTY)) has_man_on_7th_w = 1;
             if ( brd_side == COLORS.WHITE && has_man_on_7th_w == 0 ) // need cha
             {
@@ -628,8 +628,7 @@ function EvalPosition(alpha, beta) {
                             else{b_losing++;break;}
                         } // (2) danger
                                                                         
-                        if ( ( brd_pieces[index+4] == PIECES.bM ) && (  brd_pieces[index+8] == PIECES.wM || 
-                                brd_pieces[index+8] == PIECES.wK ) ){ // (3) danger
+                        if ( ( brd_pieces[index+4] == PIECES.bM ) && (  brd_pieces[index+8] == PIECES.wM ) ){ // (3) danger
                             is_square_safe = 0;
                             // can white capture from square
                             if ( brd_pieces[index+10] == PIECES.EMPTY ){b_losing++;break;}
@@ -694,41 +693,29 @@ function EvalPosition(alpha, beta) {
                         } // (2) danger
                                                                         
                         if ( ( ( brd_pieces[index+5]== PIECES.bM ) ) && ( ( brd_pieces[index+10] == PIECES.wM) ) ){ // (3) danger
-                        is_square_safe = 0;
-                        // can white capture from square
-                        if ( brd_pieces[index+8] == PIECES.EMPTY ) {b_losing++;break;}
-                        if ( ( ( brd_pieces[index-5]== PIECES.bM ) ) && ( brd_pieces[index-10] == PIECES.EMPTY ) ) {b_losing++;break;}
-                        if ( ( ( brd_pieces[index-4]== PIECES.bM ) ) && ( brd_pieces[index-8] == PIECES.EMPTY ) ){b_losing++;break;}
-                        // can black recapture square
-                        if ( brd_pieces[index-4] == PIECES.EMPTY )
-                        can_recapture = 1;
-                        else
-                        if ( ( brd_pieces[index-5]== PIECES.bM ) )
-                        can_recapture = 1;
-                        else{
-                        b_losing++;break;
-                                }
+                            is_square_safe = 0;
+                            // can white capture from square
+                            if ( brd_pieces[index+8] == PIECES.EMPTY ) {b_losing++;break;}
+                            if ( ( ( brd_pieces[index-5]== PIECES.bM ) ) && ( brd_pieces[index-10] == PIECES.EMPTY ) ) {b_losing++;break;}
+                            if ( ( ( brd_pieces[index-4]== PIECES.bM ) ) && ( brd_pieces[index-8] == PIECES.EMPTY ) ){b_losing++;break;}
+                            // can black recapture square
+                            if ( brd_pieces[index-4] == PIECES.EMPTY ) can_recapture = 1;
+                            else if ( ( brd_pieces[index-5]== PIECES.bM ) ) can_recapture = 1;
+                            else{b_losing++;break;}
                         } // (3) danger
                                                                                                                         
                         if ( ( brd_pieces[index+9] == PIECES.EMPTY ) && ( ( brd_pieces[index-1] == PIECES.wM) ) ){  // (4) danger
-                        is_square_safe = 0;
-                        // can white capture from square+9
-                        if ( ( ( brd_pieces[index+5]== PIECES.bM ) ) && ( brd_pieces[index+1] == PIECES.EMPTY ) ){b_losing++;break;}
-                        if ( ( ( brd_pieces[index+14]== PIECES.bM ) ) && ( brd_pieces[index+19] == PIECES.EMPTY ) ){b_losing++;break;}
-                        if ( ( ( brd_pieces[index+13]== PIECES.bM ) ) && ( brd_pieces[index+17] == PIECES.EMPTY ) ){b_losing++;break;}
-                        // can black recapture square+9
-                        if ( ( brd_pieces[index+14]== PIECES.bM ) )
-                        can_recapture = 1;
-                        else
-                        if ( ( ( brd_pieces[index+5]== PIECES.bM ) )  && ( brd_pieces[index+13] == PIECES.EMPTY ) )
-                        can_recapture = 1;
-                        else
-                            if ( ( brd_pieces[index+5] == PIECES.EMPTY ) && ( ( brd_pieces[index+13]== PIECES.bM ) ) )
-                        can_recapture = 1;       
-                        else{
-                        b_losing++;break;
-                                }
-                                            }
+                            is_square_safe = 0;
+                            // can white capture from square+9
+                            if (((brd_pieces[index+5]== PIECES.bM)) && (brd_pieces[index+1] == PIECES.EMPTY)){b_losing++;break;}
+                            if (((brd_pieces[index+14]== PIECES.bM)) && (brd_pieces[index+19] == PIECES.EMPTY)){b_losing++;break;}
+                            if (((brd_pieces[index+13]== PIECES.bM)) && ( brd_pieces[index+17] == PIECES.EMPTY)){b_losing++;break;}
+                            // can black recapture square+9
+                            if ((brd_pieces[index+14]== PIECES.bM)) can_recapture = 1;
+                            else if (((brd_pieces[index+5]== PIECES.bM))  && ( brd_pieces[index+13] == PIECES.EMPTY)) can_recapture = 1;
+                            else if ((brd_pieces[index+5] == PIECES.EMPTY) && ((brd_pieces[index+13]== PIECES.bM))) can_recapture = 1;       
+                            else{b_losing++;break;}
+                        }
                         // incomplete dangers
                         if ( ( ( brd_pieces[index-4]== PIECES.bM ) ) && ( ( brd_pieces[index-8] == PIECES.wM) ) ){ break;} // (5)
                         if ( ( ( brd_pieces[index-5]== PIECES.bM ) ) && ( ( brd_pieces[index-10] == PIECES.wM) ) ){ break;} // (6)
@@ -788,11 +775,8 @@ function EvalPosition(alpha, beta) {
                             if ( ( ( brd_pieces[index-14] == PIECES.wM) ) && ( brd_pieces[index-19] == PIECES.EMPTY ) ){w_losing++;break;}
                             if ( ( ( brd_pieces[index-13] == PIECES.wM) ) && ( brd_pieces[index-17] == PIECES.EMPTY ) ){w_losing++;break;}
                             // can white recapture square-9
-                            if ( ( brd_pieces[index-13] == PIECES.wM) )
-                            can_recapture = 1;
-                            else
-                            if ( ( ( brd_pieces[index-14] == PIECES.wM) ) && ( brd_pieces[index-4] == PIECES.EMPTY ) )
-                            can_recapture = 1;
+                            if ( ( brd_pieces[index-13] == PIECES.wM) ) can_recapture = 1;
+                            else if ( ( ( brd_pieces[index-14] == PIECES.wM) ) && ( brd_pieces[index-4] == PIECES.EMPTY ) ) can_recapture = 1;
                             else if ( ( brd_pieces[index-14] == PIECES.EMPTY ) && ( ( brd_pieces[index-4] == PIECES.wM ) ) ) can_recapture = 1;
                             else{w_losing++;break;}
                         } // (4)
@@ -863,8 +847,8 @@ function EvalPosition(alpha, beta) {
                         } // (4)
                             
                         // incomplete dangers
-                        if ( ( ( brd_pieces[index+4] == PIECES.wM ) ) && ( ( brd_pieces[index+8] & PIECES.bM ) !=0 ) ){ break;} // (5)
-                        if ( ( ( brd_pieces[index+5] == PIECES.wM ) ) && ( ( brd_pieces[index+10] & PIECES.bM ) !=0 ) ){ break;} // (6)
+                        if ( ( ( brd_pieces[index+4] == PIECES.wM ) ) && (  brd_pieces[index+8] == PIECES.bM ) ){ break;} // (5)
+                        if ( ( ( brd_pieces[index+5] == PIECES.wM ) ) && (  brd_pieces[index+10] == PIECES.bM ) ){ break;} // (6)
                         // assert( is_square_safe^can_recapture == 1 );		
                         w_free += is_square_safe;
                         w_exchanges += can_recapture;
@@ -1241,6 +1225,6 @@ function EvalPosition(alpha, beta) {
     eval &= ~(2 - 1);
     // negamax formulation requires this:
     // eval = ( brd_side == COLORS.BLACK ) ? -eval : eval;
-    eval_hash[(brd_posKey & EC_MASK)] = (brd_posKey & 0xffffffffffff0000) | ( eval & 0xffff);
+    // eval_hash[(brd_posKey & EC_MASK)] = (brd_posKey & 0xffffffffffff0000) | ( eval & 0xffff);
     return eval;
 }
