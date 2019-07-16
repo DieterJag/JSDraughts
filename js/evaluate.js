@@ -63,13 +63,12 @@ function EvalPosition(alpha, beta) {
         return  eval;
     }
     brd_pieces.forEach((element, index) => {
+        if (index % 5 == 0) main_line += element;
         switch(element) {
             case PIECES.wM:
-                if (index % 5 == 0) main_line += element;
                 count_wm++;
                 break;
             case PIECES.wK:
-                if (index % 5 == 0) main_line += element;
                 if (index <= 32 && index % 4 == 0) count_w_double_line1++;
                 if (index >= 13 && index % 4 == 1) count_w_double_line2++;
                 if (index % 5 == 4) count_w_triple_line1++;
@@ -77,11 +76,9 @@ function EvalPosition(alpha, beta) {
                 count_wk++;
                 break;
             case PIECES.bM:
-                if (index % 5 == 0) main_line += element;
                 count_bm++;
                 break;
             case PIECES.bK:
-                if (index % 5 == 0) main_line += element;
                 if (index <= 32 && index % 4 == 0) count_b_double_line1++;
                 if (index >= 13 && index % 4 == 1) count_b_double_line2++;
                 if (index % 5 == 4) count_b_triple_line1++;
@@ -96,12 +93,12 @@ function EvalPosition(alpha, beta) {
 
     if (count_wm == 0 && count_wk == 0) {
         eval = -MATE;
-        if (brd_side == COLORS.BLACK) eval = - eval;
+        // if (brd_side == COLORS.BLACK) eval = - eval;
         return eval;
     } 
     if (count_bm == 0 && count_bk == 0) {
         eval = MATE;
-        if (brd_side == COLORS.BLACK) eval = - eval;
+        // if (brd_side == COLORS.BLACK) eval = - eval;
         return eval;
     } 
 
@@ -180,7 +177,7 @@ function EvalPosition(alpha, beta) {
                     if ( count_w_double_line1 + count_w_double_line2 == 1 ) eval -= 100;
                 }
              
-                if ( ( count_w_triple_line1 < 3 ) && ( count_b_triple_line2 < 3 ) ) {
+                if ( ( count_w_triple_line1 < 3 ) && ( count_w_triple_line2 < 3 ) ) {
                     if (count_w_triple_line1 + count_w_triple_line2 == 3) eval -= 200;
                     if (count_w_triple_line1 + count_w_triple_line2 == 2) eval -= 200;
                     if (count_w_triple_line1 + count_w_triple_line1 == 1) eval -= 100;
@@ -189,14 +186,14 @@ function EvalPosition(alpha, beta) {
                 if ( count_b_double_line1 == 0 && count_b_double_line2 == 0 ) {
                     if ( count_b_triple_line1 == 0 && count_b_triple_line2 == 0 ) {
                         if (brd_side == COLORS.BLACK){
-                            if ((brd_pieces[15] == PIECES.wK) && (brd_pieces[29] == PIECES.wK) && (brd_pieces[16] == PIECES.wK))
-                                eval -= 1000;
-                            if ((brd_pieces[29] == PIECES.wK) && (brd_pieces[16] == PIECES.wK) && (brd_pieces[30] == PIECES.wK))
-                                eval -= 1000;
-                            if ((brd_pieces[15] == PIECES.wK) && (brd_pieces[24] == PIECES.wK) && (brd_pieces[21] == PIECES.wK))
-                                eval -= 1000;
-                            if ((brd_pieces[24] == PIECES.wK) && (brd_pieces[21] == PIECES.wK) && (brd_pieces[30] == PIECES.wK))
-                                eval -= 1000;
+                            if ((brd_pieces[15] == PIECES.wK) && (brd_pieces[29] == PIECES.wK) && 
+                                (brd_pieces[16] == PIECES.wK)) eval -= 1000;
+                            if ((brd_pieces[29] == PIECES.wK) && (brd_pieces[16] == PIECES.wK) && 
+                                (brd_pieces[30] == PIECES.wK)) eval -= 1000;
+                            if ((brd_pieces[15] == PIECES.wK) && (brd_pieces[24] == PIECES.wK) && 
+                                (brd_pieces[21] == PIECES.wK)) eval -= 1000;
+                            if ((brd_pieces[24] == PIECES.wK) && (brd_pieces[21] == PIECES.wK) && 
+                                (brd_pieces[30] == PIECES.wK)) eval -= 1000;
                         }
                     }
                 }
@@ -216,24 +213,24 @@ function EvalPosition(alpha, beta) {
                 if ( count_b_double_line1 == 0 && count_b_double_line2 == 0 ){
                     if ( count_b_triple_line1 == 0 && count_b_triple_line2 == 0 ){
                         if ( brd_side == COLORS.WHITE ){
-                            if ((brd_pieces[15] == PIECES.bK) && (brd_pieces[29] == PIECES.bK) && (brd_pieces[16] == PIECES.bK))
-                            eval += 1000;
-                            if ((brd_pieces[29] == PIECES.bK) && (brd_pieces[16] == PIECES.bK) && (brd_pieces[30] == PIECES.bK))
-                            eval += 1000;
-                            if ((brd_pieces[15] == PIECES.bK) && (brd_pieces[24] == PIECES.bK) && (brd_pieces[21] == PIECES.bK))
-                            eval += 1000;
-                            if ((brd_pieces[24] == PIECES.bK) && (brd_pieces[21] == PIECES.bK) && (brd_pieces[30] == PIECES.bK))
-                            eval += 1000;
+                            if ((brd_pieces[15] == PIECES.bK) && (brd_pieces[29] == PIECES.bK) && 
+                                (brd_pieces[16] == PIECES.bK)) eval += 1000;
+                            if ((brd_pieces[29] == PIECES.bK) && (brd_pieces[16] == PIECES.bK) && 
+                                (brd_pieces[30] == PIECES.bK)) eval += 1000;
+                            if ((brd_pieces[15] == PIECES.bK) && (brd_pieces[24] == PIECES.bK) && 
+                                (brd_pieces[21] == PIECES.bK)) eval += 1000;
+                            if ((brd_pieces[24] == PIECES.bK) && (brd_pieces[21] == PIECES.bK) && 
+                                (brd_pieces[30] == PIECES.bK)) eval += 1000;
                         }
                     }
                 }
             }
             brd_pieces.forEach((element, index) => {
                 switch(element){
-                    case PIECES.wK:
+                    case PIECES.bK:
                         eval += EVL_king[index];
                         break;
-                    case PIECES.bK:
+                    case PIECES.wK:
                         eval -= EVL_king[index];
                 }
             })
@@ -260,7 +257,7 @@ function EvalPosition(alpha, beta) {
             
             // most favo(u)rable opposition
             
-            if (( brd_pieces[28] == PIECES.bM ) && ( brd_pieces[37] == PIECES.wM ) && ( brd_pieces[38] == PIECES.EMPTY ))
+            if ((brd_pieces[28] == PIECES.bM) && (brd_pieces[37] == PIECES.wM) && (brd_pieces[38] == PIECES.EMPTY))
                 if (( brd_pieces[32] == PIECES.EMPTY ) && ( brd_pieces[33] == PIECES.EMPTY )) eval += 28;
             if (( brd_pieces[17] == PIECES.wM ) && ( brd_pieces[8] == PIECES.bM ) && ( brd_pieces[7] == PIECES.EMPTY ))
                 if (( brd_pieces[12] == PIECES.EMPTY ) && ( brd_pieces[13] == PIECES.EMPTY )) eval -= 28;
@@ -290,11 +287,13 @@ function EvalPosition(alpha, beta) {
     //Lazy evaluation
     // Early exit from evaluation if eval already is extremely low or extremely high
     if ( beta - alpha == 1 ){
-        let teval = ( brd_side == COLORS.WHITE ) ? eval : -eval;
+        let teval = ( brd_side == COLORS.WHITE ) ? -eval : eval;
         if ( ( teval - 130 ) > beta )
         return teval;
+        // return ( brd_side == COLORS.WHITE )? teval : -teval;
         if ( ( teval + 130 ) < alpha )
         return teval;
+        // return ( brd_side == COLORS.WHITE )? teval : -teval;
     }
     
     let count_bme = 0;
@@ -333,16 +332,17 @@ function EvalPosition(alpha, beta) {
     let code;
     let backrank;
     code = 0;
-    if(brd_pieces[5] == PIECES.wM) code++;
-    if(brd_pieces[6] == PIECES.wM) code+=2;
-    if(brd_pieces[7] == PIECES.wM) code+=4; // Golden checker
-    if(brd_pieces[8] == PIECES.wM) code+=8;
+    // & 1 - MAN
+    if(brd_pieces[5] & 1) code++;
+    if(brd_pieces[6] & 1) code+=2;
+    if(brd_pieces[7] & 1) code+=4; // Golden checker
+    if(brd_pieces[8] & 1) code+=8;
     backrank = br[code];
     code = 0;
-    if(brd_pieces[37] == PIECES.bM) code+=8;
-    if(brd_pieces[38] == PIECES.bM) code+=4; // Golden checker
-    if(brd_pieces[39] == PIECES.bM) code+=2;
-    if(brd_pieces[40] == PIECES.bM) code++;
+    if(brd_pieces[37] & 1) code+=8;
+    if(brd_pieces[38] & 1) code+=4; // Golden checker
+    if(brd_pieces[39] & 1) code+=2;
+    if(brd_pieces[40] & 1) code++;
     backrank -= br[code];
     let brv = ( count_wm + count_wk + count_bm + count_bk > 13 ? 2 : 1);  // multiplier for back rank -- back rank value
     eval += brv * backrank;
@@ -1240,7 +1240,7 @@ function EvalPosition(alpha, beta) {
     eval += ((opening * phase + endgame * antiphase )/24);
     eval &= ~(2 - 1);
     // negamax formulation requires this:
-    eval = ( brd_side == COLORS.BLACK ) ? -eval : eval;
+    // eval = ( brd_side == COLORS.BLACK ) ? -eval : eval;
     eval_hash[(brd_posKey & EC_MASK)] = (brd_posKey & 0xffffffffffff0000) | ( eval & 0xffff);
     return eval;
 }
