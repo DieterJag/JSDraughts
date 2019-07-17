@@ -4,7 +4,7 @@ $("#SetFen").click(function () {
 	// PrintBoard();		
     SetInitialBoardPieces();	
     GenerateCaptures();
-    console.log(aPathOfCaptures);
+    // console.log(aPathOfCaptures);
     if (aPathOfCaptures.length == 0) {
         GenerateMoves();
     }
@@ -42,7 +42,7 @@ function SetInitialBoardPieces(){
 }
 
 function ClearAllPieces() {
-	console.log("Removing pieces");
+	// console.log("Removing pieces");
 	$(".Piece").remove();
 }
 
@@ -111,7 +111,7 @@ function StartSearch() {
 	srch_depth = MAXDEPTH;
 	let t = $.now();
 	let tt = $('#ThinkingTimeChoise').val();
-	console.log("time:" + t + " TimeChoice:" + tt);
+	// console.log("time:" + t + " TimeChoice:" + tt);
 	srch_time = parseInt(tt) * 1000;
 	SearchPosition(); 	
 	
@@ -145,7 +145,7 @@ function CheckResult() {
      return BOOL.TRUE;
     }
 	
-	console.log('Checking end of game');
+	// console.log('Checking end of game');
 	GenerateCaptures();
     if (aPathOfCaptures.length == 0) {
         GenerateMoves();

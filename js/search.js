@@ -90,6 +90,7 @@ function ClearForSearch() {
 
 
 function Quiescence(alpha, beta) {
+	// console.log("Quiescence alpha="+alpha+" beta="+beta);
 
 	if((srch_nodes & 2047) == 0) CheckUp();
 	
@@ -104,6 +105,7 @@ function Quiescence(alpha, beta) {
 	}
 	
 	let Score = EvalPosition(alpha, beta);
+	// console.log("Score="+Score+" alpha="+alpha+" beta="+beta);
 	
 	if(Score >= beta) {
 		return beta;
@@ -112,6 +114,7 @@ function Quiescence(alpha, beta) {
 	if(Score > alpha) {
 		alpha = Score;
 	}
+	// console.log("Score="+Score+" alpha="+alpha+" beta="+beta);
 	
 	GenerateCaptures();
       
@@ -155,11 +158,17 @@ function Quiescence(alpha, beta) {
         }
         
 		Legal++;
+		// console.log("Score="+Score+" alpha="+alpha+" beta="+beta);
 		Score = -Quiescence( -beta, -alpha);
 		TakeMove();					
 		if(srch_stop == BOOL.TRUE) return 0;
+		// console.log("Score="+Score+" alpha="+alpha+" beta="+beta);
+		let logStr = "from="+FROMSQ(move)+" to="+TOSQ(move)+" score="+Score;
 		if(Score > alpha) {
+			logStr += " bestMove from="+FROMSQ(brd_moveList[MoveNum])+" to="+TOSQ(brd_moveList[MoveNum]);
 			if(Score >= beta) {
+				logStr += " betaCut=1";
+				console.log(logStr);
 				if(Legal==1) {
 					srch_fhf++;
 				}
@@ -167,6 +176,7 @@ function Quiescence(alpha, beta) {
 						
 				return beta;
 			}
+			console.log(logStr);
 			alpha = Score;
 			BestMove = brd_moveList[MoveNum];
 			BestCapture = NOMOVE;
@@ -183,6 +193,7 @@ function Quiescence(alpha, beta) {
 }
 
 function AlphaBeta(alpha, beta, depth) {
+	// console.log("AlphaBeta alpha="+alpha+" beta="+beta);
 
 		
 	if(depth <= 0) {
@@ -238,10 +249,10 @@ function AlphaBeta(alpha, beta, depth) {
 	let index = ProbePvTable();
 	if (index != -1) {
 		move = brd_PvTable[index].move;
-		capture = brd_PvTable[index].capture;
+		// capture = brd_PvTable[index].capture;
 	} else {
 		move = NOMOVE;
-		capture = NOMOVE;
+		// capture = NOMOVE;
 	}
 	PvMove = move;
 	
@@ -266,16 +277,21 @@ function AlphaBeta(alpha, beta, depth) {
         }
         
 		Legal++;
-		console.log("AlpaBeta in beta="+beta+" alpa="+alpha+" depth="+depth);
-		console.log(BoardToFen());
+		// console.log("AlpaBeta in alpha="+beta+" beta="+alpha+" depth="+depth);
+		// console.log(BoardToFen());
 		Score = -AlphaBeta( -beta, -alpha, depth-1);
-		console.log("AlpaBeta out beta="+beta+" alpa="+alpha+" depth="+depth+" score="+Score);
-		console.log(BoardToFen());
+		// console.log("Score="+Score);
+		// console.log(BoardToFen());
 		TakeMove();						
 		if(srch_stop == BOOL.TRUE) return 0;				
 		
+		let logStr = "from="+FROMSQ(move)+" to="+TOSQ(move)+" score="+Score+" depth="+depth;
+
 		if(Score > alpha) {
+			logStr += " bestMove from="+FROMSQ(brd_moveList[MoveNum])+" to="+TOSQ(brd_moveList[MoveNum]);
 			if(Score >= beta) {
+				logStr += " betaCut=1";
+				console.log(logStr);
 				if(Legal==1) {
 					srch_fhf++;
 				}
@@ -287,14 +303,15 @@ function AlphaBeta(alpha, beta, depth) {
 				}				
 				return beta;
 			}
+			console.log(logStr);
 			alpha = Score;
 			BestMove = brd_moveList[MoveNum];
 			BestCapture = NOMOVE;
 			let capture = CAPTURED(BestMove);
 			if (capture) BestCapture = brd_captureList[brd_captureListStart[brd_ply]+MoveNum-brd_moveListStart[brd_ply]];			
-			// if((BestMove & MFLAGCAP) == 0) {
+			else {
 				brd_searchHistory[ brd_pieces[FROMSQ(BestMove)] * BRD_SQ_NUM + TOSQ(BestMove) ] += depth;
-			// }
+			}
 		}		
     }
 	
@@ -357,11 +374,11 @@ function SearchPosition() {
 	// iterative deepening
 	for( currentDepth = 1; currentDepth <= srch_depth; ++currentDepth ) {						
 		
-		console.log("AlpaBeta in beta=-"+INFINITE+" alpa="+INFINITE+" depth="+currentDepth+" bestScore="+bestScore);
-		console.log(BoardToFen());
+		// console.log("AlpaBeta in alpha=-"+INFINITE+" beta="+INFINITE+" depth="+currentDepth+" bestScore="+bestScore);
+		// console.log(BoardToFen());
 		bestScore = AlphaBeta(-INFINITE, INFINITE, currentDepth, BOOL.TRUE);
-		console.log("AlpaBeta out depth="+currentDepth+" bestScore="+bestScore);
-		console.log(BoardToFen());
+		// console.log("AlpaBeta out depth="+currentDepth+" bestScore="+bestScore);
+		// console.log(BoardToFen());
 		if(srch_stop == BOOL.TRUE) break;
 		pvNum = GetPvLine(currentDepth);
 		bestMove = brd_PvArray[0];

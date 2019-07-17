@@ -17,7 +17,8 @@ let NOMOVE = 0;
 // let START_FEN = "W:W16:B10,12,20,K26,27,32";
 // let START_FEN = "W:WK16:B24";
 // let START_FEN = "B:W1,3,4,5,6,7,8,10,12,13,15:B18,22,24,25,26,27,28,29,30,31,32";
-let START_FEN = "W:W3,10,17:B11,20,26";
+// let START_FEN = "W:W3,10,17:B11,20,26"; // Black Win
+let START_FEN = "B:W3,13,17:B11,20,26"; // Black Win
 // let START_FEN = "W:W3,5,17:B11,24,26";
 // let START_FEN ="B:W3:B30";
 

@@ -31,7 +31,7 @@ function AddQuiteMove(from, to, mv_piece) {
 	} else {	
 		brd_moveScores[brd_moveListStart[brd_ply + 1]] = brd_searchHistory[ brd_pieces[FROMSQ(move)] * BRD_SQ_NUM + TOSQ(move) ];
 	}
-    
+    // console.log("History score ="+brd_moveScores[brd_moveListStart[brd_ply + 1]]+" from="+from+" to=");
 	brd_moveListStart[brd_ply + 1]++;	
 }
 
