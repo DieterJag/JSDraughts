@@ -11,6 +11,7 @@ let EC_MASK = EC_SIZE - 1;
 let INFINITE = 30000;
 let MATE = 29000;
 let NOMOVE = 0;
+let nowDepth;
 
 // let START_FEN = "W:W1,2,3,4,5,6,7,8,9,10,11,12:B21,22,23,24,25,26,27,28,29,30,31,32";
 // let START_FEN = "B:WK28:B10,20,25,26,29,32";
