@@ -74,6 +74,13 @@ function InitBoardVars() {
 		}); 
 	}
 
+	for(index = 0; index < EC_SIZE; index++) {
+		eval_hash.push({
+			key : 0,
+			score : 0
+		}); 
+	}
+
 	for(index = 0; index < PVENTRIES; index++) {
 		brd_PvTable.push({
 			move : NOMOVE,

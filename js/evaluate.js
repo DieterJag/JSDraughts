@@ -1,4 +1,4 @@
-// let eval_hash = new Array(EC_SIZE);
+let eval_hash = [];
 
 let EVL_man_op = [0,0,0,0,0,  // 0 .. 4
     15,40,42,45,0,            // 5 .. 8 (9)
@@ -58,10 +58,10 @@ function EvalPosition(alpha, beta) {
     let v1;
     let v2;
 
-    // if ((( brd_posKey ^ eval_hash[(brd_posKey & EC_MASK )]) & 0xffffffffffff0000) == 0 ) {
-    //     eval  = eval_hash[(brd_posKey & EC_MASK)] & 0xffff;
-    //     return  eval;
-    // }
+    if (brd_posKey ==  eval_hash[brd_posKey % EC_MASK].key) {
+        eval  = eval_hash[brd_posKey % EC_MASK].score;
+        return  eval;
+    }
     brd_pieces.forEach((element, index) => {
         switch(element) {
             case PIECES.wM:
@@ -118,18 +118,21 @@ function EvalPosition(alpha, beta) {
 
     // draw situations
     if ( count_bm == 0 && count_wm == 0 && Math.abs( count_bk - count_wk) <= 1 ){ 
-        // eval_hash[(brd_posKey & EC_MASK)] = brd_posKey & 0xffffffffffff0000;
+        eval_hash[brd_posKey % EC_MASK].score = 0;
+        eval_hash[brd_posKey % EC_MASK].key = brd_posKey;
         // console.log(BoardToFen()+" eval="+eval);
         return 0; // only kings left
     }
     if ( ( eval > 0 ) && ( count_wk > 0 ) && (count_b < (count_wk+2)) ){
-        // eval_hash[(brd_posKey & EC_MASK)] = brd_posKey & 0xffffffffffff0000;
+        eval_hash[brd_posKey % EC_MASK].score = 0;
+        eval_hash[brd_posKey % EC_MASK].key = brd_posKey;
         // console.log(BoardToFen()+" eval="+eval);
         return 0; // black cannot win
     }
 
     if ( ( eval < 0 ) && (count_bk > 0) && (count_w < (count_bk+2)) ){
-        // eval_hash[(brd_posKey & EC_MASK)] = brd_posKey & 0xffffffffffff0000;
+        eval_hash[brd_posKey % EC_MASK].score = 0;
+        eval_hash[brd_posKey % EC_MASK].key = brd_posKey;
         // console.log(BoardToFen()+" eval="+eval);
         return 0; // white cannot win
     }
@@ -170,14 +173,16 @@ function EvalPosition(alpha, beta) {
     if ( (count_w < 4) && (count_b < 4) ){
         if ( eval < 0 && count_bk == 1 && main_line == PIECES.bK) {
             if ( count_bm == 0 || brd_pieces[32] == PIECES.bM ){
-                // eval_hash[(brd_posKey & EC_MASK)] = brd_posKey & 0xffffffffffff0000;
+                eval_hash[brd_posKey % EC_MASK].score = 0;
+                eval_hash[brd_posKey % EC_MASK].key = brd_posKey;
                 // console.log(BoardToFen()+" eval="+eval);
                 return 0;
             }
         }
         if ( eval > 0 && count_wk == 1 && main_line == PIECES.wK ){
             if ( count_wm == 0 || brd_pieces[13] == PIECES.wM){
-                // eval_hash[(brd_posKey & EC_MASK)] = brd_posKey & 0xffffffffffff0000;
+                eval_hash[brd_posKey % EC_MASK].score = 0;
+                eval_hash[brd_posKey % EC_MASK].key = brd_posKey;
                 // console.log(BoardToFen()+" eval="+eval);
                 return (0);
             }
@@ -251,7 +256,8 @@ function EvalPosition(alpha, beta) {
             })
             // negamax formulation requires this:
             eval = ( brd_side == COLORS.BLACK ) ? eval : -eval;
-            // eval_hash[(brd_posKey & EC_MASK)] = (brd_posKey & 0xffffffffffff0000) | ( eval & 0xffff);
+            eval_hash[brd_posKey % EC_MASK].score = eval;
+            eval_hash[brd_posKey % EC_MASK].key = brd_posKey;
             // console.log(BoardToFen()+" late game eval="+eval);
             return (eval); 
         } // only kings left
@@ -1243,7 +1249,8 @@ function EvalPosition(alpha, beta) {
     eval &= ~(2 - 1);
     // negamax formulation requires this:
     eval = ( brd_side == COLORS.BLACK ) ? eval : -eval;
-    // eval_hash[(brd_posKey & EC_MASK)] = (brd_posKey & 0xffffffffffff0000) | ( eval & 0xffff);
+    eval_hash[brd_posKey % EC_MASK].score = eval;
+    eval_hash[brd_posKey % EC_MASK].key = brd_posKey;
     // console.log(BoardToFen()+" last eval="+eval);
     return eval;
 }
