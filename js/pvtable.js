@@ -4,6 +4,7 @@ function GetPvLine(depth) {
 	let move;
 	let capture;
 	let index = ProbePvTable();
+	// index = -1; // PvTable error
 	if (index != -1) {
 		move = brd_PvTable[index].move;
 		capture = brd_PvTable[index].capture;
@@ -40,8 +41,17 @@ function GetPvLine(depth) {
 	
 }
 
+function checkPosKey() {
+	let test_poskey = GeneratePosKey();
+	let result = (test_poskey == brd_posKey) ? BOOL.TRUE : BOOL.FALSE;
+	return result;
+}
+
 function StorePvMove(move, capture) {
 
+	if (checkPosKey() == BOOL.FALSE) {
+		console.log("Maybe brd_poskey error");
+	}
 	let index = brd_posKey % PVENTRIES;	
 	
 	brd_PvTable[index].move = move;

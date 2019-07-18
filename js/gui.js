@@ -140,10 +140,10 @@ function CheckResult() {
      return BOOL.TRUE;
     }
 	
-	if (DrawMaterial() == BOOL.TRUE) {
-     $("#GameStatus").text("GAME DRAWN {insufficient material to mate}"); 
-     return BOOL.TRUE;
-    }
+	// if (DrawMaterial() == BOOL.TRUE) {
+    //  $("#GameStatus").text("GAME DRAWN {insufficient material to mate}"); 
+    //  return BOOL.TRUE;
+    // }
 	
 	// console.log('Checking end of game');
 	GenerateCaptures();

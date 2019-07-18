@@ -63,12 +63,13 @@ function EvalPosition(alpha, beta) {
     //     return  eval;
     // }
     brd_pieces.forEach((element, index) => {
-        if (index % 5 == 0) main_line += element;
         switch(element) {
             case PIECES.wM:
+                if (index % 5 == 0) main_line += element;
                 count_wm++;
                 break;
             case PIECES.wK:
+                if (index % 5 == 0) main_line += element;
                 if (index <= 32 && index % 4 == 0) count_w_double_line1++;
                 if (index >= 13 && index % 4 == 1) count_w_double_line2++;
                 if (index % 5 == 4) count_w_triple_line1++;
@@ -76,9 +77,11 @@ function EvalPosition(alpha, beta) {
                 count_wk++;
                 break;
             case PIECES.bM:
+                if (index % 5 == 0) main_line += element;
                 count_bm++;
                 break;
             case PIECES.bK:
+                if (index % 5 == 0) main_line += element;
                 if (index <= 32 && index % 4 == 0) count_b_double_line1++;
                 if (index >= 13 && index % 4 == 1) count_b_double_line2++;
                 if (index % 5 == 4) count_b_triple_line1++;
@@ -93,13 +96,18 @@ function EvalPosition(alpha, beta) {
 
     if (count_wm == 0 && count_wk == 0) {
         eval = -MATE;
-        // console.log(BoardToFen()+" eval="+eval);
+        // negamax formulation requires this:
+        // eval = ( brd_side == COLORS.BLACK ) ? eval : -eval;
+        // console.log(BoardToFen()+" brd_side="+brd_side+" eval="+eval);
         // if (brd_side == COLORS.BLACK) eval = - eval;
         return eval;
     } 
     if (count_bm == 0 && count_bk == 0) {
         eval = -MATE;
+        // negamax formulation requires this:
+        // eval = ( brd_side == COLORS.BLACK ) ? eval : -eval;
         // console.log(BoardToFen()+" eval="+eval);
+        // console.log(BoardToFen()+" brd_side="+brd_side+" eval="+eval);
         // if (brd_side == COLORS.BLACK) eval = - eval;
         return eval;
     } 

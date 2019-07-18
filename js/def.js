@@ -13,13 +13,13 @@ let MATE = 29000;
 let NOMOVE = 0;
 let nowDepth;
 
-// let START_FEN = "W:W1,2,3,4,5,6,7,8,9,10,11,12:B21,22,23,24,25,26,27,28,29,30,31,32";
+let START_FEN = "W:W1,2,3,4,5,6,7,8,9,10,11,12:B21,22,23,24,25,26,27,28,29,30,31,32";
 // let START_FEN = "B:WK28:B10,20,25,26,29,32";
 // let START_FEN = "W:W16:B10,12,20,K26,27,32";
 // let START_FEN = "W:WK16:B24";
 // let START_FEN = "B:W1,3,4,5,6,7,8,10,12,13,15:B18,22,24,25,26,27,28,29,30,31,32";
 // let START_FEN = "W:W3,10,17:B11,20,26"; // Black Win
-let START_FEN = "B:W3,13,17:B11,20,26"; // Black Win
+//let START_FEN = "B:W3,13,17:B11,20,26"; // Black Win
 // let START_FEN = "W:W3,5,17:B11,24,26";
 // let START_FEN ="B:W3:B30";
 
@@ -39,7 +39,7 @@ let MFLAGCAP = 0x2000;
 
 let PieceCol = [ COLORS.BOTH, COLORS.WHITE, COLORS.WHITE, COLORS.BLACK, COLORS.BLACK ];
 
-let PieceKeys = new Array(2 * 64);
+let PieceKeys = new Array(4 * 64);
 let SideKey;
 
 let SQUARES = {

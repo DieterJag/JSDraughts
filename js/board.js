@@ -127,7 +127,7 @@ function GeneratePosKey() {
 	for(sq = 0; sq < BRD_SQ_NUM; ++sq) {
 		piece = brd_pieces[sq];
 		if(piece != PIECES.EMPTY && piece != SQUARES.OFFBOARD) {			
-			finalKey ^= PieceKeys[(piece - 1) * 32 + sq];
+			finalKey ^= PieceKeys[piece * 46 + sq];
 		}		
 	}
 	

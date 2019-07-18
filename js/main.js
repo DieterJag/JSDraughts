@@ -55,7 +55,7 @@ function InitFilesRanksBrd() {
 function InitHashKeys() {
     let index = 0;
 	
-	for(index = 0; index < 46 * 5; ++index) {				
+	for(index = 0; index < 64 * 4; ++index) {				
 		PieceKeys[index] = RAND_32();
 	}
 	
@@ -110,27 +110,7 @@ function init() {
 	initBoardSquares();
 	SetInitialBoardPieces();
 	initDirections();
-	// GenerateCaptures();
-    // if (aPathOfCaptures.length == 0) {
-    //     GenerateMoves();
-    // }
-	// MakeMove(brd_moveList[1]);
-	// MoveGUIPiece(brd_moveList[1]);
 
-	// GenerateCaptures();
-    // if (aPathOfCaptures.length == 0) {
-    //     GenerateMoves();
-	// }
-	// MakeMove(brd_moveList[brd_moveListStart[brd_ply]]);
-	// // MoveGUIPiece(brd_moveList[brd_moveListStart[brd_ply-1]]);
-	// TakeMove();
-
-	// GenerateCaptures();
-    // if (aPathOfCaptures.length == 0) {
-    //     GenerateMoves();
-	// }
-	// MakeMove(brd_moveList[brd_moveListStart[brd_ply]]);
-	// MoveGUIPiece(brd_moveList[brd_moveListStart[brd_ply-1]]);
-
+	// for(let i = 0; i<38; i++) StartSearch();
 	PreSearch();
 }

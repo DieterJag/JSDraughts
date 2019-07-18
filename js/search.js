@@ -163,14 +163,14 @@ function Quiescence(alpha, beta) {
 		TakeMove();					
 		if(srch_stop == BOOL.TRUE) return 0;
 		// console.log("Score="+Score+" alpha="+alpha+" beta="+beta);
-		let logStr = "from="+FROMSQ(move)+" to="+TOSQ(move)+" score="+Score;
-		let logHis = " his";
-		for(let i = 0; i<nowDepth; i++)	logHis += " from="+FROMSQ(brd_history[i].move)+" to="+TOSQ(brd_history[i].move);
+		// let logStr = "from="+FROMSQ(move)+" to="+TOSQ(move)+" score="+Score;
+		// let logHis = " his";
+		// for(let i = 0; i<nowDepth; i++)	logHis += " from="+FROMSQ(brd_history[i].move)+" to="+TOSQ(brd_history[i].move);
 		if(Score > alpha) {
-			logStr += " bestMove from="+FROMSQ(brd_moveList[MoveNum])+" to="+TOSQ(brd_moveList[MoveNum]);
+			// logStr += " bestMove from="+FROMSQ(brd_moveList[MoveNum])+" to="+TOSQ(brd_moveList[MoveNum]);
 			if(Score >= beta) {
-				logStr += " betaCut=1";
-				console.log(logStr+logHis);
+				// logStr += " betaCut=1";
+				// console.log(logStr+logHis);
 				if(Legal==1) {
 					srch_fhf++;
 				}
@@ -184,7 +184,7 @@ function Quiescence(alpha, beta) {
 			let capture = CAPTURED(BestMove);
 			if (capture) BestCapture = brd_captureList[brd_captureListStart[brd_ply]+MoveNum-brd_moveListStart[brd_ply]];			
 		}		
-		console.log(logStr+logHis);
+		// console.log(logStr+logHis);
     }
 	
 	if(alpha != OldAlpha) {
@@ -287,15 +287,15 @@ function AlphaBeta(alpha, beta, depth) {
 		TakeMove();						
 		if(srch_stop == BOOL.TRUE) return 0;				
 		
-		let logStr = "from="+FROMSQ(move)+" to="+TOSQ(move)+" score="+Score+" depth="+depth;
-		let logHis = " his";
-		for(let i = 0; i<nowDepth; i++)	logHis += " from="+FROMSQ(brd_history[i].move)+" to="+TOSQ(brd_history[i].move);
+		// let logStr = "from="+FROMSQ(move)+" to="+TOSQ(move)+" score="+Score+" depth="+depth;
+		// let logHis = " his";
+		// for(let i = 0; i<nowDepth; i++)	logHis += " from="+FROMSQ(brd_history[i].move)+" to="+TOSQ(brd_history[i].move);
 
 		if(Score > alpha) {
-			logStr += " bestMove from="+FROMSQ(brd_moveList[MoveNum])+" to="+TOSQ(brd_moveList[MoveNum]);
+			// logStr += " bestMove from="+FROMSQ(brd_moveList[MoveNum])+" to="+TOSQ(brd_moveList[MoveNum]);
 			if(Score >= beta) {
-				logStr += " betaCut=1";
-				console.log(logStr+logHis);
+				// logStr += " betaCut=1";
+				// console.log(logStr+logHis);
 				if(Legal==1) {
 					srch_fhf++;
 				}
@@ -316,7 +316,7 @@ function AlphaBeta(alpha, beta, depth) {
 				brd_searchHistory[ brd_pieces[FROMSQ(BestMove)] * BRD_SQ_NUM + TOSQ(BestMove) ] += depth;
 			}
 		}		
-		console.log(logStr+logHis);
+		// console.log(logStr+logHis);
     }
 	
 	if(Legal == 0) {
