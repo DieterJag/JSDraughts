@@ -320,7 +320,7 @@ function AlphaBeta(alpha, beta, depth) {
     }
 	
 	if(Legal == 0) {
-		return (brd_side != COLORS.BLACK)?MATE:-MATE;
+		return -MATE;
 	}
 	
 	if(alpha != OldAlpha) {		
