@@ -74,7 +74,7 @@ function InitBoardVars() {
 		}); 
 	}
 
-	for(index = 0; index < EC_SIZE; index++) {
+	for(index = 0; index < EC_MASK; index++) {
 		eval_hash.push({
 			key : 0,
 			score : 0
