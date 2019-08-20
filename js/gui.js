@@ -1,3 +1,9 @@
+var UserMove = {};
+UserMove.from = SQUARES.NO_SQ;
+UserMove.to = SQUARES.NO_SQ;
+UserMove.capture_count = 0;
+UserMove.capture_index = -1;
+
 $("#SetFen").click(function () {
 	let fenStr = $("#fenIn").val();	
 	ParseFen(fenStr);
@@ -17,6 +23,11 @@ $("#SetFen").click(function () {
 	// EvalPosition();	
 	// //PerftTest(5);
 	// newGameAjax();	 
+});
+
+$("#SearchButton").click(function () {	
+	GameController.PlayerSide = brd_side^1;
+	PreSearch();	
 });
 
 function AddGUIPiece(sq,pce) {	
@@ -106,6 +117,89 @@ function PreSearch() {
 		setTimeout( function() {StartSearch(); }, 200);
 	}
 }
+
+function DeselectSq(sq) {
+
+	$( ".Square" ).each(function( index ) {     
+     if( (RanksBrd[sq] == 7 - Math.round($(this).position().top/60)) && (FilesBrd[sq] == Math.round($(this).position().left/60)) ){     	
+     	$(this).removeClass('SqSelected');    
+     }
+    });
+}
+
+function SetSqSelected(sq) {
+	
+	$( ".Square" ).each(function( index ) {    
+     if( (RanksBrd[sq] == 7 - Math.round($(this).position().top/60)) && (FilesBrd[sq] == Math.round($(this).position().left/60)) ){   
+     	$(this).addClass('SqSelected');    
+     }
+    });
+}
+
+function ClickedSquare(pageX, pageY) {
+	let position = $("#Board").position();
+	
+	let workedX = Math.floor(position.left);
+	let workedY = Math.floor(position.top);
+	pageX = Math.floor(pageX);
+	pageY = Math.floor(pageY);
+	
+	let file = Math.floor((pageX-workedX) / 60);
+	let rank = 7 - Math.floor((pageY-workedY) / 60);
+	
+	let sq = FR2SQ(file,rank);
+	
+
+	SetSqSelected(sq); // must go here before mirror
+	
+	return sq;
+
+}
+
+function MakeUserMove() {
+	if(UserMove.from != SQUARES.NO_SQ && UserMove.to != SQUARES.NO_SQ) {
+		console.log("User Move:" + PrSq(UserMove.from) + PrSq(UserMove.to));
+		
+		var parsed = ParseMove(UserMove.from,UserMove.to);
+		
+		DeselectSq(UserMove.from);
+		DeselectSq(UserMove.to);
+		
+		console.log("Parsed:" + parsed);
+		
+		if(parsed != NOMOVE) {
+			MakeMove(parsed);
+			MoveGUIPiece(parsed);
+			CheckAndSet();
+			PreSearch();
+		}
+		
+		UserMove.from = SQUARES.NO_SQ;
+		UserMove.to = SQUARES.NO_SQ; 	
+		UserMove.capture_count = 0;
+		UserMove.capture_index = -1;
+	}
+}
+
+$(document).on('click','.Piece', function (e) {	
+	console.log("Piece Click");
+	if(srch_thinking == BOOL.FALSE && GameController.PlayerSide == brd_side) {
+		if(UserMove.from == SQUARES.NO_SQ) 
+			UserMove.from = ClickedSquare(e.pageX, e.pageY);
+		else 
+			UserMove.to = ClickedSquare(e.pageX, e.pageY);	
+		
+		MakeUserMove();	
+	}	
+});
+
+$(document).on('click','.Square', function (e) {	
+	console.log("Square Click");
+	if(srch_thinking == BOOL.FALSE && GameController.PlayerSide == brd_side && UserMove.from != SQUARES.NO_SQ) {
+		UserMove.to = ClickedSquare(e.pageX, e.pageY);
+		MakeUserMove();
+	}
+});
 
 function StartSearch() {
 	srch_depth = MAXDEPTH;

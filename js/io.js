@@ -1,3 +1,11 @@
+function PrSq(sq) {
+	let file = FilesBrd[sq];
+	let rank = RanksBrd[sq];
+	
+	let sqStr = String.fromCharCode('a'.charCodeAt() + file) + String.fromCharCode('1'.charCodeAt() + rank);
+	return sqStr;
+}
+
 function PrMove(move, captures = undefined) {
 
 	let MvStr;
@@ -30,4 +38,41 @@ function PrMove(move, captures = undefined) {
     }  
                 
 	return MvStr;
+}
+
+function ParseMove(from, to) {
+	
+	GenerateCaptures();
+    if (aPathOfCaptures.length == 0) {
+        GenerateMoves();
+    }
+   
+	let Move = NOMOVE;
+	// let PromPce = PIECES.EMPTY;
+	let found = BOOL.FALSE;
+	for(index = brd_moveListStart[brd_ply]; index < brd_moveListStart[brd_ply + 1]; ++index) {	
+		Move = brd_moveList[index];	
+		if(FROMSQ(Move)==from && TOSQ(Move)==to) {
+			// PromPce = PROMOTED(Move);
+			// if(PromPce!=PIECES.EMPTY) {
+			// 	if( (PromPce==PIECES.wQ && brd_side==COLOURS.WHITE) || (PromPce==PIECES.bQ && brd_side==COLOURS.BLACK) ) {
+			// 		found = BOOL.TRUE;
+			// 		break;
+			// 	}
+			// 	continue;
+			// }
+			found = BOOL.TRUE;
+			break;
+		}
+    }
+	
+	if(found != BOOL.FALSE) {
+		if(MakeMove(Move) == BOOL.FALSE) {
+			return NOMOVE;
+		}
+		TakeMove();
+		return Move;
+	}
+	
+    return NOMOVE;	
 }
